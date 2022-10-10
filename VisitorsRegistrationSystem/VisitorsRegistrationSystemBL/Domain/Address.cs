@@ -1,6 +1,6 @@
 ﻿namespace VisitorsRegistrationSystemBL.Domain
 {
-    public class Adsress
+    public class Address
     {
     }
 }

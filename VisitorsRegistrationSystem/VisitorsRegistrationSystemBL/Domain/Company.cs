@@ -9,7 +9,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 {
     public class Company
     {
-        public Company(string name, string vATNumber, Adsress address, string telephoneNumber, string email) {
+        public Company(string name, string vATNumber, Address address, string telephoneNumber, string email) {
             SetName(name);
             SetVATNo(vATNumber);
             SetAddress(address);
@@ -25,7 +25,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         public string Name { get; private set; }
         public string VATNumber { get; private set; }
-        public Adsress Address { get; private set; }
+        public Address Address { get; private set; }
         public string TelephoneNumber { get; private set; }
         public string Email { get; private set; }
         // private List<Employee> _employees = new List<Employee>();
@@ -42,7 +42,7 @@ namespace VisitorsRegistrationSystemBL.Domain
             this.VATNumber = vatNum;
         }
 
-        public void SetAddress(Adsress a) {
+        public void SetAddress(Address a) {
             if (a == null) throw new CompanyException("SetAddress - Address is null");
             this.Address = a;
         }
