@@ -9,7 +9,7 @@ namespace VisitorsRegistrationSystemBL.Domain {
             SetName(name);
             SetLastName(lastName);
             SetEmail(email);
-            Function = function;
+            SetFunction(function);
         }
 
         public string Name { get; private set; }
@@ -36,6 +36,7 @@ namespace VisitorsRegistrationSystemBL.Domain {
         public void SetFunction(string function)
         {
             if (string.IsNullOrWhiteSpace(function)) throw new EmployeeException("SetFunction - function is empty");
+            this.Function = function;
         }
     }
 }
