@@ -9,18 +9,10 @@ namespace VisitorsRegistrationSystemBL.Domain
 {
     public class Company
     {
-        public Company(string name, string vATNumber, Address address, string telephoneNumber, string email) {
-            SetName(name);
-            SetVATNo(vATNumber);
-            SetAddress(address);
-            SetTelNo(telephoneNumber);
-            SetEmail(email);
-        }
-
         // Overload - to instantiate class with only the core attributes
         // ? maybe better to add null checks in above constructor instead, for scalability
-        // TODO: Factory class
-        public Company(string name, string vATNumber, string email) {
+        // -> solved with CompanyFactory class
+        internal Company(string name, string vATNumber, string email) {
             SetName(name);
             SetVATNo(vATNumber);
             SetEmail(email);
@@ -33,29 +25,29 @@ namespace VisitorsRegistrationSystemBL.Domain
         public string Email { get; private set; }
         // private List<Employee> _employees = new List<Employee>();
 
-        public void SetName(string name)
+        internal void SetName(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new CompanyException("SetName - name is empty");
             this.Name = name;
         }
 
-        public void SetVATNo(string vatNum) {
+        internal void SetVATNo(string vatNum) {
             if (string.IsNullOrWhiteSpace(vatNum)) throw new CompanyException("SetVATNo - VAT number is empty");
             // TODO: Checker class  - VAT number check
             this.VATNumber = vatNum;
         }
 
-        public void SetAddress(Address a) {
+        internal void SetAddress(Address a) {
             if (a == null) throw new CompanyException("SetAddress - Address is null");
             this.Address = a;
         }
 
-        public void SetTelNo(string telNo) { 
+        internal void SetTelNo(string telNo) { 
             if (string.IsNullOrWhiteSpace(telNo)) throw new CompanyException("SetTelNo - telephone number is empty");
             this.TelephoneNumber = telNo;
         }
 
-        public void SetEmail (string email) {
+        internal void SetEmail (string email) {
             if (string.IsNullOrWhiteSpace(email)) throw new CompanyException("SetEmail - email is empty");
             // TODO: Checker class - Email check
             this.Email = email;
