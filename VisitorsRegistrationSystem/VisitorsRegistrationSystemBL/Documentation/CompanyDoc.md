@@ -21,4 +21,4 @@ The constructor has 1 overload.
 * SetVATNo(string vatNum) : void. Sets the VATNumber attribute. Throws an exception if the argument is `null` or is an empty string or a string with only whitespace characters.
 * SetAddress(Address a) : void. Sets the Address attribute. Throws an exception if the argument is `null`.
 * SetTelNo(string telNo) : void. Sets the TelephoneNumber attribute. Throws an exception if the argument is `null` or is an empty string or a string with only whitespace characters.
-* SetEmail(string email) : void. Sets the TelephoneNumber attribute. Throws an exception if the argument is `null` or is an empty string or a string with only whitespace characters.
+* SetEmail(string email) : void. Sets the Email attribute. Throws an exception if the argument is `null` or is an empty string or a string with only whitespace characters.
