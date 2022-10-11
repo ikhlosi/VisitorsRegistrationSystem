@@ -17,6 +17,9 @@ namespace VisitorsRegistrationSystemBL.Domain
             SetEmail(email);
         }
 
+        // Overload - to instantiate class with only the core attributes
+        // ? maybe better to add null checks in above constructor instead, for scalability
+        // TODO: Factory class
         public Company(string name, string vATNumber, string email) {
             SetName(name);
             SetVATNo(vATNumber);
