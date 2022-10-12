@@ -10,7 +10,7 @@ namespace VisitorsRegistrationSystemBL.Managers
 {
     public class VisitManager
     {
-        private Dictionary<string, Visit> _visits = new Dictionary<string, Visit>();
+        private Dictionary<int, Visit> _visits = new Dictionary<int, Visit>();
 
         public IReadOnlyList<Visit> GetVisits()
         {
@@ -20,20 +20,24 @@ namespace VisitorsRegistrationSystemBL.Managers
         public void AddVisit(Visit visit)
         {
             //TODO: Check if employee is part of company, when repositories classes are made
-            if (visit == null) throw new VisitorException("VisitorManager - Addvisitor - visitor is null");
-            _visits.Add(visit.GetHashCode().ToString(), visit);
+            if (visit == null) throw new VisitException("VisitManager(AddVisit) - visit is null");
+            if (_visits.ContainsKey(visit.GetHashCode())) throw new VisitException("VisitManager - AddVisit - visitor does exist");
+            _visits.Add(visit.GetHashCode(), visit);
         }
 
         public void DeleteVisit(Visit visit)
         {
-            if (visit == null) throw new VisitorException("VisitorManager - Addvisitor - visitor is null");
-            _visits.Remove(visit.GetHashCode().ToString());
+            if (visit == null) throw new VisitException("VisitManager(Deletevisit) - visit is null");
+            if (!_visits.ContainsKey(visit.GetHashCode())) throw new VisitException("VisitManager - Deletevisit - visit does not exist");
+            _visits.Remove(visit.GetHashCode());
         }
 
         public void UpdateVisit(Visit visit)
         {
-            if (visit == null) throw new VisitorException("VisitorManager - Addvisitor - visitor is null");
-            _visits[visit.GetHashCode().ToString()] = visit;
+            if (visit == null) throw new VisitException("VisitManager(Updatevisit) - visit is null");
+            if (!_visits.ContainsKey(visit.GetHashCode())) throw new VisitException("VisitManager(Updatevisit) - visit does exist");
+            if (_visits[visit.GetHashCode()].Equals(visit)) throw new VisitException("VisitManager(Updatevisit) - visit is unchanged");
+            _visits[visit.GetHashCode()] = visit;
         }
 
     }
