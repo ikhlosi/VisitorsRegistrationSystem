@@ -26,5 +26,16 @@ namespace VisitorsRegistrationSystemBL.Domain
             if (string.IsNullOrWhiteSpace(houseNo)) throw new AddressException("SetHouseNo - house number is empty");
             this.HouseNumber = houseNo;
         }
+
+        public override bool Equals(object? obj) {
+            return obj is Address address &&
+                   City == address.City &&
+                   Street == address.Street &&
+                   HouseNumber == address.HouseNumber;
+        }
+
+        public override int GetHashCode() {
+            return HashCode.Combine(City, Street, HouseNumber);
+        }
     }
 }

@@ -11,5 +11,7 @@ namespace VisitorsRegistrationSystemBL.Interfaces {
         void RemoveCompanyFromDB(Company company);
         void UpdateCompanyInDB(Company company);
         bool CompanyExistsInDB(Company company);
+        bool CompanyExistsInDB(int iD);
+        Company GetCompany(int iD);
     }
 }

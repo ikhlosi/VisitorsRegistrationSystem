@@ -18,12 +18,18 @@ namespace VisitorsRegistrationSystemBL.Domain
             SetEmail(email);
         }
 
+        public int ID { get; private set; }
         public string Name { get; private set; }
         public string VATNumber { get; private set; }
         public Address Address { get; private set; }
         public string TelephoneNumber { get; private set; }
         public string Email { get; private set; }
-        // private List<Employee> _employees = new List<Employee>();
+        private List<Employee> _employees = new List<Employee>();
+
+        internal void SetID(int id) {
+            if (id <= 0) throw new CompanyException("Company - SetID - invalid ID");
+            this.ID = id;
+        }
 
         internal void SetName(string name)
         {
@@ -51,6 +57,32 @@ namespace VisitorsRegistrationSystemBL.Domain
             if (string.IsNullOrWhiteSpace(email)) throw new CompanyException("SetEmail - email is empty");
             // TODO: Checker class - Email check
             this.Email = email;
+        }
+
+        public void AddEmployee(Employee employee) {
+            if (employee == null) throw new CompanyException("Company - AddEmployee - employee is null");
+            if (_employees.Contains(employee)) throw new CompanyException("Company - AddEmployee - employee already exists"); // TODO: Equals & GetHashCode Employee
+            this._employees.Add(employee);
+        }
+
+        public void RemoveEmployee(Employee employee) { }
+
+        public void UpdateEmployee(Employee employee) { }
+
+        // todo: summary
+        public bool IsSame(Company otherCompany) {
+            // if (otherCompany == null) throw new CompanyException("Company - IsSame - argument is null", new ArgumentNullException());
+            if (otherCompany == null) throw new CompanyException("Company - IsSame - argument is null"); // todo: ask if this is necessary. If argument is null, then won't it return false anyway?
+            return (this.ID == otherCompany.ID) && (this.Name == otherCompany.Name) && (this.VATNumber == otherCompany.VATNumber) && (this.Address == otherCompany.Address) && (this.TelephoneNumber == otherCompany.TelephoneNumber) && (this.Email == otherCompany.Email);
+        }
+
+        public override bool Equals(object? obj) {
+            return obj is Company company &&
+                   ID == company.ID;
+        }
+
+        public override int GetHashCode() {
+            return HashCode.Combine(ID);
         }
     }
 }
