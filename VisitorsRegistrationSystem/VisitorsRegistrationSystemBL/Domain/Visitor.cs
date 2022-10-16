@@ -20,6 +20,7 @@ namespace VisitorsRegistrationSystemBL.Domain
             setVisitorCompany(visitorCompany);
         }
 
+        public int Id { get; private set; }
         public string Name { get; private set; }
         public string Email { get; private set; }
         public Company VisitorCompany { get; private set; }
@@ -45,15 +46,24 @@ namespace VisitorsRegistrationSystemBL.Domain
             this.VisitorCompany = company;
         }
 
+        internal void setId(int id)
+        {
+            if (id <= 0) throw new VisitorException("Visitor - Id is null");
+            this.Id = id;
+        }
+
         public override bool Equals(object? obj)
         {
             return obj is Visitor visitor &&
-                   Email == visitor.Email;
+                   Id == visitor.Id &&
+                   Name == visitor.Name &&
+                   Email == visitor.Email &&
+                   EqualityComparer<Company>.Default.Equals(VisitorCompany, visitor.VisitorCompany);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Email);
+            return HashCode.Combine(Id, Name, Email, VisitorCompany);
         }
     }
 }
