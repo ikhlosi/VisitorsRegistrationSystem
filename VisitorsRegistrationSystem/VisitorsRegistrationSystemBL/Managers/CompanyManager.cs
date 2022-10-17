@@ -43,5 +43,25 @@ namespace VisitorsRegistrationSystemBL.Managers {
                 throw new CompanyException("CompanyManager - UpdateCompany", ex);
             }
         }
+        public IReadOnlyList<Company> GetCompanies() {
+            try {
+                return _repo.GetCompaniesFromDB();
+            }
+            catch (Exception ex) {
+                throw new CompanyException("CompanyManager - GetCompanies", ex);
+            }
+        }
+        public IReadOnlyList<Company> SearchCompany(int? id, string name, string vatNum, Address address, string telNumber, string email) {
+            List<Company> companies = new List<Company>();
+            try {
+                if (id.HasValue && _repo.CompanyExistsInDB(id.Value)) companies.Add(_repo.GetCompany(id.Value));
+                if (!string.IsNullOrWhiteSpace(name) || !string.IsNullOrWhiteSpace(vatNum) || address != null || !string.IsNullOrWhiteSpace(telNumber) || !string.IsNullOrWhiteSpace(email)) companies.AddRange(_repo.GetCompaniesFromDB(name, vatNum, address, telNumber, email));
+                return companies;
+            }
+            catch (Exception ex) {
+                throw new CompanyException("CompanyManager - SearchCompany", ex);
+            }
+        }
     }
 }
+// todo: CompanyManagerDoc.md

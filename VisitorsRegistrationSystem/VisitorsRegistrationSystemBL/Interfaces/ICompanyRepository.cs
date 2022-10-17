@@ -13,5 +13,7 @@ namespace VisitorsRegistrationSystemBL.Interfaces {
         bool CompanyExistsInDB(Company company);
         bool CompanyExistsInDB(int iD);
         Company GetCompany(int iD);
+        IReadOnlyList<Company> GetCompaniesFromDB();
+        IEnumerable<Company> GetCompaniesFromDB(string name, string vatNum, Address address, string telNumber, string email);
     }
 }

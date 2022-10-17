@@ -65,9 +65,9 @@ namespace VisitorsRegistrationSystemBL.Domain
             this._employees.Add(employee);
         }
 
-        public void RemoveEmployee(Employee employee) { }
+        // public void RemoveEmployee(Employee employee) { }
 
-        public void UpdateEmployee(Employee employee) { }
+        // public void UpdateEmployee(Employee employee) { }
 
         // todo: summary
         public bool IsSame(Company otherCompany) {
