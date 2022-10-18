@@ -9,6 +9,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 {
     public class Visit
     {
+        public int Id { get; private set; }
         public Visitor Visitor { get; private set; }
         public Company VisitedCompany { get; private set; }
         public Employee VisitedEmployee { get; private set; }
@@ -35,6 +36,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         private void VisitEmployeeSet(Employee visitedEmployee)
         {
+            if (!VisitedCompany.GetEmployees().Contains(visitedEmployee)) throw new VisitException("Visit - Employee not part of company");
             VisitedEmployee = visitedEmployee ?? throw new VisitException("Visit - Visited Employee is null");
         }
 

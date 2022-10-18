@@ -84,5 +84,10 @@ namespace VisitorsRegistrationSystemBL.Domain
         public override int GetHashCode() {
             return HashCode.Combine(ID);
         }
+
+        public IReadOnlyList<Employee> GetEmployees()
+        {
+            return _employees.AsReadOnly();
+        }
     }
 }
