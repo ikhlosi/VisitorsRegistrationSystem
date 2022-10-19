@@ -4,19 +4,23 @@ using VisitorsRegistrationSystemBL.Exceptions;
 namespace VisitorsRegistrationSystemBL.Domain {
     public class Employee 
     {
-        public Employee(string name, string lastName, string email, string function)
+        internal Employee(string name, string lastName, string function)
         {
             SetName(name);
             SetLastName(lastName);
-            SetEmail(email);
             SetFunction(function);
         }
-
+        public int ID { get; private set; }
         public string Name { get; private set; }
         public string LastName { get; private set; }
         public string Email { get; private set; }
         public string Function { get; private set; }
 
+        public void SetId(int id)
+        {
+            if (id <= 0) throw new CompanyException("Employee - SetID - invalid ID");
+            this.ID = id;
+        }
         public void SetName(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new EmployeeException("SetName - name is empty");
