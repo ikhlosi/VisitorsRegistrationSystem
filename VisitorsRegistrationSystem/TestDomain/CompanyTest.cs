@@ -19,12 +19,12 @@ namespace TestDomain
             int id = 1;
             string name = "Company A";
             string vATNumber = "XXXXXXXXXXXXXXXXX";
-            Address address = new Address("Gent", "Luiklaan", "10");
+            string email = "company@company.be";
             int expectedResult = 1;
-            Company companyA = CompanyFactory.MakeCompany(id, name, vATNumber, address, null, null);
+            Company companyA = CompanyFactory.MakeCompany(id, name, vATNumber, null, null, email);
             #endregion
             #region Act
-            companyA
+            companyA.SetID(1);
             #endregion
             #region Assert
             Assert.Equal(expectedResult, companyA.ID);
@@ -32,7 +32,7 @@ namespace TestDomain
         }
 
 
-
+        
 
 
     }
