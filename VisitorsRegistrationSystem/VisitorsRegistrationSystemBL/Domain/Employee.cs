@@ -18,7 +18,7 @@ namespace VisitorsRegistrationSystemBL.Domain {
 
         public void SetId(int id)
         {
-            if (id <= 0) throw new CompanyException("Employee - SetID - invalid ID");
+            if (id <= 0) throw new EmployeeException("Employee - SetID - invalid ID");
             this.ID = id;
         }
         public void SetName(string name)
