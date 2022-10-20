@@ -20,7 +20,7 @@ namespace VisitorsRegistrationSystemBL.Domain
             setVisitorCompany(visitorCompany);
         }
 
-        public int Id { get; private set; }
+        public int Id { get; private set; } // todo: set Id for visitor
         public string Name { get; private set; }
         public string Email { get; private set; }
         public Company VisitorCompany { get; private set; }
