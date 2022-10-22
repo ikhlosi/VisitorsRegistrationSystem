@@ -25,6 +25,7 @@ namespace VisitorsRegistrationSystemBL.Domain
         public string TelephoneNumber { get; private set; }
         public string Email { get; private set; }
         private List<Employee> _employees = new List<Employee>();
+        //private Dictionary<int, Employee> _employees = new Dictionary<int, Employee>(); // key is Employee ID
 
         internal void SetID(int id) {
             if (id <= 0) throw new CompanyException("Company - SetID - invalid ID");
@@ -61,13 +62,24 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         public void AddEmployee(Employee employee) {
             if (employee == null) throw new CompanyException("Company - AddEmployee - employee is null");
-            if (_employees.Contains(employee)) throw new CompanyException("Company - AddEmployee - employee already exists"); // TODO: Equals & GetHashCode Employee
+            if (_employees.Contains(employee)) throw new CompanyException("Company - AddEmployee - employee already exists"); // TODO: Equals & GetHashCode Employee (Tobias)
             this._employees.Add(employee);
         }
 
-        // public void RemoveEmployee(Employee employee) { }
+        public void RemoveEmployee(Employee employee) {
+            if (employee == null) throw new CompanyException("Company - RemoveEmployee - employee is null");
+            if (!_employees.Contains(employee)) throw new CompanyException("Company - RemoveEmployee - employee doesn't exists"); // TODO: Equals & GetHashCode Employee (Tobias)
+            this._employees.Remove(employee);
+        }
 
-        // public void UpdateEmployee(Employee employee) { }
+        public void UpdateEmployee(Employee employee) {
+            if (employee == null) throw new CompanyException("Company - UpdateEmployee - employee is null");
+            if (!_employees.Contains(employee)) throw new CompanyException("Company - UpdateEmployee - employee doesn't exists"); // TODO: Equals & GetHashCode Employee (Tobias)
+            int indexOfEmployeeToUpdate = this._employees.IndexOf(employee);
+            Employee employeeToUpdate = this._employees[indexOfEmployeeToUpdate];
+            if (employeeToUpdate.IsSame(employee)) throw new CompanyException("Company - UpdateEmployee - nothing to update"); // TODO: IsSame() Employee (Tobias)
+            this._employees[indexOfEmployeeToUpdate] = employee;
+        }
 
         // todo: summary
         public bool IsSame(Company otherCompany) {
