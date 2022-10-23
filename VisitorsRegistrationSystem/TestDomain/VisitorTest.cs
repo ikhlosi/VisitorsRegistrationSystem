@@ -26,14 +26,14 @@ namespace TestDomain {
             #endregion
             #region Act
             Visitor v = new Visitor(name, email);
-            //Visitor v2 = new Visitor(name, email, company);
+            Visitor v2 = new Visitor(name, email, company,1);
             #endregion
             #region Assert
             Assert.Equal(name, v.Name);
             Assert.Equal(email, v.Email);
-            //Assert.Equal(name, v2.Name);
-            //Assert.Equal(email, v2.Email);
-            //Assert.Equal(company, v2.VisitorCompany);
+            Assert.Equal(name, v2.Name);
+            Assert.Equal(email, v2.Email);
+            Assert.Equal(company, v2.VisitorCompany);
             #endregion
         }
 
