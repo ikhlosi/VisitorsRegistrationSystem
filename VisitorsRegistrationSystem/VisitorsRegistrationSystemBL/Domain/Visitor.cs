@@ -10,6 +10,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 {
     public class Visitor
     {
+        // TODO Visitor probably needs name AND last name so it's the same as employee?
         public Visitor(string name, string email)
         {
             setName(name);
