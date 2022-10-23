@@ -24,7 +24,7 @@ namespace VisitorsRegistrationSystemBL.Domain
         public Address Address { get; private set; }
         public string TelephoneNumber { get; private set; }
         public string Email { get; private set; }
-        private List<Employee> _employees = new List<Employee>();
+        public List<Employee> _employees = new List<Employee>();
         //private Dictionary<int, Employee> _employees = new Dictionary<int, Employee>(); // key is Employee ID
 
         internal void SetID(int id) {
