@@ -42,5 +42,9 @@ namespace VisitorsRegistrationSystemBL.Domain {
             if (string.IsNullOrWhiteSpace(function)) throw new EmployeeException("SetFunction - function is empty");
             this.Function = function;
         }
+
+        internal bool IsSame(Employee employee) {
+            throw new NotImplementedException();
+        }
     }
 }

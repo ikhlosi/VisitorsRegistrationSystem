@@ -49,7 +49,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         internal void setId(int id)
         {
-            if (id <= 0) throw new VisitorException("Visitor - Id is null");
+            if (id <= 0) throw new VisitorException("Visitor - invalid Id");
             this.Id = id;
         }
 

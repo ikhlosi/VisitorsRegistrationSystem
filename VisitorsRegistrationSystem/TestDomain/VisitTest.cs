@@ -43,19 +43,17 @@ namespace TestDomain
             Employee employee = new Employee("John", "Doe", "TeamLead");
             DateTime startTime = DateTime.Now;
             DateTime endTime = DateTime.Now.AddHours(1);
-            //Act 
-            Visit visit = new Visit(visitor, company, employee, startTime, endTime);
             //Assert
             var ex = Assert.Throws<VisitException>(() => v = new Visit(visitor,company,employee,startTime,endTime));;
             Assert.Equal("Visit - Visitor is null", ex.Message);
         }
-        //[Theory]
-        //[InlineData(null)]
-        //public void Test_ctor_Invalid_CompanySet(Company company)
-        //{
+        [Theory]
+        [InlineData(null)]
+        public void Test_ctor_Invalid_CompanySet(Company company)
+        {
         //    //Arrange 
         //    Company c;
-        //    Visitor visist = new Visitor("Tobias","tobiaswille@hotmail.com");
+        //    Visitor visist = new Visitor("Tobias", "tobiaswille@hotmail.com");
         //    Employee employee = new Employee("John", "Doe", "TeamLead");
         //    DateTime startTime = DateTime.Now;
         //    DateTime endTime = DateTime.Now.AddHours(1);
@@ -78,7 +76,7 @@ namespace TestDomain
         //    //Act
         //    Employee employee = new Employee(name, lastName, function);
         //    //Assert
-             
-        //}
+
+        }
     }
 }
