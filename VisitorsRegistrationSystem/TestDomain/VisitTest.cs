@@ -51,32 +51,59 @@ namespace TestDomain
         [InlineData(null)]
         public void Test_ctor_Invalid_CompanySet(Company company)
         {
-        //    //Arrange 
-        //    Company c;
-        //    Visitor visist = new Visitor("Tobias", "tobiaswille@hotmail.com");
-        //    Employee employee = new Employee("John", "Doe", "TeamLead");
-        //    DateTime startTime = DateTime.Now;
-        //    DateTime endTime = DateTime.Now.AddHours(1);
-        //    //Act 
-        //    Company company = new Company();
-        //    //Assert
-        //    var ex = Assert.Throws<CompanyException>(() => c = new Company()); ;
-        //    Assert.Equal("Visit - Visited Company is null", ex.Message);
+            //Arrange 
+            Visit v;
+            Visitor visitor = new Visitor("Tobias", "tobiaswille@hotmail.com");
+            Employee employee = new Employee("John", "Doe", "TeamLead");
+            DateTime startTime = DateTime.Now;
+            DateTime endTime = DateTime.Now.AddHours(1);
+            //Act 
+            //Assert
+            var ex = Assert.Throws<VisitException>(() => v = new Visit(visitor,company,employee,startTime,endTime)); ;
+            Assert.Equal("Visit - Visited Company is null", ex.Message);
 
-        //}
-        //[Theory]
-        //[InlineData(null)]
-        //public void Test_ctor_Invalid_Employee(Employee employee)
-        //{
-        //    Employee c;
-        //    Company company = new Company("CompanyA", "XXXXXXX", "CompanyA@hotmail.com");
-        //    Visitor visitor = new Visitor("Tobias", "Tobias@hotmail.com");
-        //    DateTime startTime = DateTime.Now;
-        //    DateTime endTime = DateTime.Now.AddHours(1);
-        //    //Act
-        //    Employee employee = new Employee(name, lastName, function);
-        //    //Assert
-
+        }
+        [Theory]
+        [InlineData(null)]
+        public void Test_ctor_Invalid_Employee(Employee employee)
+        {
+            Visit v;
+            Company company = new Company("CompanyA", "XXXXXXX", "CompanyA@hotmail.com");
+            Visitor visitor = new Visitor("Tobias", "Tobias@hotmail.com");
+            DateTime startTime = DateTime.Now;
+            DateTime endTime = DateTime.Now.AddHours(1);
+            //Act
+            //Assert
+            var ex = Assert.Throws<VisitException>(() => v = new Visit(visitor, company, employee, startTime, endTime)); ;
+            Assert.Equal("Visit - Visited Employee is null", ex.Message);
+        }
+        [Fact]
+        public void Test_ctor_Invalid_Time_Start_Later_Than_Now()
+        {
+            Visit v;
+            Company company = new Company("CompanyA", "XXXXXXX", "CompanyA@hotmail.com");
+            Visitor visitor = new Visitor("Tobias", "Tobias@hotmail.com");
+            Employee employee = new Employee("Arno", "Vantieghem", "Tester");
+            DateTime startTime = DateTime.Now.AddDays(1);
+            DateTime endTime = startTime.AddHours(1);
+            //Act
+            //Assert
+            var ex = Assert.Throws<VisitException>(() => v = new Visit(visitor, company, employee, startTime, endTime)); ;
+            Assert.Equal("Visit - Start time is too late", ex.Message);
+        }
+        [Fact]
+        public void Test_ctor_Invalid_Time_Start_Later_Than_End()
+        {
+            Visit v;
+            Company company = new Company("CompanyA", "XXXXXXX", "CompanyA@hotmail.com");
+            Visitor visitor = new Visitor("Tobias", "Tobias@hotmail.com");
+            Employee employee = new Employee("Arno", "Vantieghem", "Tester");
+            DateTime startTime = DateTime.MinValue.AddHours(2);
+            DateTime endTime = DateTime.MinValue.AddHours(1);
+            //Act
+            //Assert
+            var ex = Assert.Throws<VisitException>(() => v = new Visit(visitor, company, employee, startTime, endTime)); ;
+            Assert.Equal("Visit - End time earlier than Start time", ex.Message);
         }
     }
 }
