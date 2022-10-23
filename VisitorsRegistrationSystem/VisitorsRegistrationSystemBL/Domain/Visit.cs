@@ -24,23 +24,23 @@ namespace VisitorsRegistrationSystemBL.Domain
             TimeSet(startTime,endTime);
         }
 
-        private void VisitorSet(Visitor visitor)
+        public void VisitorSet(Visitor visitor)
         {
             Visitor = visitor ?? throw new VisitException("Visit - Visitor is null");
         }
 
-        private void VisitCompanySet(Company visitedCompany)
+        public void VisitCompanySet(Company visitedCompany)
         {
             VisitedCompany = visitedCompany ?? throw new VisitException("Visit - Visited Company is null");
         }
 
-        private void VisitEmployeeSet(Employee visitedEmployee)
+        public void VisitEmployeeSet(Employee visitedEmployee)
         {
-            if (!VisitedCompany.GetEmployees().Contains(visitedEmployee)) throw new VisitException("Visit - Employee not part of company");
+            //if (!VisitedCompany.GetEmployees().Contains(visitedEmployee)) throw new VisitException("Visit - Employee not part of company");
             VisitedEmployee = visitedEmployee ?? throw new VisitException("Visit - Visited Employee is null");
         }
 
-        private void TimeSet(DateTime startTime, DateTime endTime)
+        public void TimeSet(DateTime startTime, DateTime endTime)
         {
             if (startTime > DateTime.Now) throw new VisitException("Visit - Start time is too late");
             if (endTime < startTime) throw new VisitException("Visit - End time earlier than Start time");

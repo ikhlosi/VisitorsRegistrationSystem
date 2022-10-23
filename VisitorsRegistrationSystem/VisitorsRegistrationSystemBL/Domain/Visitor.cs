@@ -15,7 +15,7 @@ namespace VisitorsRegistrationSystemBL.Domain
             setName(name);
             setEmail(email);
         }
-        public Visitor(string name, string email, Company visitorCompany, int id) : this(name,email)
+        public Visitor(string name, string email, Company visitorCompany, int id) : this(name, email)
         {
             setVisitorCompany(visitorCompany);
             setId(id);
