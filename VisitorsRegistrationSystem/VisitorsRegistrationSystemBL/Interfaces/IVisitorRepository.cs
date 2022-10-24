@@ -9,7 +9,7 @@ namespace VisitorsRegistrationSystemBL.Interfaces
 {
     public interface IVisitorRepository
     {
-        void WriteVisitor(Visitor visitor);
+        void AddVisitor(Visitor visitor);
         void RemoveVisitor(Visitor visitor);
         void UpdateVisitor(Visitor visitor);
         bool VisitorExists(Visitor visitor);

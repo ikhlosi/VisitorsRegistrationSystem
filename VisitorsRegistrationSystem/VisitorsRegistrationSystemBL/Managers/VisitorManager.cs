@@ -18,7 +18,7 @@ namespace VisitorsRegistrationSystemBL.Managers
         {
             if (visitor == null) throw new VisitorManagerException("VisitorManager - Addvisitor - visitor is null");
             if (_repo.VisitorExists(visitor)) throw new VisitorManagerException("VisitorManager - Addvisitor - visitor has already been registered");
-            _repo.WriteVisitor(visitor);
+            _repo.AddVisitor(visitor);
         }
         public void DeleteVisitor(Visitor visitor)
         {
@@ -36,6 +36,12 @@ namespace VisitorsRegistrationSystemBL.Managers
         public IReadOnlyList<Visitor> GetVisitors()
         {
             return _visitors.Values.ToList().AsReadOnly();
+        }
+
+        public Visitor GetVisitor(int id)
+        {
+            if (id <= 0) throw new VisitorManagerException("VisitorManager - Getvisitor - id is null");
+            return _repo.GetVisitor(id);
         }
     }
 }
