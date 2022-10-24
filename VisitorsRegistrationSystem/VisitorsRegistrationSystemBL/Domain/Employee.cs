@@ -46,5 +46,15 @@ namespace VisitorsRegistrationSystemBL.Domain {
         internal bool IsSame(Employee employee) {
             throw new NotImplementedException();
         }
+        public override bool Equals(object? obj)
+        {
+            return obj is Employee employee &&
+                   ID == employee.ID;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(ID);
+        }
     }
 }
