@@ -192,7 +192,7 @@ namespace TestDomain
             companyA.AddEmployee(expectedResult);
             #endregion
             #region Assert
-            Assert.Equal(expectedResult, companyA._employees[0]);
+            Assert.Equal(expectedResult, companyA.GetEmployees()[0]);
             #endregion
         }
 
@@ -202,9 +202,13 @@ namespace TestDomain
         {
             #region Arrange
             Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "Straatlaan", "10"), "+32482455642", "company@company.be");
+            Employee expectedResult = EmployeeFactory.MakeEmployee(1, "Bart", "Jan", "bart@company.be", "admin");
             #endregion
             #region Act & Assert
             Assert.Throws<CompanyException>(() => companyA.AddEmployee(employee));
+
+            companyA.AddEmployee(expectedResult);
+            Assert.Throws<CompanyException>(() => companyA.AddEmployee(expectedResult));
             #endregion
         }
 
