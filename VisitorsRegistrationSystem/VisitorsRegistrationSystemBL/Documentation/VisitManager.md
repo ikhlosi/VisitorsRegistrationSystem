@@ -1,5 +1,5 @@
 ﻿# Documentation: VisitorManager
-A class made to model a real life visit to a company in code. The 'Visi' class stores the necessary attributes to instantiate an object of type 'Visit'.
+A class made to model a real life visit to a company in code. The 'Visit' class stores the necessary attributes to instantiate an object of type 'Visit'.
 
 ## Methods
 GetVisits: returns a list of all visits

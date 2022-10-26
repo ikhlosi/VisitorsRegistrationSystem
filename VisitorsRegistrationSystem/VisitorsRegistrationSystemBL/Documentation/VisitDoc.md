@@ -1,5 +1,5 @@
 ﻿# Documentation: Visit
-A class made to model a company vistit incl. all the appointment informatie. The 'Visit' class stores the necessary attributes to instantiate an object of type 'Visit'.
+A class made to model a company vistit incl. all the appointment information. The 'Visit' class stores the necessary attributes to instantiate an object of type 'Visit'.
 
 ## Attributes
 * Visitor (Visitor object): an object that refers the visitor
