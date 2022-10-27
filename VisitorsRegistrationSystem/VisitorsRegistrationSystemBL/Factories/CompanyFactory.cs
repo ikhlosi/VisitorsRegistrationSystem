@@ -11,7 +11,7 @@ namespace VisitorsRegistrationSystemBL.Factories {
         public static Company MakeCompany(int? id, string name, string vatNo, Address address, string telNo, string email) {
 			try {
 				Company c = new Company(name, vatNo, email);
-				if (id.HasValue) c.SetID(id.Value); // TODO: ask if this is valid
+				if (id.HasValue) c.SetID(id.Value);
 				if (address != null) c.SetAddress(address);
 				if (!string.IsNullOrEmpty(telNo)) c.SetTelNo(telNo);
 				return c;
