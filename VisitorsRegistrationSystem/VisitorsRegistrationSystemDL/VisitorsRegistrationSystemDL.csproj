@@ -11,4 +11,8 @@
     <Folder Include="Repositories\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VisitorsRegistrationSystemBL\VisitorsRegistrationSystemBL.csproj" />
+  </ItemGroup>
+
 </Project>
