@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using VisitorsRegistrationSystemBL.Checkers;
 using VisitorsRegistrationSystemBL.Exceptions;
 
 namespace VisitorsRegistrationSystemBL.Domain {
@@ -34,7 +35,7 @@ namespace VisitorsRegistrationSystemBL.Domain {
         public void SetEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email)) throw new EmployeeException("SetEmail - email is empty");
-            // TODO: Email checker 
+            if (!EmailChecker.IsValid(email)) throw new EmployeeException("SetEmail - invalid format");
             this.Email = email;
         }
         public void SetFunction(string function)
