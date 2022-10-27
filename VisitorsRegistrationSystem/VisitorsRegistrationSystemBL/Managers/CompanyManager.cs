@@ -4,6 +4,9 @@ using VisitorsRegistrationSystemBL.Interfaces;
 
 namespace VisitorsRegistrationSystemBL.Managers {
     public class CompanyManager {
+        public CompanyManager(ICompanyRepository repo) {
+            _repo = repo;
+        }
         private ICompanyRepository _repo;
         public void AddCompany(Company company) {
             if (company == null) {
@@ -64,4 +67,4 @@ namespace VisitorsRegistrationSystemBL.Managers {
         }
     }
 }
-// todo: CompanyManagerDoc.md
+// TODO: finish CompanyManager documentation

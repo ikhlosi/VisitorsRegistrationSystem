@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VisitorsRegistrationSystemBL.Checkers;
 using VisitorsRegistrationSystemBL.Exceptions;
 
 namespace VisitorsRegistrationSystemBL.Domain
 {
     public class Company
     {
-        // Overload - to instantiate class with only the core attributes
-        // ? maybe better to add null checks in above constructor instead, for scalability
-        // -> solved with CompanyFactory class
         internal Company(string name, string vATNumber, string email) {
             SetName(name);
             SetVATNo(vATNumber);
@@ -24,7 +22,7 @@ namespace VisitorsRegistrationSystemBL.Domain
         public Address Address { get; private set; }
         public string TelephoneNumber { get; private set; }
         public string Email { get; private set; }
-        public List<Employee> _employees = new List<Employee>();
+        private List<Employee> _employees = new List<Employee>();
         //private Dictionary<int, Employee> _employees = new Dictionary<int, Employee>(); // key is Employee ID
 
         internal void SetID(int id) {
@@ -56,35 +54,35 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         internal void SetEmail (string email) {
             if (string.IsNullOrWhiteSpace(email)) throw new CompanyException("SetEmail - email is empty");
-            // TODO: Checker class - Email check
+            if (!EmailChecker.IsValid(email)) throw new CompanyException("SetEmail - invalid format");
             this.Email = email;
         }
 
         public void AddEmployee(Employee employee) {
             if (employee == null) throw new CompanyException("Company - AddEmployee - employee is null");
-            if (_employees.Contains(employee)) throw new CompanyException("Company - AddEmployee - employee already exists"); // TODO: Equals & GetHashCode Employee (Tobias)
+            if (_employees.Contains(employee)) throw new CompanyException("Company - AddEmployee - employee already exists");
             this._employees.Add(employee);
         }
 
         public void RemoveEmployee(Employee employee) {
             if (employee == null) throw new CompanyException("Company - RemoveEmployee - employee is null");
-            if (!_employees.Contains(employee)) throw new CompanyException("Company - RemoveEmployee - employee doesn't exists"); // TODO: Equals & GetHashCode Employee (Tobias)
+            if (!_employees.Contains(employee)) throw new CompanyException("Company - RemoveEmployee - employee doesn't exists");
             this._employees.Remove(employee);
         }
 
         public void UpdateEmployee(Employee employee) {
             if (employee == null) throw new CompanyException("Company - UpdateEmployee - employee is null");
-            if (!_employees.Contains(employee)) throw new CompanyException("Company - UpdateEmployee - employee doesn't exists"); // TODO: Equals & GetHashCode Employee (Tobias)
+            if (!_employees.Contains(employee)) throw new CompanyException("Company - UpdateEmployee - employee doesn't exists");
             int indexOfEmployeeToUpdate = this._employees.IndexOf(employee);
             Employee employeeToUpdate = this._employees[indexOfEmployeeToUpdate];
-            if (employeeToUpdate.IsSame(employee)) throw new CompanyException("Company - UpdateEmployee - nothing to update"); // TODO: IsSame() Employee (Tobias)
+            if (employeeToUpdate.IsSame(employee)) throw new CompanyException("Company - UpdateEmployee - nothing to update");
             this._employees[indexOfEmployeeToUpdate] = employee;
         }
 
         // todo: summary
         public bool IsSame(Company otherCompany) {
             // if (otherCompany == null) throw new CompanyException("Company - IsSame - argument is null", new ArgumentNullException());
-            if (otherCompany == null) throw new CompanyException("Company - IsSame - argument is null"); // todo: ask if this is necessary. If argument is null, then won't it return false anyway?
+            if (otherCompany == null) throw new CompanyException("Company - IsSame - argument is null");
             return (this.ID == otherCompany.ID) && (this.Name == otherCompany.Name) && (this.VATNumber == otherCompany.VATNumber) && (this.Address == otherCompany.Address) && (this.TelephoneNumber == otherCompany.TelephoneNumber) && (this.Email == otherCompany.Email);
         }
 

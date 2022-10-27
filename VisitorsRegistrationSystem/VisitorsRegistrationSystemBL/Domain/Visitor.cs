@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using VisitorsRegistrationSystemBL.Checkers;
 using VisitorsRegistrationSystemBL.Exceptions;
 
 namespace VisitorsRegistrationSystemBL.Domain
 {
     public class Visitor
     {
-        // TODO Visitor probably needs name AND last name so it's the same as employee?
         public Visitor(string name, string email)
         {
             setName(name);
@@ -22,7 +22,7 @@ namespace VisitorsRegistrationSystemBL.Domain
             setId(id);
         }
 
-        public int Id { get; private set; } // todo: set Id for visitor
+        public int Id { get; private set; }
         public string Name { get; private set; }
         public string Email { get; private set; }
         public Company VisitorCompany { get; private set; }
@@ -35,10 +35,8 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         internal void setEmail (string email)
         {
-            string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov|be|nl)$";
             if (string.IsNullOrWhiteSpace(email)) throw new VisitorException("Visitor - Email is null or whitespace");
-            // TODO check wether this formatchecker actually works
-            if(!Regex.IsMatch(email, regex, RegexOptions.IgnoreCase)) throw new VisitorException("Visitor - Email format invalid");
+            if(!EmailChecker.IsValid(email)) throw new VisitorException("Visitor - Email format invalid");
             this.Email = email;
         }
 
