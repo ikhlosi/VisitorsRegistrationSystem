@@ -22,7 +22,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public bool CompanyExistsInDB(Company company)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = @"";
+            string query = @"select count(*) from Company where VAT= @VAT;";
             using (SqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -30,7 +30,12 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     connection.Open();
                     cmd.CommandText = query;
                     // Parameters adden
+                    cmd.Parameters.AddWithValue("@VAT", company.VATNumber);
                     // Query executen
+                    int n = (int)cmd.ExecuteScalar();
+                    if (n > 0)
+                        return true;
+                    return false;
                     // Data lezen
                     // Value returnen
                     return false;
