@@ -45,5 +45,10 @@ namespace VisitorsRegistrationSystemDL.Repositories
         {
             throw new NotImplementedException();
         }
+
+        Visit IVisitRepository.GetVisit(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
