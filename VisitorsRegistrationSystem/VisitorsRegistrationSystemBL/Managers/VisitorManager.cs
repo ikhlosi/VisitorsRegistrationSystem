@@ -12,8 +12,13 @@ namespace VisitorsRegistrationSystemBL.Managers
     public class VisitorManager
     {
         private IVisitorRepository _repo;
-
         private Dictionary<string, Visitor> _visitors = new Dictionary<string, Visitor>();
+
+        public VisitorManager(IVisitorRepository repo)
+        {
+            _repo = repo;
+        }
+
         public void AddVisitor(Visitor visitor)
         {
             if (visitor == null) throw new VisitorManagerException("VisitorManager - Addvisitor - visitor is null");
