@@ -99,5 +99,10 @@ namespace VisitorsRegistrationSystemBL.Domain
         {
             return _employees.AsReadOnly();
         }
+
+        public override string ToString()
+        {
+            return "id: " + ID + " name: " + Name + " address: " + Address + " telNr: " + TelephoneNumber + " email:"+ Email;
+        }
     }
 }

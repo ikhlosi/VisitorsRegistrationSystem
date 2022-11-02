@@ -42,7 +42,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         public void TimeSet(DateTime startTime, DateTime endTime)
         {
-            if (startTime > DateTime.Now) throw new VisitException("Visit - Start time is too late");
+            if (startTime < DateTime.Now) throw new VisitException("Visit - Start time is too late");
             if (endTime < startTime) throw new VisitException("Visit - End time earlier than Start time");
             StartTime = startTime;
             EndTime = endTime;

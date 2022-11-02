@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.Factories;
 using VisitorsRegistrationSystemBL.Interfaces;
 using VisitorsRegistrationSystemDL.Exceptions;
 
@@ -18,7 +19,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         {
             this.connectionString = connectionString;
         }
-
+        // DONE
         public bool CompanyExistsInDB(Company company)
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -38,11 +39,10 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     return false;
                     // Data lezen
                     // Value returnen
-                    return false;
                 }
                 catch (Exception ex)
                 {
-                    throw new CompanyRepositoryADOException("CompanyExistsInDB", ex);
+                    throw new CompanyRepositoryADOException("CompanyExistsInDBVAT", ex);
                 }
                 finally
                 {
@@ -50,11 +50,11 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
             }
         }
-
+        // DONE
         public bool CompanyExistsInDB(int iD)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = @"";
+            string query = @"select count(*) from Company where id= @id;";
             using (SqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -62,14 +62,18 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     connection.Open();
                     cmd.CommandText = query;
                     // Parameters adden
+                    cmd.Parameters.AddWithValue("@id", iD);
                     // Query executen
+                    int n = (int)cmd.ExecuteScalar();
+                    if (n > 0)
+                        return true;
+                    return false;
                     // Data lezen
                     // Value returnen
-                    return false;
                 }
                 catch (Exception ex)
                 {
-                    throw new CompanyRepositoryADOException("CompanyExistsInDB", ex);
+                    throw new CompanyRepositoryADOException("CompanyExistsInDBid", ex);
                 }
                 finally
                 {
@@ -77,26 +81,45 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
             }
         }
-
+        // DONE
         public IReadOnlyList<Company> GetCompaniesFromDB()
         {
+            List<Company> companies = new List<Company>();
+
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = @"";
+            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id";
             using (SqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    // Parameters adden
-                    // Query executen
-                    // Data lezen
-                    // Value returnen
-                    return null;
+                    
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        int id = (int)reader["id"];
+                        string name = (string)reader["name"];
+                        string VAT = (string)reader["VAT"];
+                        string email = (string)reader["email"];
+                        string telNr = (string)reader["telNr"];
+                        string city = (string)reader["city"];
+                        string street = (string)reader["street"];
+                        string houseNr = (string)reader["houseNr"];
+                        string busNr = "";
+                        if (reader["bus"] != DBNull.Value)
+                        {
+                            busNr = (string)reader["bus"];
+                        }
+                        Company company = CompanyFactory.MakeCompany(id,name,VAT,new Address(city,street,houseNr,busNr),telNr,email);
+                        companies.Add(company);
+                    }
+                    reader.Close();
+                    return companies;
                 }
                 catch (Exception ex)
                 {
-                    throw new CompanyRepositoryADOException("CompanyExistsInDB", ex);
+                    throw new CompanyRepositoryADOException("GetCompaniesFromDB", ex);
                 }
                 finally
                 {
@@ -104,7 +127,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
             }
         }
-
+        
         public IEnumerable<Company> GetCompaniesFromDB(string name, string vatNum, Address address, string telNumber, string email)
         {
             SqlConnection connection = new SqlConnection(connectionString);

@@ -2,6 +2,7 @@ using Moq;
 using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.Factories;
 using VisitorsRegistrationSystemBL.Interfaces;
+using VisitorsRegistrationSystemBL.Managers;
 using Xunit;
 namespace TestManagers
 {
@@ -12,11 +13,14 @@ namespace TestManagers
         [Fact]
         public void AddVisitor_Valid()
         {
-            mockRepo = new Mock<IVisitorRepository>();
-            Company company = CompanyFactory.MakeCompany(1, "Allphi", "BE123456789", new Address("Elsegem", "Kouterlos", "600000"), "0479564251", "allphi@gmail.com");
+            Company company = CompanyFactory.MakeCompany(1, "Allphi", "BE123456789", new Address("Elsegem", "Kouterlos", "60000", null), "0479564251", "allphi@gmail.com");
             Visitor visitor = VisitorFactory.MakeVisitor(1, "Arno Vantieghem", "arnovantieghem@gmail.com", company);
+
+            mockRepo = new Mock<IVisitorRepository>();
             mockRepo.Setup(repo => repo.AddVisitor(visitor));
-            mockRepo.Setup(repo => repo.GetVisitor(1)).Returns(visitor);
+            VisitorManager vm = new VisitorManager(mockRepo.Object);
+
+            Assert.Equal(visitor, vm.GetVisitor(visitor.Id));
         }
     }
 }
