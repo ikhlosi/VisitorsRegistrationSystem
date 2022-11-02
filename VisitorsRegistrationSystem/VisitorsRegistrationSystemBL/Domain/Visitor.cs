@@ -16,7 +16,7 @@ namespace VisitorsRegistrationSystemBL.Domain
             setName(name);
             setEmail(email);
         }
-        public Visitor(string name, string email, Company visitorCompany, int id) : this(name, email)
+        public Visitor(string name, string email, string visitorCompany, int id) : this(name, email)
         {
             setVisitorCompany(visitorCompany);
             setId(id);
@@ -25,7 +25,7 @@ namespace VisitorsRegistrationSystemBL.Domain
         public int Id { get; private set; }
         public string Name { get; private set; }
         public string Email { get; private set; }
-        public Company VisitorCompany { get; private set; }
+        public string VisitorCompany { get; private set; }
 
         internal void setName(string name)
         {
@@ -40,7 +40,7 @@ namespace VisitorsRegistrationSystemBL.Domain
             this.Email = email;
         }
 
-        internal void setVisitorCompany(Company company)
+        internal void setVisitorCompany(string company)
         {
             if (company == null) throw new VisitorException("Visitor - Visitorcompany is null");
             this.VisitorCompany = company;
@@ -58,7 +58,7 @@ namespace VisitorsRegistrationSystemBL.Domain
                    Id == visitor.Id &&
                    Name == visitor.Name &&
                    Email == visitor.Email &&
-                   EqualityComparer<Company>.Default.Equals(VisitorCompany, visitor.VisitorCompany);
+                   EqualityComparer<string>.Default.Equals(VisitorCompany, visitor.VisitorCompany);
         }
 
         public override int GetHashCode()

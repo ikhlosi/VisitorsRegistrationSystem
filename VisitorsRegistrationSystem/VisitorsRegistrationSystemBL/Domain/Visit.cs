@@ -23,10 +23,23 @@ namespace VisitorsRegistrationSystemBL.Domain
             VisitEmployeeSet(visitedEmployee);
             TimeSet(startTime,endTime);
         }
+        public Visit(int id,Visitor visitor, Company visitedCompany, Employee visitedEmployee, DateTime startTime, DateTime endTime)
+        {
+            setId(id);
+            VisitorSet(visitor);
+            VisitCompanySet(visitedCompany);
+            VisitEmployeeSet(visitedEmployee);
+            TimeSet(startTime, endTime);
+        }
 
         public void VisitorSet(Visitor visitor)
         {
             Visitor = visitor ?? throw new VisitException("Visit - Visitor is null");
+        }
+        public void setId(int id)
+        {
+            if (id < 1) throw new VisitException("Visit - id smaller than 1");
+            this.Id = id;
         }
 
         public void VisitCompanySet(Company visitedCompany)
@@ -58,6 +71,11 @@ namespace VisitorsRegistrationSystemBL.Domain
         public override int GetHashCode()
         {
             return HashCode.Combine(Visitor, StartTime);
+        }
+
+        public override string ToString()
+        {
+            return ("VisitId: " + Id + " startTime " + StartTime.ToString() + " endTime " + EndTime.ToString());
         }
     }
 }

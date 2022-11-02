@@ -31,7 +31,7 @@ namespace VisitorsRegistrationSystemBL.Managers
         {
             if (visit == null) throw new VisitException("VisitManager(Deletevisit) - visit is null");
             if (!_repo.VisitExists(visit)) throw new VisitException("VisitManager - Deletevisit - visit does not exist");
-            _repo.RemoveVisit(visit);
+            _repo.RemoveVisit(visit.Id);
         }
 
         public void UpdateVisit(Visit visit)

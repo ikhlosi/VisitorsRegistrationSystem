@@ -10,7 +10,7 @@ namespace VisitorsRegistrationSystemBL.Factories
 {
     public static class VisitorFactory
     {
-        public static Visitor MakeVisitor(int? id, string name,  string email, Company visitingCompany)
+        public static Visitor MakeVisitor(int? id, string name,  string email, string visitingCompany)
         {
             try
             {

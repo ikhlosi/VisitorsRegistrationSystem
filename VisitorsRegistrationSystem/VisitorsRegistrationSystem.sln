@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Petar", "Petar", "{31F2D858
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tobias", "Tobias", "{582E36FB-ABCE-4902-A1EB-9C812777E5D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTestingVisitDL", "ConsoleTestingVisitDL\ConsoleTestingVisitDL.csproj", "{4D0D3920-35A8-4F06-A42B-1BBC909044B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{D24473F2-F7BE-4C0C-B055-A9C3D0445AEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D24473F2-F7BE-4C0C-B055-A9C3D0445AEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D24473F2-F7BE-4C0C-B055-A9C3D0445AEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D0D3920-35A8-4F06-A42B-1BBC909044B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D0D3920-35A8-4F06-A42B-1BBC909044B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D0D3920-35A8-4F06-A42B-1BBC909044B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D0D3920-35A8-4F06-A42B-1BBC909044B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +69,7 @@ Global
 		{2DF2C265-1138-4852-931A-DE1D683E1F5C} = {88655FBB-AC46-4518-94DE-27972D9E9DC8}
 		{31F2D858-4B5D-434E-8027-6ABE58F26417} = {88655FBB-AC46-4518-94DE-27972D9E9DC8}
 		{582E36FB-ABCE-4902-A1EB-9C812777E5D0} = {88655FBB-AC46-4518-94DE-27972D9E9DC8}
+		{4D0D3920-35A8-4F06-A42B-1BBC909044B2} = {D6253FC4-C54A-4C87-AF7A-A0A75816DB17}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {93B5299E-8338-4175-A048-895A0B96F9DE}
