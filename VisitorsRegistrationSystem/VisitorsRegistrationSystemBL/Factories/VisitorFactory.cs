@@ -10,13 +10,13 @@ namespace VisitorsRegistrationSystemBL.Factories
 {
     public static class VisitorFactory
     {
-        public static Visitor MakeVisitor(int? id, string name,  string email, Company visitingCompany)
+        public static Visitor MakeVisitor(int? id, string name,  string email, string visitorCompany)
         {
             try
             {
                 Visitor v = new Visitor(name,email);
                 if (id.HasValue) v.setId(id.Value);
-                if (visitingCompany != null ) v.setVisitorCompany(visitingCompany);
+                if (visitorCompany != null ) v.setVisitorCompany(visitorCompany);
                 return v;
             }
             catch
@@ -25,7 +25,7 @@ namespace VisitorsRegistrationSystemBL.Factories
                 ex.Data.Add("Visitor id", id);
                 ex.Data.Add("Visitor name", name);
                 ex.Data.Add("Visitor email", email);
-                ex.Data.Add("Visitor visitingCompany", visitingCompany);
+                ex.Data.Add("Visitor visitingCompany", visitorCompany);
                 throw ex;
             }
         }

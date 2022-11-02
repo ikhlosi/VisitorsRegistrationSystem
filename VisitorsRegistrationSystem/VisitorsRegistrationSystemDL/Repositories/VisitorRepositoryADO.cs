@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.Interfaces;
 using VisitorsRegistrationSystemDL.Exceptions;
+using VisitorsRegistrationSystemBL.Factories;
 
 namespace VisitorsRegistrationSystemDL.Repositories
 {
@@ -47,17 +48,17 @@ namespace VisitorsRegistrationSystemDL.Repositories
         }
 
 
-        public void RemoveVisitor(Visitor visitor)
+        public void RemoveVisitor(int id)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = @"DELETE * FROM visitor WHERE id=@id";
+            string query = @"DELETE FROM visitor WHERE id=@id";
             using (SqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.AddWithValue("@id", visitor.Id);
+                    cmd.Parameters.AddWithValue("@id", id);
                     cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -165,7 +166,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     cmd.Parameters.AddWithValue("@id", id);
                     IDataReader reader = cmd.ExecuteReader();
                     reader.Read();
-                    Visitor visitor = new Visitor((string)reader["name"], (string)reader["email"]);
+                    Visitor visitor = VisitorFactory.MakeVisitor((int)reader["id"],(string)reader["name"], (string)reader["email"], (string)reader["visitorCompany"]);
                     reader.Close();
                     return visitor;
                 }
@@ -195,14 +196,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     IDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        visitors.Add(new Visitor((string)reader["name"], (string)reader["email"]));
+                        visitors.Add(VisitorFactory.MakeVisitor((int)reader["id"], (string)reader["name"], (string)reader["email"], (string)reader["visitorCompany"]));
                     }
                     reader.Close();
                     return visitors;
                 }
                 catch (Exception ex)
                 {
-                    throw new VisitorRepositoryException("GetVisitor");
+                    throw new VisitorRepositoryException("GetVisitors");
                 }
                 finally
                 {
