@@ -5,12 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.Exceptions;
+using VisitorsRegistrationSystemBL.Interfaces;
 
 namespace VisitorsRegistrationSystemBL.Managers
 {
-    internal class EmployeeManager
+    public class EmployeeManager
     {
-        private Dictionary<string, Employee> _employees = new Dictionary<string, Employee>();
+        // private Dictionary<string, Employee> _employees = new Dictionary<string, Employee>();
+
+        private IEmployeeRepository _repo;
+
+        public EmployeeManager(IEmployeeRepository repo) {
+            _repo = repo;
+        }
 
         public void AddEmployee(Employee employee)
         {

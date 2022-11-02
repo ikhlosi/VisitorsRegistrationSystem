@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VisitorsRegistrationSystemBL.Interfaces
 {
-    internal interface IEmployeeRepository
+    public interface IEmployeeRepository
     {
     }
 }
