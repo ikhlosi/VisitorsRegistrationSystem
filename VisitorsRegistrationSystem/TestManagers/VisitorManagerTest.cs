@@ -17,8 +17,8 @@ namespace TestManagers
             Visitor visitor = VisitorFactory.MakeVisitor(1, "Arno Vantieghem", "arnovantieghem@gmail.com", company);
 
             mockRepo = new Mock<IVisitorRepository>();
-            mockRepo.Setup(repo => repo.AddVisitor(visitor));
             VisitorManager vm = new VisitorManager(mockRepo.Object);
+            vm.AddVisitor(visitor);
 
             Assert.Equal(visitor, vm.GetVisitor(visitor.Id));
         }

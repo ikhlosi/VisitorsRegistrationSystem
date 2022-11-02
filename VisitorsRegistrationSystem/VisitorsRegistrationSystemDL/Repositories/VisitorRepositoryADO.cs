@@ -22,34 +22,140 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public void AddVisitor(Visitor visitor)
         {
-            throw new NotImplementedException();
+            SqlConnection connection = new SqlConnection(connectionString);
+            string query = @"INSERT INTO visitor (name,email,visitorCompany) VALUES (@name,@email,@visitorCompany)";
+            using (SqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@name", visitor.Name);
+                    cmd.Parameters.AddWithValue("@email", visitor.Email);
+                    cmd.Parameters.AddWithValue("@visitorCompany", visitor.VisitorCompany);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new CompanyRepositoryADOException("AddVisitor", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
 
         public void RemoveVisitor(Visitor visitor)
         {
-            throw new NotImplementedException();
+            SqlConnection connection = new SqlConnection(connectionString);
+            string query = @"DELETE * FROM visitor WHERE id=@id";
+            using (SqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@id", visitor.Id);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new CompanyRepositoryADOException("RemoveVisitor", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public void UpdateVisitor(Visitor visitor)
         {
-            throw new NotImplementedException();
+            SqlConnection connection = new SqlConnection(connectionString);
+            string query = @"UPDATE visitor SET name = @name, email = @email, visitorCompany = @visitorCompany WHERE id = @id";
+            using (SqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@name", visitor.Name);
+                    cmd.Parameters.AddWithValue("@email", visitor.Email);
+                    cmd.Parameters.AddWithValue("@visitorCompany", visitor.VisitorCompany);
+                    cmd.Parameters.AddWithValue("@id", visitor.Id);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new CompanyRepositoryADOException("UpdateVisitor", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public bool VisitorExists(Visitor visitor)
         {
-            throw new NotImplementedException();
+            SqlConnection connection = new SqlConnection(connectionString);
+            string query = @"SELECT COUNT(*) FROM visitor WHERE email=@email";
+            using (SqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@email", visitor.Email);
+                    int n = (int)cmd.ExecuteScalar();
+                    if (n > 0)
+                        return true;
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    throw new CompanyRepositoryADOException("VisitorExists by email", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
-        public bool VisitorExists(int iD)
+        public bool VisitorExists(int id)
         {
-            throw new NotImplementedException();
+            SqlConnection connection = new SqlConnection(connectionString);
+            string query = @"SELECT COUNT(*) FROM visitor WHERE id=@id";
+            using (SqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@id", id);
+                    int n = (int)cmd.ExecuteScalar();
+                    if (n > 0)
+                        return true;
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    throw new CompanyRepositoryADOException("VisitorExists by id", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public Visitor GetVisitor(int id)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = "SELECT * FROM visitor WHERE id=@id";
+            string query = @"SELECT * FROM visitor WHERE id=@id";
             using (SqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -79,7 +185,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         {
             List<Visitor> visitors = new List<Visitor>();
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = "SELECT * FROM visitor";
+            string query = @"SELECT * FROM visitor";
             using (SqlCommand cmd = connection.CreateCommand())
             {
                 try
