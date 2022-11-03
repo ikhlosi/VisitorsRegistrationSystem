@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VisitorsRegistrationSystemBL.Exceptions
 {
-    internal class EmployeeException : Exception
+    public class EmployeeException : Exception
     {
         public EmployeeException()
         {

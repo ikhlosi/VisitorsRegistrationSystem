@@ -21,26 +21,47 @@ namespace VisitorsRegistrationSystemBL.Managers
 
         public void AddEmployee(Employee employee)
         {
-            if (employee == null) throw new VisitorException("EmployeeManager - Addemployee - employee is null");
-            if (_employees.ContainsKey(employee.Name)) throw new VisitorException("EmManager - Addemployee - employee has already been registered");
-            _employees.Add(employee.Name, employee);
+            if (employee == null) throw new EmployeeException("EmployeeManager - Addemployee - employee is null");
+            try {
+                if (_repo.EmployeeExistsInDB(employee)) throw new EmployeeException("EmployeeManager - AddEmployee - employee already exists in DB.");
+                _repo.WriteEmployeeInDB(employee);
+            }
+            catch (Exception ex) {
+                throw new EmployeeException("EmployeeManager - AddEmployee", ex);
+            }
         }
-        public void DeleteEmployee(Employee employee)
+        public void RemoveEmployee(Employee employee)
         {
-            if (employee == null) throw new VisitorException("EmployeeManager - DeleteEmployee - visitor is null");
-            if (!_employees.ContainsKey(employee.Name)) throw new VisitorException(" EmployeeManager - DeleteEmployee - employee is not registered");
-            _employees.Remove(employee.Name);
+            if (employee == null) throw new EmployeeException("EmployeeManager - RemoveEmployee - employee is null");
+            try {
+                if (!_repo.EmployeeExistsInDB(employee.ID)) throw new EmployeeException("EmployeeManager - RemoveEmployee - employee does not exist in DB.");
+                _repo.RemoveEmployeeFromDB(employee.ID);
+            }
+            catch (Exception ex) {
+                throw new EmployeeException("EmployeeManager - RemoveEmployee", ex);
+            }
         }
         public void UpdateEmployee(Employee employee)
         {
-            if (employee == null) throw new VisitorException("VisitorManager - UpdateVisitor - visitor is null");
-            if (!_employees.ContainsKey(employee.Name)) throw new VisitorException("VisitorManager - UpdateVisitor - visitor is not registered");
-            if (_employees[employee.Name].Equals(employee)) throw new VisitorException("VisitorManager - UpdateVisitor - updated visitor is unchanged");
-            _employees[employee.Name] = employee;
+            if (employee == null) throw new EmployeeException("EmployeeManager - UpdateEmployee - employee is null");
+            try {
+                if (!_repo.EmployeeExistsInDB(employee.ID)) throw new EmployeeException("EmployeeManager - UpdateEmployee - employee does not exist in DB.");
+                Employee employeeDb = _repo.GetEmployee(employee.ID);
+                if (employeeDb.IsSame(employee)) throw new EmployeeException("EmployeeManager - UpdateEmployee - fields are the same, nothing to update.");
+                _repo.UpdateEmployeeInDB(employee);
+            }
+            catch (Exception ex) {
+                throw new EmployeeException("EmployeeManager - UpdateEmployee", ex);
+            }
         }
         public IReadOnlyList<Employee> GetEmployees()
         {
-            return _employees.Values.ToList().AsReadOnly();
+            try {
+                return _repo.GetEmployeesFromDB();
+            }
+            catch (Exception ex) {
+                throw new EmployeeException("EmployeeManager - GetEmployees", ex);
+            }
         }
     }
 }

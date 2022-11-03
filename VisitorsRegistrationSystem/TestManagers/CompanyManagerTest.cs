@@ -49,7 +49,7 @@ namespace TestManagers
         }
 
         [Fact]
-        public void Test_AddCompany_invalid_CompanyNotInDB() {
+        public void Test_RemoveCompany_invalid_CompanyNotInDB() {
             this._companyRepoMock.Setup(x => x.CompanyExistsInDB(this._validCompany.ID)).Returns(false);
             var ex = Assert.Throws<CompanyException>(() => this._cm.RemoveCompany(this._validCompany));
             Assert.Equal("CompanyManager - RemoveCompany - company does not exist in DB.", ex.InnerException.Message);
