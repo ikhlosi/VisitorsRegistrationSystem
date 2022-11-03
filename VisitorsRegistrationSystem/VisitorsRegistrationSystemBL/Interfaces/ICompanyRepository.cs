@@ -8,12 +8,18 @@ using VisitorsRegistrationSystemBL.Domain;
 namespace VisitorsRegistrationSystemBL.Interfaces {
     public interface ICompanyRepository {
         void WriteCompanyInDB(Company company);
-        void RemoveCompanyFromDB(Company company);
+        void RemoveCompanyFromDB(int id);
         void UpdateCompanyInDB(Company company);
         bool CompanyExistsInDB(Company company);
         bool CompanyExistsInDB(int iD);
-        Company GetCompany(int iD);
         IReadOnlyList<Company> GetCompaniesFromDB();
-        IEnumerable<Company> GetCompaniesFromDB(string name, string vatNum, Address address, string telNumber, string email);
+        Company GetCompanyByIdFromDB(int id);
+        IEnumerable<Company> GetCompaniesByNameFromDB(string name);
+        IEnumerable<Company> GetCompaniesByVatnumFromDB(string vatNum);
+        IEnumerable<Company> GetCompaniesByAddressFromDB(Address address);
+        IEnumerable<Company> GetCompaniesByTelnrFromDB(string telNr);
+        IEnumerable<Company> GetCompaniesByEmailFromDB(string email);
+
+
     }
 }
