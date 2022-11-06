@@ -5,10 +5,55 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:VisitorRegistrationSystemVisitGUI.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignWidth="1400" d:DesignHeight="900"
       Title="pageInchrijven">
 
-    <Grid>
-        <Label>Inschrijven</Label>
+    <Grid MaxWidth="750">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="380"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="1" FontFamily="Poppins" FontWeight="Bold" FontSize="48" HorizontalAlignment="Center" >Bezoeker Inschrijven</Label>
+        <StackPanel Grid.Row="3">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Voornaam" Style="{StaticResource LabelTheme}"/>
+                <TextBox Style="{StaticResource TextboxInputTheme}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Achternaam" Style="{StaticResource LabelTheme}" />
+                <TextBox Style="{StaticResource TextboxInputTheme}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Email" Style="{StaticResource LabelTheme}" />
+                <TextBox Style="{StaticResource TextboxInputTheme}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Bedrijf Bezoeker" Style="{StaticResource LabelTheme}" />
+                <TextBox Style="{StaticResource TextboxInputTheme}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Bedrijf Afspraak" Style="{StaticResource LabelTheme}" />
+                <ComboBox Style="{StaticResource ComboBoxTheme}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Afspraak met" Style="{StaticResource LabelTheme}" />
+                <ComboBox Style="{StaticResource ComboBoxTheme}" />
+            </StackPanel>
+        </StackPanel>
+
+        <Button Grid.Row="4" x:Name="btnInschrijven" Width="233" Height="77" FontFamily="Poppins" FontSize="24" Foreground="White" Background="#1762A7" HorizontalAlignment="Right" Margin="258,11,0,11" Click="btnInschrijven_Click">
+            Inschrijven
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </Button.Resources>
+        </Button>
+
     </Grid>
 </Page>

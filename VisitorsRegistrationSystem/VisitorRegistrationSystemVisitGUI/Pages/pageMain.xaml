@@ -9,12 +9,17 @@
       Title="pageMain">
     <Grid MaxWidth="1000">
             <Grid.RowDefinitions>
-                <RowDefinition Height="550"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="150"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="135"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Image Grid.Row="0" Width="515" Height="150" Source="/Images/logo.png" Margin="0,250,0,0"/>
-
             <Grid Grid.Row="1">
+                <Image Width="515" Height="150" Source="/Images/logo.png"/>
+            </Grid>
+
+            <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="55"/>

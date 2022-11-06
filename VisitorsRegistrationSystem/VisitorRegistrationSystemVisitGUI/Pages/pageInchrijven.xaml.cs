@@ -24,5 +24,10 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
         {
             InitializeComponent();
         }
+
+        private void btnInschrijven_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Content = new pageMain();
+        }
     }
 }
