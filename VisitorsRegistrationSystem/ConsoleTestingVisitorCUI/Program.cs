@@ -24,3 +24,4 @@ Console.WriteLine("Count: " + vm.GetVisitors().Count);
 vm.DeleteVisitor(testVisitor2);
 Console.WriteLine(testVisitor2 + " => (DELETE)");
 Console.WriteLine("Count: " + vm.GetVisitors().Count);
+ 
