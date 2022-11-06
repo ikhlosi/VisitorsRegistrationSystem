@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorRegistrationSystemVisitGUI.Pages
 {
@@ -20,14 +21,17 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
     /// </summary>
     public partial class pageUitschrijven : Page
     {
-        public pageUitschrijven()
+        private readonly CompanyManager _cm;
+
+        public pageUitschrijven(CompanyManager cm)
         {
+            _cm = cm;
             InitializeComponent();
         }
 
         private void btnUitschrijven_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Content = new pageMain();
+            Application.Current.MainWindow.Content = new pageMain(_cm);
         }
     }
 }

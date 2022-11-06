@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorRegistrationSystemVisitGUI.Pages
 {
@@ -20,19 +22,22 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
     /// </summary>
     public partial class pageMain : Page
     {
-        public pageMain()
+        private readonly CompanyManager _cm;
+
+        public pageMain(CompanyManager cm)
         {
+            _cm = cm;
             InitializeComponent();
         }
 
         private void btnInschrijven_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Content = new pageInchrijven();
+            Application.Current.MainWindow.Content = new pageInchrijven(_cm);
         }
 
         private void btnUitschrijven_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Content = new pageUitschrijven();
+            Application.Current.MainWindow.Content = new pageUitschrijven(_cm);
         }
     }
 }

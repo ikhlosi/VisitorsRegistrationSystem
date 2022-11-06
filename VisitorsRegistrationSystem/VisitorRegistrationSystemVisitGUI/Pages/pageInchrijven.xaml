@@ -22,27 +22,27 @@
         <StackPanel Grid.Row="3">
             <StackPanel Orientation="Horizontal">
                 <Label Content="Voornaam" Style="{StaticResource LabelTheme}"/>
-                <TextBox Style="{StaticResource TextboxInputTheme}" />
+                <TextBox x:Name="txtbVoornaam" Style="{StaticResource TextboxInputTheme}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Achternaam" Style="{StaticResource LabelTheme}" />
-                <TextBox Style="{StaticResource TextboxInputTheme}" />
+                <TextBox x:Name="txtbAchternaam" Style="{StaticResource TextboxInputTheme}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Email" Style="{StaticResource LabelTheme}" />
-                <TextBox Style="{StaticResource TextboxInputTheme}" />
+                <TextBox x:Name="txtbEmail" Style="{StaticResource TextboxInputTheme}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Bedrijf Bezoeker" Style="{StaticResource LabelTheme}" />
-                <TextBox Style="{StaticResource TextboxInputTheme}" />
+                <TextBox x:Name="txtbBedrijfBezoeker" Style="{StaticResource TextboxInputTheme}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Bedrijf Afspraak" Style="{StaticResource LabelTheme}" />
-                <ComboBox Style="{StaticResource ComboBoxTheme}" />
+                <ComboBox x:Name="cbBedrijfAfspraak" Style="{StaticResource ComboBoxTheme}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Afspraak met" Style="{StaticResource LabelTheme}" />
-                <ComboBox Style="{StaticResource ComboBoxTheme}" />
+                <ComboBox x:Name="cbAfspraakMet" Style="{StaticResource ComboBoxTheme}" />
             </StackPanel>
         </StackPanel>
 

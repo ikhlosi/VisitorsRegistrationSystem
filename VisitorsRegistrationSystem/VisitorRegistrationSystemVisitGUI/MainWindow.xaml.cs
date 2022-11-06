@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VisitorRegistrationSystemVisitGUI.Pages;
+using VisitorsRegistrationSystemBL.Interfaces;
+using VisitorsRegistrationSystemBL.Managers;
+using VisitorsRegistrationSystemDL.Repositories;
 
 namespace VisitorRegistrationSystemVisitGUI
 {
@@ -21,10 +24,10 @@ namespace VisitorRegistrationSystemVisitGUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(CompanyManager cm)
         {
             InitializeComponent();
-            Content = new pageMain();
+            Content = new pageMain(cm);
         }
     }
 }

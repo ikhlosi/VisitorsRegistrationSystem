@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorRegistrationSystemVisitGUI.Pages
 {
@@ -20,14 +22,28 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
     /// </summary>
     public partial class pageInchrijven : Page
     {
-        public pageInchrijven()
+        private readonly CompanyManager _cm;
+
+        public pageInchrijven(CompanyManager cm)
         {
+            _cm = cm;
+
             InitializeComponent();
+            InitializeData();
+        }
+
+        private void InitializeData()
+        {
+            cbBedrijfAfspraak.ItemsSource = _cm.GetCompanies();
+            cbBedrijfAfspraak.SelectedIndex = 0;
+
+            cbAfspraakMet.ItemsSource = ((Company)cbBedrijfAfspraak.SelectedValue).GetEmployees();
+            cbAfspraakMet.SelectedIndex = 0;
         }
 
         private void btnInschrijven_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Content = new pageMain();
+            Application.Current.MainWindow.Content = new pageMain(_cm);
         }
     }
 }
