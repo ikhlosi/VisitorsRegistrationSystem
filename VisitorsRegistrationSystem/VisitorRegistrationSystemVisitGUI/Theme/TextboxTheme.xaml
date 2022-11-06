@@ -7,7 +7,7 @@
             <Setter Property="FontSize" Value="24" />
             <Setter Property="Padding" Value="10,0,0,0" />
             <Setter Property="Margin" Value="0,0,0,14" />
-            <Setter Property="Width" Value="517" />
+            <Setter Property="Width" Value="516" />
             <Setter Property="Height" Value="51" />
             <Setter Property="Background" Value="#f2f2f2" />
         </Style.Setters>

@@ -45,5 +45,10 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
         {
             Application.Current.MainWindow.Content = new pageMain(_cm);
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Content = new pageMain(_cm);
+        }
     }
 }

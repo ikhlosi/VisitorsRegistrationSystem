@@ -26,6 +26,14 @@
             </StackPanel>
         </StackPanel>
 
+        <Button Grid.Row="1" Width="50" Height="50" Content="&#5589;" Foreground="White" Background="#1762A7" FontSize="30" FontWeight="Heavy" BorderThickness="1" HorizontalAlignment="Left" Click="Button_Click">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="40" />
+                </Style>
+            </Button.Resources>
+        </Button>
+
         <Button Grid.Row="4" x:Name="btnUitschrijven" Width="233" Height="77" FontFamily="Poppins" FontSize="24" Foreground="White" Background="#1762A7" HorizontalAlignment="Right" Margin="258,11,0,11" Click="btnUitschrijven_Click">
             Uitschrijven
             <Button.Resources>
