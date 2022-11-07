@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestManagers", "TestManager
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConsoleTesting", "ConsoleTesting", "{88655FBB-AC46-4518-94DE-27972D9E9DC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTestingCompanyDL", "ConsoleTestingCompanyDL\ConsoleTestingCompanyDL.csproj", "{D24473F2-F7BE-4C0C-B055-A9C3D0445AEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTestingCompanyDL", "ConsoleTestingCompanyDL\ConsoleTestingCompanyDL.csproj", "{D24473F2-F7BE-4C0C-B055-A9C3D0445AEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

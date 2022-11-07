@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.Interfaces;
 using VisitorsRegistrationSystemDL.Exceptions;
-
 namespace VisitorsRegistrationSystemDL.Repositories
 {
     //public class VisitRepositoryADO : IVisitRepository
@@ -28,7 +27,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
     //        throw new NotImplementedException();
     //    }
 
-       
+
 
     //    public void RemoveVisit(Visit visit)
     //    {
@@ -50,7 +49,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
     //        throw new NotImplementedException();
     //    }
 
-    //    public Visit GetVisit(int id)
+    //    public Visit GetVisit(int id, DateTime startTime)
     //    {
     //        SqlConnection connection = new SqlConnection(connectionString);
     //        string query = "SELECT * FROM visit WHERE id=@id";
@@ -64,10 +63,12 @@ namespace VisitorsRegistrationSystemDL.Repositories
     //                IDataReader reader = cmd.ExecuteReader();
     //                reader.Read();
     //                int visitorId = (int)reader["visitorId"];
-    //                Visitor v = _visitorRepo.GetVisitor(visitorId);
-    //                Company c = _companyRepo.GetCompany(id);
-    //                //TODO
-    //               // Visit visit = new Visit(v, c,/,/,/,/);
+    //                DateTime visitorStartTime = (DateTime)reader["startTime"];
+    //                DateTime visitorEndtTime = (DateTime)reader["endTime"];
+    //                int companyId = (int)reader["companyId"];
+    //                int employeeId = (int)reader["employeeId"];
+    //                Company company = GetCompany(companyId);
+    //                Visit visit = new Visit();
     //                reader.Close();
     //                return visit;
     //            }
