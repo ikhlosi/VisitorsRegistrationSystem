@@ -22,18 +22,17 @@ namespace TestDomain {
         public void Test_ctor_valid(string name, string email)
         {
             #region Arrange
-            Company company = CompanyFactory.MakeCompany(null, "CompanyA", "XXXXXXXX", null, null, "companyA@outlook.com");
             #endregion
             #region Act
-            Visitor v = new Visitor(name, email);
-            Visitor v2 = new Visitor(name, email, company,1);
+            Visitor v = VisitorFactory.MakeVisitor(null, name, email, "");
+            Visitor v2 = VisitorFactory.MakeVisitor(null, name, email, "companyA");
             #endregion
             #region Assert
             Assert.Equal(name, v.Name);
             Assert.Equal(email, v.Email);
             Assert.Equal(name, v2.Name);
             Assert.Equal(email, v2.Email);
-            Assert.Equal(company, v2.VisitorCompany);
+            Assert.Equal("companyA", v2.VisitorCompany);
             #endregion
         }
 
@@ -97,22 +96,21 @@ namespace TestDomain {
 
         [Fact]
         public void Test_SetVisitorCompany_valid() {
-            #region Arrange
-            // Visitor v = new Visitor("John", "john@outlook.com");
-            Company c = new Company("CompanyA", "XXXXXXXXX", "CompanyA@outlook.com");
-            #endregion
-            #region Act
-            _validVisitor.setVisitorCompany(c);
+            #region Arrange & Act
+            _validVisitor.setVisitorCompany("companyA");
             #endregion
             #region Assert
             Assert.NotNull(_validVisitor.VisitorCompany);
-            Assert.Equal(c, _validVisitor.VisitorCompany);
+            Assert.Equal("companyA", _validVisitor.VisitorCompany);
             #endregion
         }
 
         [Theory]
+        [InlineData("")]
         [InlineData(null)]
-        public void Test_SetVisitorCompany_invalid(Company c) {
+        [InlineData(" \n ")]
+        [InlineData("      ")]
+        public void Test_SetVisitorCompany_invalid(string c) {
             #region Arrange
             // Visitor v = new Visitor("John", "john@outlook.com");
             #endregion

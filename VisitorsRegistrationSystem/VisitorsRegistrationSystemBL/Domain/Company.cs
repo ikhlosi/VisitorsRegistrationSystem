@@ -102,7 +102,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         public override string ToString()
         {
-            return "id: " + ID + " name: " + Name + " address: " + Address + " telNr: " + TelephoneNumber + " email:"+ Email;
+            return Name;
         }
     }
 }

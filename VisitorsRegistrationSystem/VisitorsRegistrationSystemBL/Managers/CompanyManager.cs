@@ -28,7 +28,7 @@ namespace VisitorsRegistrationSystemBL.Managers {
             
             try {
                 if (!_repo.CompanyExistsInDB(company.ID)) throw new CompanyException("CompanyManager - RemoveCompany - company does not exist in DB.");
-                _repo.RemoveCompanyFromDB(company);
+                _repo.RemoveCompanyFromDB(company.ID);
             }
             catch (Exception ex) {
                 throw new CompanyException("CompanyManager - RemoveCompany", ex);
@@ -38,7 +38,7 @@ namespace VisitorsRegistrationSystemBL.Managers {
             if (company == null) throw new CompanyException("CompanyManager - UpdateCompany - company is null.");
             try {
                 if (!_repo.CompanyExistsInDB(company.ID)) throw new CompanyException("CompanyManager - UpdateCompany - company does not exist in DB.");
-                Company companyDb = _repo.GetCompany(company.ID);
+                Company companyDb = _repo.GetCompanyByIdFromDB(company.ID);
                 if (companyDb.IsSame(company)) throw new CompanyException("CompanyManager - UpdateCompany - fields are the same, nothing to update.");
                 _repo.UpdateCompanyInDB(company);
             }
@@ -57,8 +57,18 @@ namespace VisitorsRegistrationSystemBL.Managers {
         public IReadOnlyList<Company> SearchCompany(int? id, string name, string vatNum, Address address, string telNumber, string email) {
             List<Company> companies = new List<Company>();
             try {
-                if (id.HasValue && _repo.CompanyExistsInDB(id.Value)) companies.Add(_repo.GetCompany(id.Value));
-                if (!string.IsNullOrWhiteSpace(name) || !string.IsNullOrWhiteSpace(vatNum) || address != null || !string.IsNullOrWhiteSpace(telNumber) || !string.IsNullOrWhiteSpace(email)) companies.AddRange(_repo.GetCompaniesFromDB(name, vatNum, address, telNumber, email));
+                if (id.HasValue && _repo.CompanyExistsInDB(id.Value)) companies.Add(_repo.GetCompanyByIdFromDB(id.Value));
+                if (!string.IsNullOrWhiteSpace(name) || !string.IsNullOrWhiteSpace(vatNum) || address != null || !string.IsNullOrWhiteSpace(telNumber) || !string.IsNullOrWhiteSpace(email))
+                {
+                    // companies.AddRange(_repo.GetCompaniesFromDB(name, vatNum, address, telNumber, email));
+                    companies.Add(_repo.GetCompanyByIdFromDB(id.Value));
+                    companies.AddRange(_repo.GetCompaniesByNameFromDB(name));
+                    companies.AddRange(_repo.GetCompaniesByVatnumFromDB(vatNum));
+                    companies.AddRange(_repo.GetCompaniesByAddressFromDB(address));
+                    companies.AddRange(_repo.GetCompaniesByTelnrFromDB(telNumber));
+                    companies.AddRange(_repo.GetCompaniesByEmailFromDB(email));
+
+                }
                 return companies;
             }
             catch (Exception ex) {
