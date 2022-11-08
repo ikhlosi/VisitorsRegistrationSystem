@@ -13,9 +13,9 @@ namespace VisitorsRegistrationSystemBL.Managers
     {
         // private Dictionary<string, Employee> _employees = new Dictionary<string, Employee>();
 
-        private IEmployeeRepository _repo;
+        private ICompanyRepository _repo;
 
-        public EmployeeManager(IEmployeeRepository repo) {
+        public EmployeeManager(ICompanyRepository repo) {
             _repo = repo;
         }
 
@@ -23,7 +23,9 @@ namespace VisitorsRegistrationSystemBL.Managers
         {
             if (employee == null) throw new EmployeeException("EmployeeManager - Addemployee - employee is null");
             try {
-                if (_repo.EmployeeExistsInDB(employee)) throw new EmployeeException("EmployeeManager - AddEmployee - employee already exists in DB.");
+                // if (_repo.EmployeeExistsInDB(employee)) throw new EmployeeException("EmployeeManager - AddEmployee - employee already exists in DB.");
+                // this check will be done in UI, through a pop-up windows asking if the user is sure he wants to add 
+                // 2 employees with the same name
                 _repo.WriteEmployeeInDB(employee);
             }
             catch (Exception ex) {
