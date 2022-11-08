@@ -18,6 +18,12 @@ namespace VisitorsRegistrationSystemBL.Interfaces {
         IEnumerable<Company> GetCompaniesByVatnumFromDB(string vatNum);
         IEnumerable<Company> GetCompaniesByAddressFromDB(Address address);
         IEnumerable<Company> GetCompaniesByTelnrFromDB(string telNr);
+        bool EmployeeExistsInDB(int id);
         IEnumerable<Company> GetCompaniesByEmailFromDB(string email);
+        void WriteEmployeeInDB(Employee employee);
+        void RemoveEmployeeFromDB(int iD);
+        void UpdateEmployeeInDB(Employee employee);
+        Employee GetEmployee(int iD);
+        IReadOnlyList<Employee> GetEmployeesFromDB();
     }
 }
