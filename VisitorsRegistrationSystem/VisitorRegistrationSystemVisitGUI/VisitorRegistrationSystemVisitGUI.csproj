@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <Compile Update="Pages\pageInchrijven.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
 
