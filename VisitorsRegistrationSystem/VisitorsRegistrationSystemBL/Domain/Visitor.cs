@@ -55,6 +55,11 @@ namespace VisitorsRegistrationSystemBL.Domain
                    Email == visitor.Email &&
                    VisitorCompany == visitor.VisitorCompany;
         }
+        public bool IsSame(Visitor otherVisitor)
+        {
+            if (otherVisitor == null) throw new VisitorException("Visitor - IsSame - argument is null");
+            return (this.Id == otherVisitor.Id) && (this.Name == otherVisitor.Name) && (this.Email == otherVisitor.Email) && (this.VisitorCompany == otherVisitor.VisitorCompany);
+        }
 
         public override int GetHashCode()
         {

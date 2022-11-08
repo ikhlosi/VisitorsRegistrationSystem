@@ -44,9 +44,12 @@ namespace VisitorsRegistrationSystemBL.Domain {
             this.Function = function;
         }
 
-        public bool IsSame(Employee otherEmployee) {
+        public bool IsSame(Employee otherEmployee) 
+        {
+            if (otherEmployee == null) throw new EmployeeException("Employee - IsSame - argument is null");
             return (this.ID == otherEmployee.ID) && (this.Name == otherEmployee.Name) && (this.LastName == otherEmployee.LastName) && (this.Email == otherEmployee.Email) && (this.Function == otherEmployee.Function);
         }
+        
         public override bool Equals(object? obj)
         {
             return obj is Employee employee &&

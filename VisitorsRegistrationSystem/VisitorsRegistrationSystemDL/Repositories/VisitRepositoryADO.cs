@@ -9,7 +9,6 @@ using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.Factories;
 using VisitorsRegistrationSystemBL.Interfaces;
 using VisitorsRegistrationSystemDL.Exceptions;
-
 namespace VisitorsRegistrationSystemDL.Repositories
 {
     public class VisitRepositoryADO : IVisitRepository
