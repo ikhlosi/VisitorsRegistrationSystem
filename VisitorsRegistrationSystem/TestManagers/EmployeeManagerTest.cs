@@ -38,7 +38,6 @@ namespace TestManagers
             this._employeeRepoMock.Setup(x => x.WriteEmployeeInDB(this._validEmployee)).Throws(new EmployeeException());
             var ex = Assert.Throws<EmployeeException>(() => this._em.AddEmployee(this._validEmployee));
             Assert.Equal("EmployeeManager - AddEmployee", ex.Message);
-            // todo: ask if need another test when _repo.EmployeeExistsInDB() throws exception
         }
 
 
@@ -81,8 +80,7 @@ namespace TestManagers
             this._employeeRepoMock.Setup(x => x.EmployeeExistsInDB(this._validEmployee.ID)).Returns(true);
             this._employeeRepoMock.Setup(x => x.GetEmployee(this._validEmployee.ID)).Returns(this._validEmployee);
             var ex = Assert.Throws<EmployeeException>(() => this._em.UpdateEmployee(this._validEmployee));
-            // Assert.Equal("EmployeeManager - UpdateEmployee - fields are the same, nothing to update.", ex.InnerException.Message);
-            // todo: ask why NotImplementedException
+            Assert.Equal("EmployeeManager - UpdateEmployee - fields are the same, nothing to update.", ex.InnerException.Message);
         }
 
         [Fact]       

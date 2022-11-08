@@ -58,7 +58,7 @@ namespace TestManagers
         [Fact]       
         public void Test_RemoveCompany_invalid_catch() {
             this._companyRepoMock.Setup(x => x.CompanyExistsInDB(this._validCompany.ID)).Returns(true);
-            this._companyRepoMock.Setup(x => x.RemoveCompanyFromDB(this._validCompany)).Throws(new CompanyException());
+            this._companyRepoMock.Setup(x => x.RemoveCompanyFromDB(this._validCompany.ID)).Throws(new CompanyException());
             var ex = Assert.Throws<CompanyException>(() => this._cm.RemoveCompany(this._validCompany));
             Assert.Equal("CompanyManager - RemoveCompany", ex.Message);
         }
@@ -79,7 +79,7 @@ namespace TestManagers
         [Fact]
         public void Test_UpdateCompany_invalid_IsSame() {
             this._companyRepoMock.Setup(x => x.CompanyExistsInDB(this._validCompany.ID)).Returns(true);
-            this._companyRepoMock.Setup(x => x.GetCompany(this._validCompany.ID)).Returns(this._validCompany);
+            this._companyRepoMock.Setup(x => x.GetCompanyByIdFromDB(this._validCompany.ID)).Returns(this._validCompany);
             var ex = Assert.Throws<CompanyException>(() => this._cm.UpdateCompany(this._validCompany));
             Assert.Equal("CompanyManager - UpdateCompany - fields are the same, nothing to update.", ex.InnerException.Message);
         }
@@ -88,7 +88,7 @@ namespace TestManagers
         public void Test_UpdateCompany_invalid_catch() {
             Company differentValidCompany = CompanyFactory.MakeCompany(null, "CompanyB", "YYYYYYYYY", null, null, "companyb@outlook.com");
             this._companyRepoMock.Setup(x => x.CompanyExistsInDB(this._validCompany.ID)).Returns(true);
-            this._companyRepoMock.Setup(x => x.GetCompany(this._validCompany.ID)).Returns(differentValidCompany);
+            this._companyRepoMock.Setup(x => x.GetCompanyByIdFromDB(this._validCompany.ID)).Returns(differentValidCompany);
             this._companyRepoMock.Setup(x => x.UpdateCompanyInDB(this._validCompany)).Throws(new CompanyException());
             var ex = Assert.Throws<CompanyException>(() => this._cm.UpdateCompany(this._validCompany));
             Assert.Equal("CompanyManager - UpdateCompany", ex.Message);

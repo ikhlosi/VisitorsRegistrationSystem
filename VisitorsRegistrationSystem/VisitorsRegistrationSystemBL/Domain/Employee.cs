@@ -44,8 +44,8 @@ namespace VisitorsRegistrationSystemBL.Domain {
             this.Function = function;
         }
 
-        internal bool IsSame(Employee employee) {
-            throw new NotImplementedException();
+        public bool IsSame(Employee otherEmployee) {
+            return (this.ID == otherEmployee.ID) && (this.Name == otherEmployee.Name) && (this.LastName == otherEmployee.LastName) && (this.Email == otherEmployee.Email) && (this.Function == otherEmployee.Function);
         }
         public override bool Equals(object? obj)
         {

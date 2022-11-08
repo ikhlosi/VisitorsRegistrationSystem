@@ -197,7 +197,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         string city = (string)reader["aCI"];
                         string street = (string)reader["aST"];
                         string houseNr = (string)reader["aHO"];
-                        // TODO busNr null
                         string busNr = "";
                         if (reader["aBU"] != DBNull.Value)
                         {
