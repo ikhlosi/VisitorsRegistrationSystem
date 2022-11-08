@@ -19,7 +19,5 @@ namespace VisitorsRegistrationSystemBL.Interfaces {
         IEnumerable<Company> GetCompaniesByAddressFromDB(Address address);
         IEnumerable<Company> GetCompaniesByTelnrFromDB(string telNr);
         IEnumerable<Company> GetCompaniesByEmailFromDB(string email);
-
-
     }
 }
