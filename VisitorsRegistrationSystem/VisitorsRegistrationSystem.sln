@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTestingVisitDL", "Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTestingVisitorCUI", "ConsoleTestingVisitorCUI\ConsoleTestingVisitorCUI.csproj", "{825D05D4-99F8-4200-AA12-1DDA9CD1536C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisitorRegistrationSystemVisitGUI", "VisitorRegistrationSystemVisitGUI\VisitorRegistrationSystemVisitGUI.csproj", "{CEE6B1EA-A901-4B5D-8618-65AFDEE21FDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitorRegistrationSystemVisitGUI", "VisitorRegistrationSystemVisitGUI\VisitorRegistrationSystemVisitGUI.csproj", "{CEE6B1EA-A901-4B5D-8618-65AFDEE21FDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisitorsRegistrationSystemBeheerGUI", "VisitorsRegistrationSystemBeheerGUI\VisitorsRegistrationSystemBeheerGUI.csproj", "{4D2A492A-FF1F-4DE0-A78C-8E07AB34559C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{CEE6B1EA-A901-4B5D-8618-65AFDEE21FDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEE6B1EA-A901-4B5D-8618-65AFDEE21FDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEE6B1EA-A901-4B5D-8618-65AFDEE21FDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D2A492A-FF1F-4DE0-A78C-8E07AB34559C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D2A492A-FF1F-4DE0-A78C-8E07AB34559C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D2A492A-FF1F-4DE0-A78C-8E07AB34559C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D2A492A-FF1F-4DE0-A78C-8E07AB34559C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
