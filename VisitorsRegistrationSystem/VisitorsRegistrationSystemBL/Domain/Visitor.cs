@@ -17,6 +17,10 @@ namespace VisitorsRegistrationSystemBL.Domain
             setName(name);
             setEmail(email);
         }
+        // needed for moq (visitormanagertest with MOQ)
+        public Visitor()
+        {
+        }
 
         public int Id { get; private set; }
         public string Name { get; private set; }

@@ -21,31 +21,61 @@ namespace VisitorsRegistrationSystemBL.Managers
         public void AddVisitor(Visitor visitor)
         {
             if (visitor == null) throw new VisitorManagerException("VisitorManager - Addvisitor - visitor is null");
-            if (_repo.VisitorExists(visitor.Id)) throw new VisitorManagerException("VisitorManager - Addvisitor - visitor has already been registered");
-            _repo.AddVisitor(visitor);
+            try
+            {
+                if (_repo.VisitorExists(visitor.Id)) throw new VisitorManagerException("VisitorManager - Addvisitor - visitor has already been registered");
+                _repo.AddVisitor(visitor);
+            } catch (Exception ex)
+            {
+                throw new VisitorManagerException("VisitorManager - AddVisitor", ex);
+            }
         }
         public void DeleteVisitor(Visitor visitor)
         {
             if (visitor == null) throw new VisitorManagerException("VisitorManager - DeleteVisitor - visitor is null");
-            if (!_repo.VisitorExists(visitor.Id)) throw new VisitorManagerException(" VisitorManager - DeleteVisitor - visitor is not registered");
-            _repo.RemoveVisitor(visitor.Id);
+            try
+            {
+                if (!_repo.VisitorExists(visitor.Id)) throw new VisitorManagerException("VisitorManager - DeleteVisitor - visitor is not registered");
+                _repo.RemoveVisitor(visitor.Id);
+            } catch (Exception ex)
+            {
+                throw new VisitorManagerException("VisitorManager - DeleteVisitor", ex);
+            }
         }
         public void UpdateVisitor(Visitor visitor)
         {
             if (visitor == null) throw new VisitorManagerException("VisitorManager - UpdateVisitor - visitor is null");
-            if (!_repo.VisitorExists(visitor.Id)) throw new VisitorManagerException("VisitorManager - UpdateVisitor - visitor is not registered");
-            if (_repo.GetVisitor(visitor.Id).Equals(visitor)) throw new VisitorManagerException("VisitorManager - UpdateVisitor - updated visitor is unchanged");
-            _repo.UpdateVisitor(visitor);
+            try
+            {
+                if (!_repo.VisitorExists(visitor.Id)) throw new VisitorManagerException("VisitorManager - UpdateVisitor - visitor is not registered");
+                if (_repo.GetVisitor(visitor.Id).Equals(visitor)) throw new VisitorManagerException("VisitorManager - UpdateVisitor - updated visitor is unchanged");
+                _repo.UpdateVisitor(visitor);
+            } catch(Exception ex)
+            {
+                throw new VisitorManagerException("VisitorManager - UpdateVisitor", ex);
+            }
         }
         public IReadOnlyList<Visitor> GetVisitors()
         {
-            return _repo.GetAllVisitors().AsReadOnly();
+            try
+            {
+                return _repo.GetAllVisitors().AsReadOnly();
+            } catch (Exception ex)
+            {
+                throw new VisitorManagerException("VisitorManager - GetVisitors", ex);
+            }
         }
 
         public Visitor GetVisitor(int id)
         {
             if (id <= 0) throw new VisitorManagerException("VisitorManager - Getvisitor - id is null");
-            return _repo.GetVisitor(id);
+            try
+            {
+                return _repo.GetVisitor(id);
+            } catch (Exception ex)
+            {
+                throw new VisitorManagerException("VisitorManager - GetVisitor", ex);
+            }
         }
     }
 }
