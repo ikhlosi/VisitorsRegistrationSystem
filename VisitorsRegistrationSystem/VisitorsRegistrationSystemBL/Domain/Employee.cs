@@ -60,5 +60,10 @@ namespace VisitorsRegistrationSystemBL.Domain {
         {
             return HashCode.Combine(ID);
         }
+
+        public override string? ToString()
+        {
+            return this.Name;
+        }
     }
 }

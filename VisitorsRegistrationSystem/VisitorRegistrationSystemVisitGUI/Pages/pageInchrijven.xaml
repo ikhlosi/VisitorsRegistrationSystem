@@ -38,7 +38,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Bedrijf Afspraak" Style="{StaticResource LabelTheme}" />
-                <ComboBox x:Name="cbBedrijfAfspraak" Style="{StaticResource ComboBoxTheme}" />
+                <ComboBox x:Name="cbBedrijfAfspraak" Style="{StaticResource ComboBoxTheme}" SelectionChanged="cbBedrijfAfspraak_SelectionChanged" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Afspraak met" Style="{StaticResource LabelTheme}" />

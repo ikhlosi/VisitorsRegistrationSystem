@@ -739,5 +739,43 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
             }
         }
+
+        public IReadOnlyList<Employee> GetEmployeesFromCompanyIdDB(int companyId)
+        {
+            List<Employee> employees = new List<Employee>();
+            SqlConnection connection = new SqlConnection(connectionString);
+            string query = @"select * from Employee WHERE companyId=@companyId";
+            using (SqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@companyId", companyId);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        int id = (int)reader["id"];
+                        string fname = (string)reader["firstName"];
+                        string lname = (string)reader["lastName"];
+                        string email = null;
+                        if (reader["email"] != DBNull.Value) email = (string)reader["email"];
+                        string function = (string)reader["occupation"];
+
+                        Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function);
+                        employees.Add(employee);
+                    }
+                    return employees.AsReadOnly();
+                }
+                catch (Exception ex)
+                {
+                    throw new CompanyRepositoryADOException("GetEmployeesFromCompanyIdDB", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
+    }
 }

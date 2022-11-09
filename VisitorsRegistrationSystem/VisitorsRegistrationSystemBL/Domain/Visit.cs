@@ -16,20 +16,20 @@ namespace VisitorsRegistrationSystemBL.Domain
         public DateTime StartTime { get; private set; }
         public DateTime EndTime { get; private set; }
 
-        public Visit(Visitor visitor, Company visitedCompany, Employee visitedEmployee, DateTime startTime, DateTime endTime)
+        public Visit(Visitor visitor, Company visitedCompany, Employee visitedEmployee, DateTime startTime)
         {
             VisitorSet(visitor);
             VisitCompanySet(visitedCompany);
             VisitEmployeeSet(visitedEmployee);
-            TimeSet(startTime,endTime);
+            StartTimeSet(startTime);
         }
-        public Visit(int id,Visitor visitor, Company visitedCompany, Employee visitedEmployee, DateTime startTime, DateTime endTime)
+        public Visit(int id,Visitor visitor, Company visitedCompany, Employee visitedEmployee, DateTime startTime)
         {
             setId(id);
             VisitorSet(visitor);
             VisitCompanySet(visitedCompany);
             VisitEmployeeSet(visitedEmployee);
-            TimeSet(startTime, endTime);
+            StartTimeSet(startTime);
         }
 
         public void VisitorSet(Visitor visitor)
@@ -53,11 +53,14 @@ namespace VisitorsRegistrationSystemBL.Domain
             VisitedEmployee = visitedEmployee ?? throw new VisitException("Visit - Visited Employee is null");
         }
 
-        public void TimeSet(DateTime startTime, DateTime endTime)
+        public void StartTimeSet(DateTime startTime)
         {
             if (startTime < DateTime.Now) throw new VisitException("Visit - Start time is too late");
-            if (endTime < startTime) throw new VisitException("Visit - End time earlier than Start time");
             StartTime = startTime;
+        }
+
+        public void EndSet(DateTime endTime)
+        {
             EndTime = endTime;
         }
 

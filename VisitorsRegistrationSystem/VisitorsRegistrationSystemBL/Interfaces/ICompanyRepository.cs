@@ -25,5 +25,6 @@ namespace VisitorsRegistrationSystemBL.Interfaces {
         void UpdateEmployeeInDB(Employee employee,Company company);
         Employee GetEmployee(int iD);
         IReadOnlyList<Employee> GetEmployeesFromDB();
+        IReadOnlyList<Employee> GetEmployeesFromCompanyIdDB(int companyId);
     }
 }
