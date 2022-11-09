@@ -683,7 +683,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        public void UpdateEmployeeInDB(Employee employee)
+        public void UpdateEmployeeInDB(Employee employee, Company company)
         {
             // todo: Employee doesn't know about a CompanyId
             SqlConnection connection = new SqlConnection(connectionString);
@@ -712,7 +712,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        public void WriteEmployeeInDB(Employee employee)
+        public void WriteEmployeeInDB(Employee employee, Company company)
         {
             // todo: Employee doesn't know about a CompanyId
             SqlConnection connection = new SqlConnection(connectionString);

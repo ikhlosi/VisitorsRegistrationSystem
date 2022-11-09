@@ -8,19 +8,19 @@ namespace TestManagers
 {
     public class VisitorManagerTest
     {
-        private Mock<IVisitorRepository> mockRepo;
+        private VisitorManager vm;
+        private Mock<IVisitorRepository> visitorRepoMock;
+        private Company company;
+        private Visitor visitor;
 
-        [Fact]
-        public void AddVisitor_Valid()
+        public VisitorManagerTest()
         {
-            Company company = CompanyFactory.MakeCompany(1, "Allphi", "BE123456789", new Address("Elsegem", "Kouterlos", "60000", null), "0479564251", "allphi@gmail.com");
-            Visitor visitor = VisitorFactory.MakeVisitor(1, "Arno Vantieghem", "arnovantieghem@gmail.com", "bizz");
-
-            mockRepo = new Mock<IVisitorRepository>();
-            VisitorManager vm = new VisitorManager(mockRepo.Object);
-            vm.AddVisitor(visitor);
-
-            Assert.Equal(visitor, vm.GetVisitor(visitor.Id));
+            this.visitorRepoMock = new Mock<IVisitorRepository>();
+            this.vm = new VisitorManager(visitorRepoMock.Object);
+            this.company = CompanyFactory.MakeCompany(1, "Allphi", "BE123456789", new Address("Elsegem", "Kouterlos", "60000", null), "0479564251", "allphi@gmail.com");
+            this.visitor = VisitorFactory.MakeVisitor(1, "Arno Vantieghem", "arnovantieghem@gmail.com", "bizz");
         }
+
+
     }
 }

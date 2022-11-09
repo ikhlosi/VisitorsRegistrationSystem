@@ -20,9 +20,9 @@ namespace VisitorsRegistrationSystemBL.Interfaces {
         IEnumerable<Company> GetCompaniesByTelnrFromDB(string telNr);
         bool EmployeeExistsInDB(int id);
         IEnumerable<Company> GetCompaniesByEmailFromDB(string email);
-        void WriteEmployeeInDB(Employee employee);
+        void WriteEmployeeInDB(Employee employee, Company company);
         void RemoveEmployeeFromDB(int iD);
-        void UpdateEmployeeInDB(Employee employee);
+        void UpdateEmployeeInDB(Employee employee,Company company);
         Employee GetEmployee(int iD);
         IReadOnlyList<Employee> GetEmployeesFromDB();
     }
