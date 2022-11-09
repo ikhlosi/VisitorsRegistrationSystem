@@ -12,16 +12,18 @@ namespace TestManagers
         private CompanyManager _cm;
         private Mock<ICompanyRepository> _companyRepoMock;
         private Employee _validEmployee;
+        private Company _validCompany;
 
         public EmployeeManagerTest() {
             this._validEmployee = EmployeeFactory.MakeEmployee(1, "John", "Doe", null, "Senior Software Developer");
+            this._validCompany = CompanyFactory.MakeCompany(1, "Brightest", "1234567890", new Address("Elsegem", "Kouterlos", "2", null), "0479564641", "arnovantieghem@gmail.com");
             this._companyRepoMock = new Mock<ICompanyRepository>();
             this._cm = new CompanyManager(_companyRepoMock.Object);
         }
 
         [Fact]
         public void Test_AddEmployee_invalid_EmployeeIsNull() {
-            var ex = Assert.Throws<EmployeeException>(() => this._cm.AddEmployee(null));
+            var ex = Assert.Throws<EmployeeException>(() => this._cm.AddEmployee(null,this._validCompany));
             Assert.Equal("EmployeeManager - Addemployee - employee is null", ex.Message);
         }
 
@@ -38,8 +40,8 @@ namespace TestManagers
         [Fact]       
         public void Test_AddEmployee_invalid_catch() {
             this._companyRepoMock.Setup(x => x.EmployeeExistsInDB(this._validEmployee.ID)).Returns(false);
-            this._companyRepoMock.Setup(x => x.WriteEmployeeInDB(this._validEmployee)).Throws(new EmployeeException());
-            var ex = Assert.Throws<EmployeeException>(() => this._cm.AddEmployee(this._validEmployee));
+            this._companyRepoMock.Setup(x => x.WriteEmployeeInDB(this._validEmployee,this._validCompany)).Throws(new EmployeeException());
+            var ex = Assert.Throws<EmployeeException>(() => this._cm.AddEmployee(this._validEmployee,this._validCompany));
             Assert.Equal("EmployeeManager - AddEmployee", ex.Message);
         }
 
@@ -67,14 +69,14 @@ namespace TestManagers
 
         [Fact]
         public void Test_UpdateEmployee_invalid_EmployeeIsNull() {
-            var ex = Assert.Throws<EmployeeException>(() => this._cm.UpdateEmployee(null));
+            var ex = Assert.Throws<EmployeeException>(() => this._cm.UpdateEmployee(null, this._validCompany));
             Assert.Equal("EmployeeManager - UpdateEmployee - employee is null", ex.Message);
         }
 
         [Fact]
         public void Test_UpdateEmployee_invalid_EmployeeNotInDB() {
             this._companyRepoMock.Setup(x => x.EmployeeExistsInDB(this._validEmployee.ID)).Returns(false);
-            var ex = Assert.Throws<EmployeeException>(() => this._cm.UpdateEmployee(this._validEmployee));
+            var ex = Assert.Throws<EmployeeException>(() => this._cm.UpdateEmployee(this._validEmployee, this._validCompany));
             Assert.Equal("EmployeeManager - UpdateEmployee - employee does not exist in DB.", ex.InnerException.Message);
         }
 
@@ -82,7 +84,7 @@ namespace TestManagers
         public void Test_UpdateEmployee_invalid_IsSame() {
             this._companyRepoMock.Setup(x => x.EmployeeExistsInDB(this._validEmployee.ID)).Returns(true);
             this._companyRepoMock.Setup(x => x.GetEmployee(this._validEmployee.ID)).Returns(this._validEmployee);
-            var ex = Assert.Throws<EmployeeException>(() => this._cm.UpdateEmployee(this._validEmployee));
+            var ex = Assert.Throws<EmployeeException>(() => this._cm.UpdateEmployee(this._validEmployee, this._validCompany));
             Assert.Equal("EmployeeManager - UpdateEmployee - fields are the same, nothing to update.", ex.InnerException.Message);
         }
 
@@ -91,8 +93,8 @@ namespace TestManagers
             Employee differentValidEmployee = EmployeeFactory.MakeEmployee(null, "James", "Jackson", null, "Project Manager");
             this._companyRepoMock.Setup(x => x.EmployeeExistsInDB(this._validEmployee.ID)).Returns(true);
             this._companyRepoMock.Setup(x => x.GetEmployee(this._validEmployee.ID)).Returns(differentValidEmployee);
-            this._companyRepoMock.Setup(x => x.UpdateEmployeeInDB(this._validEmployee)).Throws(new EmployeeException());
-            var ex = Assert.Throws<EmployeeException>(() => this._cm.UpdateEmployee(this._validEmployee));
+            this._companyRepoMock.Setup(x => x.UpdateEmployeeInDB(this._validEmployee, this._validCompany)).Throws(new EmployeeException());
+            var ex = Assert.Throws<EmployeeException>(() => this._cm.UpdateEmployee(this._validEmployee, this._validCompany));
             Assert.Equal("EmployeeManager - UpdateEmployee", ex.Message);
         }
 
