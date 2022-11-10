@@ -40,11 +40,12 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
 
         private void btnInschrijven_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("U bent ingeschreven!", "Mijn app", MessageBoxButton.OK);          
-            if(result == MessageBoxResult.OK)
-            {
-                Application.Current.MainWindow.Content = new pageMain(_cm);
-            }
+            Application.Current.MainWindow.Content = new PageInschrijvenSucces(_cm);
+            //MessageBoxResult result = MessageBox.Show("U bent ingeschreven!", "Mijn app", MessageBoxButton.OK);          
+            //if(result == MessageBoxResult.OK)
+            //{
+            //    Application.Current.MainWindow.Content = new pageMain(_cm);
+            //}
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
