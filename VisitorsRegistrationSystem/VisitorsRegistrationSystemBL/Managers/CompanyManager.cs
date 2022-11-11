@@ -130,6 +130,18 @@ namespace VisitorsRegistrationSystemBL.Managers {
                 throw new EmployeeException("EmployeeManager - GetEmployees", ex);
             }
         }
+
+        public IReadOnlyList<Employee> GetEmployeesFromCompanyId(int companyId)
+        {
+            try
+            {
+                return _repo.GetEmployeesFromCompanyIdDB(companyId);
+            }
+            catch (Exception ex)
+            {
+                throw new EmployeeException("EmployeeManager - GetEmployees", ex);
+            }
+        }
     }
 }
 // TODO: finish CompanyManager documentation

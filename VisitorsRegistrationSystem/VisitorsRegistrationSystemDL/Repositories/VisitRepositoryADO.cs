@@ -218,7 +218,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         Address address = new Address(addressId, city, street, houseNr, busNr);
                         Company company = CompanyFactory.MakeCompany(companyId, companyName, vatNo,address,telNo,companyEmail);
                         Visitor visitor = VisitorFactory.MakeVisitor(visitorId, visitorName, visitorEmail, visitorCompany);
-                        visit = new Visit(visitId, visitor, company, employee, startTime, endTime);
+                        visit = new Visit(visitId, visitor, company, employee, startTime);
                     }
                     // Value returnen
                     return visit;
