@@ -12,18 +12,18 @@ namespace VisitorsRegistrationSystemBL.Managers
     public class VisitManager
     {
         private IVisitRepository _repo;
-        private Dictionary<int, Visit> _visits = new Dictionary<int, Visit>();
+        //private Dictionary<int, Visit> _visits = new Dictionary<int, Visit>();
 
         public IReadOnlyList<Visit> GetVisits()
         {
-            return _visits.Values.ToList().AsReadOnly();
+            return _repo.GetVisits();
         }
 
         public void AddVisit(Visit visit)
         {
             //TODO: Check if employee is part of company, when repositories classes are made
             if (visit == null) throw new VisitException("VisitManager(AddVisit) - visit is null");
-            if (_repo.VisitExists(visit)) throw new VisitException("VisitManager - AddVisit - visitor does exist");
+            if (_repo.VisitExists(visit)) throw new VisitException("VisitManager - AddVisit - Visit does exist");
             _repo.AddVisit(visit);
         }
 
@@ -37,9 +37,15 @@ namespace VisitorsRegistrationSystemBL.Managers
         public void UpdateVisit(Visit visit)
         {
             if (visit == null) throw new VisitException("VisitManager(Updatevisit) - visit is null");
-            if (!_repo.VisitExists(visit)) throw new VisitException("VisitManager(Updatevisit) - visit does exist");
-            if (_repo.GetVisit(visit.Id).Equals(visit)) throw new VisitException("VisitManager(Updatevisit) - visit is unchanged");
-            _repo.UpdateVisit(visit);
+            try {
+                if (!_repo.VisitExists(visit)) throw new VisitException("VisitManager(Updatevisit) - visit does not exist");
+                Visit visitFromDB = _repo.GetVisit(visit.Id);
+                if (visit.IsSame(visitFromDB)) throw new VisitException("VisitManager(Updatevisit) - visit is unchanged");
+                _repo.UpdateVisit(visit);
+            }
+            catch (Exception ex) {
+                throw new VisitException("VisitManager - UpdateVisit", ex);
+            }
         }
 
     }
