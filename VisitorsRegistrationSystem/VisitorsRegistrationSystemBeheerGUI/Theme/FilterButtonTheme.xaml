@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style BasedOn="{StaticResource {x:Type ToggleButton}}"
+           TargetType="{x:Type RadioButton}"
+           x:Key="FilterButtonTheme">
+        <Style.Setters>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{TemplateBinding Background}">
+                            <TextBlock Text="{TemplateBinding Property=Content }" FontSize="14" HorizontalAlignment="Center" Margin="0,0,10,0"/>
+
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#666666"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="20"/>
+        </Style.Setters>
+
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Foreground" Value="#0099FF"/>
+            </Trigger>
+        </Style.Triggers>
+        
+    </Style>
+</ResourceDictionary>

@@ -12,14 +12,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <Image Grid.Row="0" Width="515" Height="150" VerticalAlignment="Bottom" HorizontalAlignment="Center" Source="/Images/logo.png"/>
         <Label Grid.Row="1" FontFamily="Poppins" FontWeight="Bold" FontSize="54" HorizontalAlignment="Center" Foreground="DeepSkyBlue">U bent succesvol ingeschreven!</Label>
-        <Label Grid.Row="2" FontFamily="Poppins" FontWeight="Bold" FontSize="38" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="DeepSkyBlue">Keer terug naar het hoofdmenu:</Label>
 
-        <Button Grid.Row="3"  Name="btnHome" Width="400" Height="130" FontFamily="Poppins" FontSize="44" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White" Background="#1762A7" Click="btnHome_Click">
+        <Button Grid.Row="2"  Name="btnHome" Width="400" Height="130" FontFamily="Poppins" FontSize="44" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White" Background="#1762A7" Click="btnHome_Click">
             Home
             <Button.Resources>
                 <Style TargetType="Border">

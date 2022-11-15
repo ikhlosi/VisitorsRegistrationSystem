@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,24 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
         public pageBeheer()
         {
             InitializeComponent();
+            InitializeData();
+        }
+
+        public void InitializeData()
+        {
+            foreach (RadioButton rb in stpFilterRadioButtons.Children)
+            {
+                rb.Checked += new RoutedEventHandler(radioButtons_CheckedChanged);
+            }
+
+            ((RadioButton)stpFilterRadioButtons.Children[0]).IsChecked = true;
+        }
+
+
+        private void radioButtons_CheckedChanged(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(((RadioButton)sender).Content.ToString());
+
         }
     }
 }
