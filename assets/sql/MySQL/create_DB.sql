@@ -1,5 +1,7 @@
 CREATE DATABASE VisitorsRegistrationSystem;
 
+USE VisitorsRegistrationSystem;
+
 CREATE TABLE Address (
 	id int NOT NULL AUTO_INCREMENT,
 	street varchar(250) NOT NULL,
