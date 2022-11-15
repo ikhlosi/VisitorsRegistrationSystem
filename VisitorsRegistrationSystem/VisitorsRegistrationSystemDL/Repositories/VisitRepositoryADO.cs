@@ -30,7 +30,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     connection.Open();
                     cmd.CommandText = query;
                     // Parameters adden
-                    cmd.Parameters.AddWithValue("@visitorId", visit.Visitor.Id);
+                    cmd.Parameters.AddWithValue("@visitorId", visit.VisitorI.d);
                     cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
                     cmd.Parameters.AddWithValue("@endTime", visit.EndTime);
                     cmd.Parameters.AddWithValue("@companyId", visit.VisitedCompany.ID);
@@ -232,6 +232,10 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     connection.Close();
                 }
             }
+        }
+
+        public IReadOnlyList<Visit> GetVisits() {
+            throw new NotImplementedException();
         }
     }
 }

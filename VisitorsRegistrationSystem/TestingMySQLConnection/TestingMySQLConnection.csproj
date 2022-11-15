@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ConsoleTestingCompanyDL\ConsoleTestingCompanyDL.csproj" />
+    <ProjectReference Include="..\VisitorsRegistrationSystemBL\VisitorsRegistrationSystemBL.csproj" />
     <ProjectReference Include="..\VisitorsRegistrationSystemDL\VisitorsRegistrationSystemDL.csproj" />
   </ItemGroup>
 
