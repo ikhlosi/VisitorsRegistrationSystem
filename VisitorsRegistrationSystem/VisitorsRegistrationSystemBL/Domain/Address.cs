@@ -4,6 +4,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 {
     public class Address
     {
+        //todo POSTCODE
         public Address(string city, string street, string houseNumber, string? busNumber) {
             SetCity(city);
             SetStreet(street);
@@ -61,7 +62,10 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         public override string ToString()
         {
-            return "city: " + City + " street: " + Street + " housenumber: " + HouseNumber + " busnumber: " + BusNumber;
+            if (string.IsNullOrWhiteSpace(BusNumber))
+            {
+                return $"{Street} {HouseNumber}, 9000 {City}";
+            } else return $"{Street} {HouseNumber}/{BusNumber}, 9000 {City}";
         }
     }
 }

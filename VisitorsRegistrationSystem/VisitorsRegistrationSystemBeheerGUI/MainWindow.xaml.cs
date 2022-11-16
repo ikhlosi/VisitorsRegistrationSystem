@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VisitorsRegistrationSystemBeheerGUI.Pages;
+using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorsRegistrationSystemBeheerGUI
 {
@@ -21,10 +22,10 @@ namespace VisitorsRegistrationSystemBeheerGUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(CompanyManager cm)
         {
             InitializeComponent();
-            Application.Current.MainWindow.Content = new pageBeheer();
+            Application.Current.MainWindow.Content = new pageBeheer(cm);
         }
     }
 }

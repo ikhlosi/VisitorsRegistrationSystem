@@ -30,7 +30,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     connection.Open();
                     cmd.CommandText = query;
                     // Parameters adden
-                    cmd.Parameters.AddWithValue("@visitorId", visit.VisitorI.d);
+                    //cmd.Parameters.AddWithValue("@visitorId", visit.VisitorI.d);
                     cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
                     cmd.Parameters.AddWithValue("@endTime", visit.EndTime);
                     cmd.Parameters.AddWithValue("@companyId", visit.VisitedCompany.ID);
@@ -86,7 +86,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     connection.Open();
                     cmd.CommandText = query;
                     // Parameters adden
-                    cmd.Parameters.AddWithValue("@visitorId", visit.Visitor.Id);
+                    //cmd.Parameters.AddWithValue("@visitorId", visit.Visitor.Id);
                     cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
                     cmd.Parameters.AddWithValue("@endTime", visit.EndTime);
                     cmd.Parameters.AddWithValue("@companyId", visit.VisitedCompany.ID);
@@ -117,7 +117,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     connection.Open();
                     cmd.CommandText = query;
                     // Parameters adden
-                    cmd.Parameters.AddWithValue("@visitorId",visit.Visitor.Id);
+                    //cmd.Parameters.AddWithValue("@visitorId",visit.Visitor.Id);
                     cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
                     // Query executen
                     int n = (int)cmd.ExecuteScalar();
@@ -217,8 +217,8 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         Employee employee = EmployeeFactory.MakeEmployee(employeeId, employeeName, employeeLastName, employeeEmail, employeeFunction);
                         Address address = new Address(addressId, city, street, houseNr, busNr);
                         Company company = CompanyFactory.MakeCompany(companyId, companyName, vatNo,address,telNo,companyEmail);
-                        Visitor visitor = VisitorFactory.MakeVisitor(visitorId, visitorName, visitorEmail, visitorCompany);
-                        visit = new Visit(visitId, visitor, company, employee, startTime);
+                        //Visitor visitor = VisitorFactory.MakeVisitor(visitorId, visitorName, visitorEmail, visitorCompany);
+                        //visit = new Visit(visitId, visitor, company, employee, startTime);
                     }
                     // Value returnen
                     return visit;

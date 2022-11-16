@@ -25,7 +25,8 @@ namespace VisitorsRegistrationSystemBeheerGUI
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            string connString = "Data Source=LAPTOP-GGBV7H48\\SQLEXPRESS;Initial Catalog=VisitorsRegistrationSystem;Integrated Security=True";
+            DotNetEnv.Env.TraversePath().Load();
+            string? connString = Environment.GetEnvironmentVariable("CONNECTION_STRING_DB");
             ICompanyRepository companyRepo = new CompanyRepositoryADO(connString);
             CompanyManager companyManager = new CompanyManager(companyRepo);
             MainWindow mw = new MainWindow(companyManager);
