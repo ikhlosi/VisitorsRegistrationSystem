@@ -80,38 +80,56 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
 
         private void radioButtons_CheckedChanged(object sender, RoutedEventArgs e)
         {
-            dgDataTable.ItemsSource = null;
             cmbSearchParameter.Items.Clear();
+            dgDataTable.Columns.Clear();
+            dgDataTable.Items.Clear();
 
             switch (((RadioButton)sender).Content.ToString())
-            {
+            {    
                 case "Bedrijven":
                     IReadOnlyList<Company> companies = _cm.GetCompanies();
-                    dgDataTable.ItemsSource = companies;
 
                     cmbSearchParameter.Items.Add("All");
                     foreach (string param in companies[0].GetType().GetProperties().Select(x => x.Name).ToList())
                     {
                         cmbSearchParameter.Items.Add(param);
-                    }
-                    cmbSearchParameter.SelectedIndex = 0;
-                    break;
 
+                        DataGridTextColumn textColumn = new DataGridTextColumn();
+                        textColumn.Header = param;
+                        textColumn.Binding = new Binding(param);
+                        dgDataTable.Columns.Add(textColumn);
+                    }
+
+                    foreach (object item in companies)
+                    {
+                        dgDataTable.Items.Add(item);
+                    }
+
+                    break;
                 case "Medewerkers":
                     IReadOnlyList<Employee> employees = _cm.GetEmployees();
-                    dgDataTable.ItemsSource = employees;
 
                     cmbSearchParameter.Items.Add("All");
                     foreach (string param in employees[0].GetType().GetProperties().Select(x => x.Name).ToList())
                     {
                         cmbSearchParameter.Items.Add(param);
-                    }
-                    cmbSearchParameter.SelectedIndex = 0;
-                    break;
 
+                        DataGridTextColumn textColumn = new DataGridTextColumn();
+                        textColumn.Header = param;
+                        textColumn.Binding = new Binding(param);
+                        dgDataTable.Columns.Add(textColumn);
+                    }
+
+                    foreach (object item in employees)
+                    {
+                        dgDataTable.Items.Add(item);
+                    }
+
+                    break;
                 default:
                     break;
             }
+            cmbSearchParameter.SelectedIndex = 0;
         }
 
         private void cmbSearchParameter_SelectionChanged(object sender, SelectionChangedEventArgs e)
