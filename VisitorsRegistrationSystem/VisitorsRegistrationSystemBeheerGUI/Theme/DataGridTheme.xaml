@@ -21,7 +21,7 @@
                 <Setter Property="Height" Value="20" />
             </Style>
         </Style.Resources>
-        
+
         <Style.Setters>
             <Setter Property="ColumnWidth" Value="*"/>
             <Setter Property="CanUserReorderColumns" Value="False"/>
