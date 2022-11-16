@@ -48,7 +48,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             ((RadioButton)stpFilterRadioButtons.Children[0]).IsChecked = true;
         }
 
-        private bool DestinationFilter(object item)
+        private bool ResultsFilter(object item)
         {
             if (string.IsNullOrEmpty(txtbFilter.Text) && ((string)cmbSearchParameter.SelectedValue != "All"))
             {
@@ -135,12 +135,12 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
         private void cmbSearchParameter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             txtbFilter.Text = "";
-            dgDataTable.Items.Filter = DestinationFilter;
+            dgDataTable.Items.Filter = ResultsFilter;
         }
 
         private void txtbFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
-            dgDataTable.Items.Filter = DestinationFilter;
+            dgDataTable.Items.Filter = ResultsFilter;
         }
     }
 }
