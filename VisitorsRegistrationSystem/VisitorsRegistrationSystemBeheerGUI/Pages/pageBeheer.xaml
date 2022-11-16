@@ -29,9 +29,14 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <ComboBox x:Name="cmbSearchParameter" Grid.Column="0" Width="180" Height="22" FontSize="13" FontWeight="Medium" VerticalContentAlignment="Center" SelectionChanged="cmbSearchParameter_SelectionChanged" />
-            <TextBox x:Name="txtbFilter" Grid.Column="1" Height="22" FontSize="13" Padding="2,0,0,0" BorderThickness="0,1,0,1" VerticalContentAlignment="Center" TextChanged="txtbFilter_TextChanged" />
-            <Button Grid.Column="2" Content="&#x2795;" FontWeight="Bold" Foreground="Green" Background="#FFE5E5E5" Width="25" Height="22" BorderBrush="#FFACACAC" />
+            <ComboBox x:Name="cmbSearchParameter" Grid.Column="0" Width="180" Height="20" FontSize="12" FontWeight="Medium" VerticalContentAlignment="Center" SelectionChanged="cmbSearchParameter_SelectionChanged" />
+            <TextBox x:Name="txtbFilter" Grid.Column="1" Height="20" FontSize="12" Padding="5,0,0,0" BorderThickness="0,1,0,1" VerticalContentAlignment="Center" TextChanged="txtbFilter_TextChanged" />
+            <Button Grid.Column="2" Content="&#x2795;" FontWeight="Bold" Foreground="Green" Margin="0,0,0,0" Background="#FFE5E5E5" Width="30" Height="20" BorderBrush="#FFACACAC">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="0,5,5,0"/>
+                    </Style></Button.Resources>
+            </Button>
 
         </Grid>
         <DataGrid Grid.Row="4" x:Name="dgDataTable" IsReadOnly="True" />
