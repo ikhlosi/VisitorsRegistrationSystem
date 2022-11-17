@@ -1,9 +1,12 @@
-﻿using Sprache;
+﻿using Microsoft.VisualBasic;
+using Sprache;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Data;
 using System.DirectoryServices.ActiveDirectory;
+using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -100,6 +103,8 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                         dgDataTable.Columns.Add(textColumn);
                     }
 
+                    AddActionButtonsColumn(true);
+
                     foreach (object item in companies)
                     {
                         dgDataTable.Items.Add(item);
@@ -120,6 +125,8 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                         dgDataTable.Columns.Add(textColumn);
                     }
 
+                    AddActionButtonsColumn(false);
+
                     foreach (object item in employees)
                     {
                         dgDataTable.Items.Add(item);
@@ -130,6 +137,64 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     break;
             }
             cmbSearchParameter.SelectedIndex = 0;
+        }
+
+        private void AddActionButtonsColumn(bool showEmployeeButton)
+        {
+            DataGridTemplateColumn col = new DataGridTemplateColumn();
+            col.Header = "Actions";
+            DataTemplate dt = new DataTemplate();
+            var sp = new FrameworkElementFactory(typeof(WrapPanel));
+            sp.SetValue(WrapPanel.OrientationProperty, Orientation.Horizontal);
+            sp.SetValue(HorizontalAlignmentProperty, HorizontalAlignment.Center);
+
+            if (showEmployeeButton) { sp.AppendChild(AddButton("👤", "EMPLOYEE_ACTION")); }
+            sp.AppendChild(AddButton("🖉", "EDIT_ACTION"));
+            sp.AppendChild(AddButton("🗑", "DELETE_ACTION"));
+
+            dt.VisualTree = sp;
+            col.CellTemplate = dt;
+            dgDataTable.Columns.Add(col);
+        }
+
+        private FrameworkElementFactory AddButton(string content, string action)
+        {
+            var btn = new FrameworkElementFactory(typeof(Button));
+            btn.SetValue(Button.ContentProperty, content);
+            btn.SetValue(Button.StyleProperty, FindResource("ActionButtonTheme") as Style);
+            switch (action)
+            {
+                case "EDIT_ACTION":
+                    btn.SetValue(Button.BackgroundProperty, new SolidColorBrush(Colors.LightYellow));
+                    btn.AddHandler(Button.ClickEvent, new RoutedEventHandler(EditButton_OnClick));
+                    break;
+                case "DELETE_ACTION":
+                    btn.SetValue(Button.BackgroundProperty, new SolidColorBrush(Colors.PaleVioletRed));
+                    btn.AddHandler(Button.ClickEvent, new RoutedEventHandler(DeleteButton_OnClick));
+                    break;
+                case "EMPLOYEE_ACTION":
+                    btn.SetValue(Button.BackgroundProperty, new SolidColorBrush(Colors.LightBlue));
+                    btn.AddHandler(Button.ClickEvent, new RoutedEventHandler(EmployeeButton_OnClick));
+                    break;
+                default:
+                    break;
+            }
+            return btn;
+        }
+
+        private void EditButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(dgDataTable.SelectedValue.ToString());
+        }
+
+        private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(dgDataTable.SelectedValue.ToString());
+        }
+
+        private void EmployeeButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(dgDataTable.SelectedValue.ToString());
         }
 
         private void cmbSearchParameter_SelectionChanged(object sender, SelectionChangedEventArgs e)
