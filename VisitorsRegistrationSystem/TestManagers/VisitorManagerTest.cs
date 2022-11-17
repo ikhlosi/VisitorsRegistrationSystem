@@ -9,17 +9,17 @@ namespace TestManagers
 {
     public class VisitorManagerTest
     {
-        private VisitorManager vm;
-        private Mock<IVisitorRepository> visitorRepoMock;
+        private VisitManager vm;
+        private Mock<IVisitRepository> visitRepoMock;
         private Company company;
-        private Visitor visitor;
+        private Visit visit;
 
         public VisitorManagerTest()
         {
-            this.visitorRepoMock = new Mock<IVisitorRepository>();
-            this.vm = new VisitorManager(visitorRepoMock.Object);
+            this.visitorRepoMock = new Mock<IVisitRepository>();
+            this.vm = new VisitManager(visitRepoMock.Object);
             this.company = CompanyFactory.MakeCompany(1, "Allphi", "BE123456789", new Address("Elsegem", "Kouterlos", "60000", null), "0479564251", "allphi@gmail.com");
-            this.visitor = VisitorFactory.MakeVisitor(1, "Arno Vantieghem", "arnovantieghem@gmail.com", "bizz");
+            this.visit = VisitorFactory.MakeVisitor(1, "Arno Vantieghem", "arnovantieghem@gmail.com", "bizz");
         }
         // AddVisitor
         [Fact]
