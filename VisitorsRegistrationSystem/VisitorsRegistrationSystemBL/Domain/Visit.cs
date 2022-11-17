@@ -10,41 +10,24 @@ namespace VisitorsRegistrationSystemBL.Domain
 {
     public class Visit
     {
-        internal Visit(string visitorName, string visitorEmail, string visitorCompany, Company visitedCompany, Employee visitedEmployee, DateTime startTime) {
-            VisitorName = visitorName;
-            VisitorEmail = visitorEmail;
-            VisitorCompany = visitorCompany;
-            VisitedCompany = visitedCompany;
-            VisitedEmployee = visitedEmployee;
-            StartTime = startTime;
+        internal Visit(Visitor visitor, Company visitedCompany, Employee visitedEmployee, DateTime startTime) {
+            SetVisitor(visitor);
+            SetVisitedCompany(visitedCompany);
+            SetVisitedEmployee(visitedEmployee);
+            SetStartTime(startTime);
         }
 
         public int Id { get; private set; }
-        public string VisitorName { get; private set; }
-        public string VisitorEmail { get; private set; }
-        public string VisitorCompany { get; private set; }
+        public Visitor Visitor { get; private set; }
         public Company VisitedCompany { get; private set; }
         public Employee VisitedEmployee { get; private set; }
         public DateTime StartTime { get; private set; }
         public DateTime EndTime { get; private set; }
 
-        internal void SetVisitorName(string name)
+        internal void SetVisitor(Visitor visitor)
         {
-            if (string.IsNullOrWhiteSpace(name)) throw new VisitException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} - Name is null or whitespace");
-            this.VisitorName = name;
-        }
-
-        internal void SetVisitorEmail (string email)
-        {
-            if (string.IsNullOrWhiteSpace(email)) throw new VisitException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} - Email is null or whitespace");
-            if(!EmailChecker.IsValid(email)) throw new VisitException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} - Email format invalid");
-            this.VisitorEmail = email;
-        }
-
-        internal void SetVisitorCompany(string company)
-        {
-            if (string.IsNullOrWhiteSpace(company)) throw new VisitException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} - VisitorCompany is null or whitespace");
-            this.VisitorCompany = company;
+            if (visitor == null) throw new VisitException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} - Visitor is null");
+            this.Visitor = visitor;
         }
 
         internal void SetId(int id)
@@ -78,9 +61,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         public bool IsSame(Visit otherVisit) {
             return (this.Id == otherVisit.Id) &&
-                (this.VisitorName == otherVisit.VisitorName) &&
-                (this.VisitorEmail == otherVisit.VisitorEmail) &&
-                (this.VisitorCompany == otherVisit.VisitorCompany) &&
+                (this.Visitor.Equals(otherVisit.Visitor)) &&
                 (this.VisitedCompany == otherVisit.VisitedCompany) &&
                 (this.VisitedEmployee == otherVisit.VisitedEmployee) &&
                 (this.StartTime == otherVisit.StartTime);
@@ -97,7 +78,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         public override string ToString()
         {
-            return $"VisitId: {this.Id} - StartTime: {this.StartTime.ToString()} - Visitor: {this.VisitorName}";
+            return $"VisitId: {this.Id} - StartTime: {this.StartTime.ToString()} - Visitor: {this.Visitor.Name}";
         }
     }
 }

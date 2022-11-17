@@ -8,18 +8,16 @@ using VisitorsRegistrationSystemBL.Exceptions;
 
 namespace VisitorsRegistrationSystemBL.Factories {
     public static class VisitFactory {
-        public static Visit MakeVisit(int? id, string visitorName, string visitorEmail, string visitorCompany, Company visitedCompany, Employee visitedEmployee, DateTime startTime) {
+        public static Visit MakeVisit(int? id, Visitor visitor, Company visitedCompany, Employee visitedEmployee, DateTime startTime) {
 			try {
-				Visit v = new Visit(visitorName, visitorEmail, visitorCompany, visitedCompany, visitedEmployee, startTime);
+				Visit v = new Visit(visitor, visitedCompany, visitedEmployee, startTime);
 				if (id.HasValue) v.SetId(id.Value);
 				return v;
 			}
 			catch {
 				VisitException ex = new VisitException("VisitFactory - MakeVisit");
 				ex.Data.Add("Visit ID", id);
-				ex.Data.Add("VisitorName", visitorName);
-				ex.Data.Add("VisitorEmail", visitorEmail);
-				ex.Data.Add("VisitorCompany", visitedCompany);
+				ex.Data.Add("Visitor", visitor);
 				ex.Data.Add("VisitedCompany", visitedCompany);
 				ex.Data.Add("VisitedEmployee", visitedEmployee);
 				ex.Data.Add("StartTime", startTime);

@@ -9,7 +9,8 @@ using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.Exceptions;
 using VisitorsRegistrationSystemBL.Factories;
 
-namespace TestDomain {
+namespace TestDomain
+{
     public class VisitorTest {
         private Visitor _validVisitor;
         public VisitorTest() {
