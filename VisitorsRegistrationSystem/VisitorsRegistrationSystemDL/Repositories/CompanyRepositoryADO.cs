@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,9 +23,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
         // DONE
         public bool CompanyExistsInDB(Company company)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"select count(*) from Company where VAT= @VAT;";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -33,7 +34,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     // Parameters adden
                     cmd.Parameters.AddWithValue("@VAT", company.VATNumber);
                     // Query executen
-                    int n = (int)cmd.ExecuteScalar();
+                    Int64 n = (Int64)cmd.ExecuteScalar();
                     if (n > 0)
                         return true;
                     return false;

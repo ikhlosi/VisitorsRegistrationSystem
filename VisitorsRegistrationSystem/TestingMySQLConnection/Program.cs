@@ -22,16 +22,20 @@ Console.WriteLine(connectionString);
 MySql.Data.MySqlClient.MySqlConnection conn;
 string myConnectionString;
 
-myConnectionString = "server=localhost:3307;uid=root;" +
-    "pwd=graduaatsproef;database=VisitorsRegistrationSystem";
+//myConnectionString = "server=localhost:3307;uid=root;" +
+//    "pwd=graduaatsproef;database=VisitorsRegistrationSystem";
 
 try
 {
     conn = new MySql.Data.MySqlClient.MySqlConnection();
-    conn.ConnectionString = myConnectionString;
+    conn.ConnectionString = connectionString;
     conn.Open();
+    conn.Close();
 }
 catch (MySql.Data.MySqlClient.MySqlException ex)
 {
     throw;
+}
+finally
+{
 }
