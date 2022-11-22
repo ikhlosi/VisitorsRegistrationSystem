@@ -70,3 +70,18 @@ FOREIGN KEY (employeeId) REFERENCES Employee (id);
 ALTER TABLE Visit
 ADD  CONSTRAINT FK_Visit_Visitor
 FOREIGN KEY (visitorId) REFERENCES Visitor (id);
+
+ALTER TABLE visitorsregistrationsystem.address 
+ADD COLUMN visible BIT NULL DEFAULT true;
+
+ALTER TABLE visitorsregistrationsystem.company 
+ADD COLUMN visible BIT NULL DEFAULT true;
+
+ALTER TABLE visitorsregistrationsystem.employee 
+ADD COLUMN visible BIT NULL DEFAULT true;
+
+ALTER TABLE visitorsregistrationsystem.visit 
+ADD COLUMN visible BIT NULL DEFAULT true;
+
+ALTER TABLE visitorsregistrationsystem.visitor 
+ADD COLUMN visible BIT NULL DEFAULT true;
