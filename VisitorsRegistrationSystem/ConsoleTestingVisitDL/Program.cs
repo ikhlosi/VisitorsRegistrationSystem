@@ -4,26 +4,27 @@ using VisitorsRegistrationSystemDL.Repositories;
 
 Console.WriteLine("Hello, World!\n");
 // !!! vergeet connectionstring niet aan te passen !!!
-string connectionStringArno = @"Data Source=laptop-hfkukp2u\sqlexpress;Initial Catalog=VisitorsRegistrationSystem;Integrated Security=True";
-VisitRepositoryADO vRepo = new VisitRepositoryADO(connectionStringArno);
+DotNetEnv.Env.TraversePath().Load();
+string connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING_DB");
+VisitRepositoryADO vRepo = new VisitRepositoryADO(connectionString);
 
 Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester");
 Address address = new Address("Elsegem", "Kouterlos", "2a", null);
 Company company = CompanyFactory.MakeCompany(1, "Brightest", "1234567890", address, "+32479564643", "brightest@bright.com");
 Visitor visitor = VisitorFactory.MakeVisitor(1, "Arno", "arnovantieghem@gmail.com", "Brightest");
-Visit visit = new Visit(visitor, company, employee, DateTime.MaxValue, DateTime.MaxValue);
+DateTime startTime = new DateTime(2023, 12, 30);
+Visit visit = VisitFactory.MakeVisit(null,visitor, company, employee, startTime);
 
 //Console.WriteLine("Adding visit");
 //vRepo.AddVisit(visit);
 //Console.WriteLine("Visit has been added");
 
-//Console.WriteLine("Removing visit with id 14");
-//vRepo.RemoveVisit(14);
-//Console.WriteLine("Visit with id 14 has been deleted");
+Console.WriteLine("Removing visit with id 3");
+vRepo.RemoveVisit(3);
+Console.WriteLine("Visit with id 3 has been deleted");
 
-DateTime startTime = new DateTime(2023, 12, 30);
 DateTime endTime = new DateTime(2023, 12, 31);
-Visit visitUpdate = new Visit(2, visitor, company, employee, startTime, endTime);
+Visit visitUpdate = VisitFactory.MakeVisit(2, visitor, company, employee, startTime);
 
 //Console.WriteLine("Updating visit with id 2");
 //vRepo.UpdateVisit(visitUpdate);
@@ -34,7 +35,7 @@ Console.WriteLine("Bestaat Visit met id: 9999 (moet false zijn)" + vRepo.VisitEx
 
 Console.WriteLine("Bestaat Visit met VisitorId: 2 en startDate: 30-12-2023 (moet true zijn)" + vRepo.VisitExists(visitUpdate));
 Visitor visitor1 = VisitorFactory.MakeVisitor(3, "Arno", "arnov@gmail.com", "Brightest");
-visitUpdate.VisitorSet(visitor1);
-Console.WriteLine("Bestaat Visit met VisitorId: 3 en startDate: 30-12-2023 (moet false zijn)" + vRepo.VisitExists(visitUpdate));
+Visit visitUpdate1 = VisitFactory.MakeVisit(2, visitor1, company, employee, startTime);
+Console.WriteLine("Bestaat Visit met VisitorId: 3 en startDate: 30-12-2023 (moet false zijn)" + vRepo.VisitExists(visitUpdate1));
 
-Console.WriteLine("Geef Visit met id: 1" + vRepo.GetVisit(1).ToString());
+Console.WriteLine("Geef Visit met id: 4" + vRepo.GetVisit(4).ToString());

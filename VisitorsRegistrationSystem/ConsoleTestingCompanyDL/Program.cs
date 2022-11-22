@@ -27,7 +27,7 @@ foreach(var i in cRepo.GetCompaniesFromDB())
     Console.WriteLine("\t" + i.ToString());
 }
 
-Console.WriteLine("Get company with id 1:\n\n\t" + cRepo.GetCompanyByIdFromDB(2).ToString());
+Console.WriteLine("Get company with id 1:\n\n\t" + cRepo.GetCompanyByIdFromDB(1).ToString());
 
 Console.WriteLine("\nGet all companies with Name: Brightest : \n");
 

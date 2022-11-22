@@ -20,7 +20,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         {
             this.connectionString = connectionString;
         }
-        // DONE
+        
         public bool CompanyExistsInDB(Company company)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -54,9 +54,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
         // DONE
         public bool CompanyExistsInDB(int iD)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"select count(*) from Company where id= @id;";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -65,7 +65,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     // Parameters adden
                     cmd.Parameters.AddWithValue("@id", iD);
                     // Query executen
-                    int n = (int)cmd.ExecuteScalar();
+                    Int64 n = (Int64)cmd.ExecuteScalar();
                     if (n > 0)
                         return true;
                     return false;
@@ -87,16 +87,16 @@ namespace VisitorsRegistrationSystemDL.Repositories
         {
             List<Company> companies = new List<Company>();
 
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
                     cmd.CommandText = query;
                     
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         int id = (int)reader["id"];
@@ -131,9 +131,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
         
         public Company GetCompanyByIdFromDB(int id)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.id = @id";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -144,7 +144,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     // Query executen
                     // Data lezen
                     Company company = null;
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         int iD = (int)reader["id"];
@@ -178,9 +178,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public IEnumerable<Company> GetCompaniesByNameFromDB(string name)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where name = @name";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -192,7 +192,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     // Data lezen
                     Company company = null;
                     List<Company> companies = new List<Company>();
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         int iD = (int)reader["id"];
@@ -227,9 +227,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public IEnumerable<Company> GetCompaniesByVatnumFromDB(string vatNum)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where VAT = @VAT";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -241,7 +241,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     // Data lezen
                     Company company = null;
                     List<Company> companies = new List<Company>();
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         int iD = (int)reader["id"];
@@ -276,10 +276,10 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public IEnumerable<Company> GetCompaniesByAddressFromDB(Address address)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string queryBusNULL = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where houseNr = @houseNr and street = @street and city = @city and bus is null";
             string queryBusNOTNULL = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where houseNr = @houseNr and street = @street and city = @city and bus = @busNr";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -295,7 +295,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         // Data lezen
                         Company company = null;
                         List<Company> companies = new List<Company>();
-                        SqlDataReader reader = cmd.ExecuteReader();
+                        MySqlDataReader reader = cmd.ExecuteReader();
                         while (reader.Read())
                         {
                             int iD = (int)reader["id"];
@@ -325,7 +325,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         // Data lezen
                         Company company = null;
                         List<Company> companies = new List<Company>();
-                        SqlDataReader reader = cmd.ExecuteReader();
+                        MySqlDataReader reader = cmd.ExecuteReader();
                         while (reader.Read())
                         {
                             int iD = (int)reader["id"];
@@ -357,9 +357,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public IEnumerable<Company> GetCompaniesByTelnrFromDB(string telNr)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where telNr = @telNr";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -371,7 +371,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     // Data lezen
                     Company company = null;
                     List<Company> companies = new List<Company>();
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         int iD = (int)reader["id"];
@@ -406,9 +406,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public IEnumerable<Company> GetCompaniesByEmailFromDB(string email)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where email = @email";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -420,7 +420,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     // Data lezen
                     Company company = null;
                     List<Company> companies = new List<Company>();
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         int iD = (int)reader["id"];
@@ -454,9 +454,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
         }
         public void RemoveCompanyFromDB(int id)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"DELETE FROM company WHERE id = @id";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -480,9 +480,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public void UpdateCompanyInDB(Company company)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"UPDATE Company set name = @name, VAT = @VAT, email = @email, telNr = @telNr ,addressId = @addressId where id = @id;";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -511,9 +511,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public void WriteCompanyInDB(Company company)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"INSERT into Company (name,vat,email,telNr,addressId) values (@name,@VAT,@email,@telNr,@addressId)";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -540,9 +540,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
         }
         public bool EmployeeExistsInDB(Employee employee)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"select count(*) from Employee where firstName=@name and lastName=@lastname;";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -550,7 +550,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     cmd.CommandText = query;
                     cmd.Parameters.AddWithValue("@name", employee.Name);
                     cmd.Parameters.AddWithValue("@lastname", employee.LastName);
-                    int n = (int)cmd.ExecuteScalar();
+                    Int64 n = (Int64)cmd.ExecuteScalar();
                     return (n > 0);
                 }
                 catch (Exception ex)
@@ -566,16 +566,16 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public bool EmployeeExistsInDB(int iD)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"select count(*) from Employee where id=@id;";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.AddWithValue("@id", iD);
-                    int n = (int)cmd.ExecuteScalar();
+                    Int64 n = (Int64)cmd.ExecuteScalar();
                     return (n > 0);
                 }
                 catch (Exception ex)
@@ -591,16 +591,16 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public Employee GetEmployee(int iD)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"select * from Employee where id=@id";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.AddWithValue("@id", iD);
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    MySqlDataReader reader = cmd.ExecuteReader();
                     reader.Read();
                     int id = (int)reader["id"];
                     string fname = (string)reader["firstName"];
@@ -626,15 +626,15 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public IReadOnlyList<Employee> GetEmployeesFromDB()
         {
             List<Employee> employees = new List<Employee>();
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"select * from Employee";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         int id = (int)reader["id"];
@@ -662,9 +662,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public void RemoveEmployeeFromDB(int iD)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"delete from Employee where id=@id";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -687,9 +687,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void UpdateEmployeeInDB(Employee employee, Company company)
         {
             // todo: Employee doesn't know about a CompanyId
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"update Employee set firstName=@name, lastName=@lastname, email=@email, occupation=@function, where id=@id;";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -716,9 +716,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void WriteEmployeeInDB(Employee employee, Company company)
         {
             // todo: Employee doesn't know about a CompanyId
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"insert into Employee (firstName, lastName, email, occupation) values (@name, @lastname, @email, @function);";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -744,16 +744,16 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public IReadOnlyList<Employee> GetEmployeesFromCompanyIdDB(int companyId)
         {
             List<Employee> employees = new List<Employee>();
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"select * from Employee WHERE companyId=@companyId";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.AddWithValue("@companyId", companyId);
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         int id = (int)reader["id"];
