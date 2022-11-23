@@ -4,11 +4,20 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:VisitorRegistrationSystemVisitGUI.Pages"
+      xmlns:model="clr-namespace:VisitorRegistrationSystemVisitGUI.Model" xmlns:validationrules="clr-namespace:VisitorRegistrationSystemVisitGUI.ValidationRules"
       mc:Ignorable="d" 
       d:DesignWidth="1400" d:DesignHeight="900"
       Title="pageInchrijven">
 
     <Grid MaxWidth="750">
+            <Grid.DataContext>
+            <Binding>
+                <Binding.Source>
+                    <model:VisitorData/>
+                </Binding.Source>
+            </Binding>
+        </Grid.DataContext>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="75"/>
@@ -22,11 +31,27 @@
         <StackPanel Grid.Row="3">
             <StackPanel Orientation="Horizontal">
                 <Label Content="Voornaam" Style="{StaticResource LabelTheme}"/>
-                <TextBox x:Name="txtbVoornaam" Style="{StaticResource TextboxInputTheme}" />
+                <TextBox x:Name="txtbVoornaam" Style="{StaticResource TextboxInputTheme}">
+                    <TextBox.Text>
+                        <Binding Path="FirstName" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationrules:NameValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Achternaam" Style="{StaticResource LabelTheme}" />
-                <TextBox x:Name="txtbAchternaam" Style="{StaticResource TextboxInputTheme}" />
+                <TextBox x:Name="txtbAchternaam" Style="{StaticResource TextboxInputTheme}">
+                    <TextBox.Text>
+                        <Binding Path="LastName" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationrules:NameValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Email" Style="{StaticResource LabelTheme}" />
@@ -34,7 +59,15 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Bedrijf Bezoeker" Style="{StaticResource LabelTheme}" />
-                <TextBox x:Name="txtbBedrijfBezoeker" Style="{StaticResource TextboxInputTheme}" />
+                <TextBox x:Name="txtbBedrijfBezoeker" Style="{StaticResource TextboxInputTheme}">
+                    <TextBox.Text>
+                        <Binding Path="VisitorCompany" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationrules:NameValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Bedrijf Afspraak" Style="{StaticResource LabelTheme}" />

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,16 +21,16 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public void AddVisit(Visit visit)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"INSERT into Visit(visitorId,startTime,endTime,companyId,employeeId) values (@visitorId,@startTime,@endTime,@companyId,@employeeId)";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
                     cmd.CommandText = query;
                     // Parameters adden
-                    //cmd.Parameters.AddWithValue("@visitorId", visit.VisitorI.d);
+                    cmd.Parameters.AddWithValue("@visitorId", visit.Visitor.Id);
                     cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
                     cmd.Parameters.AddWithValue("@endTime", visit.EndTime);
                     cmd.Parameters.AddWithValue("@companyId", visit.VisitedCompany.ID);
@@ -51,9 +51,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public void RemoveVisit(int id)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"DELETE from Visit where visitId = @id";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -77,16 +77,16 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public void UpdateVisit(Visit visit)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"UPDATE Visit set visitorId = @visitorId, startTime = @startTime, endTime = @endTime, companyId = @companyId, employeeId = @employeeId where visitId = @visitId";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
                     cmd.CommandText = query;
                     // Parameters adden
-                    //cmd.Parameters.AddWithValue("@visitorId", visit.Visitor.Id);
+                    cmd.Parameters.AddWithValue("@visitorId", visit.Visitor.Id);
                     cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
                     cmd.Parameters.AddWithValue("@endTime", visit.EndTime);
                     cmd.Parameters.AddWithValue("@companyId", visit.VisitedCompany.ID);
@@ -108,19 +108,19 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public bool VisitExists(Visit visit)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"select count(*) from Visit where visitorId= @visitorId AND startTime = @startTime";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
                     cmd.CommandText = query;
                     // Parameters adden
-                    //cmd.Parameters.AddWithValue("@visitorId",visit.Visitor.Id);
+                    cmd.Parameters.AddWithValue("@visitorId",visit.Visitor.Id);
                     cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
                     // Query executen
-                    int n = (int)cmd.ExecuteScalar();
+                    Int64 n = (Int64)cmd.ExecuteScalar();
                     if (n > 0)
                         return true;
                     return false;
@@ -140,9 +140,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public bool VisitExists(int iD)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"select count(*) from Visit where visitId= @id;";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -151,7 +151,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     // Parameters adden
                     cmd.Parameters.AddWithValue("@id", iD);
                     // Query executen
-                    int n = (int)cmd.ExecuteScalar();
+                    Int64 n = (Int64)cmd.ExecuteScalar();
                     if (n > 0)
                         return true;
                     return false;
@@ -171,9 +171,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public Visit GetVisit(int id)
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"select v.visitId as vVI, v.startTime as vST, v.endTime as vEN, vi.id as viI, vi.name as viN, vi.email as viE, vi.visitorCompany as viV, e.id as eId, e.firstName as eFN, e.lastName as eLA , e.email as eEM, e.occupation eOC, c.id cId, c.name as cNA, c.VAT as cVA, c.email as cEM, c.telNr AS cTE,a.id as aId, a.street as aST, a.houseNr as aHO, a.bus as aBU, a.city as aCI from Visit v join Visitor vi on v.visitorId = vi.id join Employee e on v.employeeId = e.id join Company c on v.companyId = c.id join Address a on c.addressId = a.id where v.visitId = @visitId";
-            using (SqlCommand cmd = connection.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
@@ -184,7 +184,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     // Query executen
                     // Data lezen
                     Visit visit = null;
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         int employeeId = (int)reader["eId"];
@@ -217,8 +217,8 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         Employee employee = EmployeeFactory.MakeEmployee(employeeId, employeeName, employeeLastName, employeeEmail, employeeFunction);
                         Address address = new Address(addressId, city, street, houseNr, busNr);
                         Company company = CompanyFactory.MakeCompany(companyId, companyName, vatNo,address,telNo,companyEmail);
-                        //Visitor visitor = VisitorFactory.MakeVisitor(visitorId, visitorName, visitorEmail, visitorCompany);
-                        //visit = new Visit(visitId, visitor, company, employee, startTime);
+                        Visitor visitor = VisitorFactory.MakeVisitor(visitorId, visitorName, visitorEmail, visitorCompany);
+                        visit = VisitFactory.MakeVisit(visitId, visitor, company, employee, startTime);
                     }
                     // Value returnen
                     return visit;
