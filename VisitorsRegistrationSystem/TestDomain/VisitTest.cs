@@ -12,18 +12,21 @@ namespace TestDomain
 {
     public class VisitTest
     {
+        // TODO setten van endtime omdat we dit niet meer doen in constructor
         [Fact]
         public void Test_ctor_valid()
         {
             //Arrange
             Company company = new Company("CompanyA","XXXXXXX","CompanyA@hotmail.com");
-            Visitor visitor = new Visitor("Tobias","Tobias@hotmail.com");
+            // Visitor visitor = new Visitor("Tobias","Tobias@hotmail.com");
+            Visitor visitor =  VisitorFactory.MakeVisitor(null,"Tobias", "Tobias@hotmail.com",null);
             Employee employee = new Employee("John","Doe","TeamLead");
             DateTime startTime = DateTime.Now;
             DateTime endTime = DateTime.Now.AddHours(1);
 
             //Act 
-            Visit visit = new Visit(visitor,company,employee,startTime,endTime);
+            // Visit visit = new Visit(visitor,company,employee,startTime,endTime);
+            Visit visit = VisitFactory.MakeVisit(null,visitor, company, employee, startTime);
 
             //Assert
             Assert.Equal(visitor,visit.Visitor);
@@ -44,7 +47,7 @@ namespace TestDomain
             DateTime startTime = DateTime.Now;
             DateTime endTime = DateTime.Now.AddHours(1);
             //Assert
-            var ex = Assert.Throws<VisitException>(() => v = new Visit(visitor,company,employee,startTime,endTime));;
+            var ex = Assert.Throws<VisitException>(() => v =  VisitFactory.MakeVisit(null,visitor,company,employee,startTime));;
             Assert.Equal("Visit - Visitor is null", ex.Message);
         }
         [Theory]
@@ -53,13 +56,13 @@ namespace TestDomain
         {
             //Arrange 
             Visit v;
-            Visitor visitor = new Visitor("Tobias", "tobiaswille@hotmail.com");
+            Visitor visitor = VisitorFactory.MakeVisitor(null,"Tobias", "tobiaswille@hotmail.com",null);
             Employee employee = new Employee("John", "Doe", "TeamLead");
             DateTime startTime = DateTime.Now;
             DateTime endTime = DateTime.Now.AddHours(1);
             //Act 
             //Assert
-            var ex = Assert.Throws<VisitException>(() => v = new Visit(visitor,company,employee,startTime,endTime)); ;
+            var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(null,visitor,company,employee,startTime)); ;
             Assert.Equal("Visit - Visited Company is null", ex.Message);
 
         }
@@ -69,12 +72,12 @@ namespace TestDomain
         {
             Visit v;
             Company company = new Company("CompanyA", "XXXXXXX", "CompanyA@hotmail.com");
-            Visitor visitor = new Visitor("Tobias", "Tobias@hotmail.com");
+            Visitor visitor = VisitorFactory.MakeVisitor(null,"Tobias", "Tobias@hotmail.com",null);
             DateTime startTime = DateTime.Now;
             DateTime endTime = DateTime.Now.AddHours(1);
             //Act
             //Assert
-            var ex = Assert.Throws<VisitException>(() => v = new Visit(visitor, company, employee, startTime, endTime)); ;
+            var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(null,visitor, company, employee, startTime)); ;
             Assert.Equal("Visit - Visited Employee is null", ex.Message);
         }
         [Fact]
@@ -82,13 +85,13 @@ namespace TestDomain
         {
             Visit v;
             Company company = new Company("CompanyA", "XXXXXXX", "CompanyA@hotmail.com");
-            Visitor visitor = new Visitor("Tobias", "Tobias@hotmail.com");
+            Visitor visitor = VisitorFactory.MakeVisitor(null,"Tobias", "Tobias@hotmail.com",null);
             Employee employee = new Employee("Arno", "Vantieghem", "Tester");
             DateTime startTime = DateTime.Now.AddDays(1);
             DateTime endTime = startTime.AddHours(1);
             //Act
             //Assert
-            var ex = Assert.Throws<VisitException>(() => v = new Visit(visitor, company, employee, startTime, endTime)); ;
+            var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(null,visitor, company, employee, startTime)); ;
             Assert.Equal("Visit - Start time is too late", ex.Message);
         }
         [Fact]
@@ -96,13 +99,13 @@ namespace TestDomain
         {
             Visit v;
             Company company = new Company("CompanyA", "XXXXXXX", "CompanyA@hotmail.com");
-            Visitor visitor = new Visitor("Tobias", "Tobias@hotmail.com");
+            Visitor visitor = VisitorFactory.MakeVisitor(null,"Tobias", "Tobias@hotmail.com",null);
             Employee employee = new Employee("Arno", "Vantieghem", "Tester");
             DateTime startTime = DateTime.MinValue.AddHours(2);
             DateTime endTime = DateTime.MinValue.AddHours(1);
             //Act
             //Assert
-            var ex = Assert.Throws<VisitException>(() => v = new Visit(visitor, company, employee, startTime, endTime)); ;
+            var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(null,visitor, company, employee, startTime)); ;
             Assert.Equal("Visit - End time earlier than Start time", ex.Message);
         }
     }

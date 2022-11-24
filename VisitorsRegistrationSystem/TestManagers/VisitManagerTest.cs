@@ -9,52 +9,60 @@ namespace TestManagers
 {
     public class VisitManagerTest
     {
-        private VisitManager vm;
+        // TODO endtime gaat voor sommige tests nog ingesteld moeten worden aangezien we dat NIET MEER definieren in de constructor
         private Mock<IVisitRepository> mockRepo;
         private Visitor visitor;
+        private VisitManager vm;
+
+        public VisitManagerTest(Mock<IVisitRepository> mockRepo, Visitor visitor, VisitManager vm)
+        {
+            this.mockRepo = mockRepo;
+            this.visitor = visitor;
+            this.vm = vm;
+        }
 
         [Fact]
         public void AddVisit_Valid()
         {
-            Visitor visitor = new Visitor("Tobias","tobiaswille@hotmail.com","bedrijfA");
+            Visitor visitor = VisitorFactory.MakeVisitor(null,"Tobias","tobiaswille@hotmail.com",null);
             Company visitedCompany = CompanyFactory.MakeCompany(1, "Allphi", "BE123456789", new Address("Elsegem", "Kouterlos", "9000",null), "0479564251", "allphi@gmail.com");
 
             Employee visitedEmployee = EmployeeFactory.MakeEmployee(1, "Tobias", "Wille", "tobiaswille@hotmail.com","dev");
             mockRepo = new Mock<IVisitRepository>();
-            Visit visit = new Visit(visitor, visitedCompany, visitedEmployee, new DateTime(2022, 11, 15, 12, 30, 00));
+            Visit visit = VisitFactory.MakeVisit(null,visitor, visitedCompany, visitedEmployee, new DateTime(2022, 11, 15, 12, 30, 00));
             mockRepo.Setup(repo => repo.AddVisit(visit));
             mockRepo.Setup(repo => repo.GetVisit(1)).Returns(visit);
         }
         [Fact]
         public void RemoveVisit_Valid()
         {
-            Visitor visitor = new Visitor("Tobias", "tobiaswille@hotmail.com","bedrijfA");
+            Visitor visitor = VisitorFactory.MakeVisitor(null,"Tobias", "tobiaswille@hotmail.com",null);
             Company visitedCompany = CompanyFactory.MakeCompany(1, "Allphi", "BE123456789", new Address("Elsegem", "Kouterlos", "9000", null), "0479564251", "allphi@gmail.com");
             Employee visitedEmployee = EmployeeFactory.MakeEmployee(1, "Tobias", "Wille", "tobiaswille@hotmail.com", "dev");
             mockRepo = new Mock<IVisitRepository>();
-            Visit visit = new Visit(visitor, visitedCompany, visitedEmployee, new DateTime(2022, 11, 15, 12, 30, 00));
+            Visit visit = VisitFactory.MakeVisit(null,visitor, visitedCompany, visitedEmployee, new DateTime(2022, 11, 15, 12, 30, 00));
             mockRepo.Setup(repo => repo.RemoveVisit(visit.Id));
             mockRepo.Setup(repo => repo.GetVisit(1)).Returns(visit);
         }
         [Fact]
         public void UpdateVisit_Valid()
         {
-            Visitor visitor = new Visitor("Tobias", "tobiaswille@hotmail.com","bedrijfA");
+            Visitor visitor = VisitorFactory.MakeVisitor(null,"Tobias", "tobiaswille@hotmail.com",null);
             Company visitedCompany = CompanyFactory.MakeCompany(1, "Allphi", "BE123456789", new Address("Elsegem", "Kouterlos", "9000", null), "0479564251", "allphi@gmail.com");
             Employee visitedEmployee = EmployeeFactory.MakeEmployee(1, "Tobias", "Wille", "tobiaswille@hotmail.com", "dev");
             mockRepo = new Mock<IVisitRepository>();
-            Visit visit = new Visit(visitor, visitedCompany, visitedEmployee, new DateTime(2022, 11, 15, 12, 30, 00));
+            Visit visit = VisitFactory.MakeVisit(null,visitor, visitedCompany, visitedEmployee, new DateTime(2022, 11, 15, 12, 30, 00));
             mockRepo.Setup(repo => repo.UpdateVisit(visit));
             mockRepo.Setup(repo => repo.GetVisit(1)).Returns(visit);
         }
         [Fact]
         public void VisitExists_Valid()
         {
-            Visitor visitor = new Visitor("Tobias", "tobiaswille@hotmail.com", "bedrijfA");
+            Visitor visitor = VisitorFactory.MakeVisitor(null,"Tobias", "tobiaswille@hotmail.com",null);
             Company visitedCompany = CompanyFactory.MakeCompany(1, "Allphi", "BE123456789", new Address("Elsegem", "Kouterlos", "9000", null), "0479564251", "allphi@gmail.com");
             Employee visitedEmployee = EmployeeFactory.MakeEmployee(1, "Tobias", "Wille", "tobiaswille@hotmail.com", "dev");
             mockRepo = new Mock<IVisitRepository>();
-            Visit visit = new Visit(visitor, visitedCompany, visitedEmployee, new DateTime(2022, 11, 15, 12, 30, 00));
+            Visit visit = VisitFactory.MakeVisit(null,visitor, visitedCompany, visitedEmployee, new DateTime(2022, 11, 15, 12, 30, 00));
             mockRepo.Setup(repo => repo.VisitExists(visit));
             mockRepo.Setup(repo => repo.GetVisit(1)).Returns(visit);
         }
