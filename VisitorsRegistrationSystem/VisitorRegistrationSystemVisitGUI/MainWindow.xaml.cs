@@ -27,6 +27,8 @@ namespace VisitorRegistrationSystemVisitGUI
         public MainWindow(CompanyManager cm)
         {
             InitializeComponent();
+            this.WindowState = WindowState.Maximized;
+            //this.WindowStyle = WindowStyle.None;
             Content = new pageMain(cm);
         }
     }

@@ -21,6 +21,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VisitorsRegistrationSystemBeheerGUI.Windows;
 using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.Managers;
 
@@ -32,6 +33,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
     public partial class pageBeheer : Page
     {
         private readonly CompanyManager _cm;
+        private int ShowEmployeeByCompanyId = 0;
 
         public pageBeheer(CompanyManager cm)
         {
@@ -113,6 +115,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     break;
                 case "Medewerkers":
                     IReadOnlyList<Employee> employees = _cm.GetEmployees();
+                    if (ShowEmployeeByCompanyId > 0) { employees = _cm.GetEmployeesFromCompanyId(ShowEmployeeByCompanyId); }                    
 
                     cmbSearchParameter.Items.Add("All");
                     foreach (string param in employees[0].GetType().GetProperties().Select(x => x.Name).ToList())
@@ -136,6 +139,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                 default:
                     break;
             }
+            ShowEmployeeByCompanyId = 0;
             cmbSearchParameter.SelectedIndex = 0;
         }
 
@@ -184,7 +188,19 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
 
         private void EditButton_OnClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(dgDataTable.SelectedValue.ToString());
+            switch (dgDataTable.SelectedValue.GetType().Name)
+            {
+                case nameof(Company):
+                    BedrijfFormWindow bfw = new BedrijfFormWindow((Company)dgDataTable.SelectedValue);
+                    bfw.ShowDialog();
+                    break;
+                case nameof(Employee):
+                    MedewerkerFormWindow mfw = new MedewerkerFormWindow();
+                    mfw.ShowDialog();
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
@@ -194,7 +210,8 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
 
         private void EmployeeButton_OnClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(dgDataTable.SelectedValue.ToString());
+            ShowEmployeeByCompanyId = ((Company)dgDataTable.SelectedValue).ID;
+            ((RadioButton)stpFilterRadioButtons.Children[1]).IsChecked = true;
         }
 
         private void cmbSearchParameter_SelectionChanged(object sender, SelectionChangedEventArgs e)
