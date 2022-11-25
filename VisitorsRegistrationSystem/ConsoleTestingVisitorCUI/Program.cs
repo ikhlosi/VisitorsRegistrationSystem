@@ -5,8 +5,8 @@ using VisitorsRegistrationSystemBL.Managers;
 using VisitorsRegistrationSystemDL.Repositories;
 
 string connString = "Data Source=LAPTOP-GGBV7H48\\SQLEXPRESS;Initial Catalog=VisitorsRegistrationSystem;Integrated Security=True";
-IVisitorRepository repo = new VisitorRepositoryADO(connString);
-VisitorManager vm = new VisitorManager(repo);
+IVisitRepository repo = new VisitRepositoryADO(connString);
+VisitManager vm = new VisitManager(repo);
 
 vm.AddVisitor(VisitorFactory.MakeVisitor(null, "Ben", "ben@ben.com", ""));
 

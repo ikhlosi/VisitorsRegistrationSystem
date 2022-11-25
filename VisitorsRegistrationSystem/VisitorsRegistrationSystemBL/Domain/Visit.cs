@@ -10,7 +10,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 {
     public class Visit
     {
-        internal Visit(Visitor visitor, Company visitedCompany, Employee visitedEmployee, DateTime startTime) {
+        public Visit(Visitor visitor, Company visitedCompany, Employee visitedEmployee, DateTime startTime) {
             SetVisitor(visitor);
             SetVisitedCompany(visitedCompany);
             SetVisitedEmployee(visitedEmployee);

@@ -5,8 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VisitorsRegistrationSystemBeheerGUI.Windows"
         mc:Ignorable="d"
-        Title="BedrijfFormWindow" Height="450" Width="800">
+        Title="BedrijfFormWindow" Height="245" Width="380" ResizeMode="NoResize">
     <Grid>
-        
+        <StackPanel Margin="5">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type StackPanel}">
+                    <Setter Property="Margin" Value="0,0,0,10"/>
+                </Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="0,2,0,5"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                </Style>
+            </StackPanel.Resources>
+            <StackPanel Orientation="Horizontal">
+                <Label Width="50" Content="Naam"/>
+                <TextBox x:Name="txtbNaam" Width="300"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Width="50" Content="VAT"/>
+                <TextBox x:Name="txtbVAT" Width="300"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Width="50" Content="Email"/>
+                <TextBox x:Name="txtbEmail" Width="300"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Width="50" Content="TelNr"/>
+                <TextBox x:Name="txtbTelNr" Width="300"/>
+            </StackPanel>
+
+            <Button Content="Adress Aanpassen" Width="350"/>
+            <Button Content="Opslaan" Width="350"/>
+        </StackPanel>
     </Grid>
 </Window>

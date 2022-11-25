@@ -12,6 +12,12 @@ namespace VisitorsRegistrationSystemBL.Managers
     public class VisitManager
     {
         private IVisitRepository _repo;
+
+        public VisitManager(IVisitRepository repo)
+        {
+            _repo = repo;
+        }
+
         //private Dictionary<int, Visit> _visits = new Dictionary<int, Visit>();
 
         public IReadOnlyList<Visit> GetVisits()
@@ -48,5 +54,70 @@ namespace VisitorsRegistrationSystemBL.Managers
             }
         }
 
-    }
+        public void AddVisitor(Visitor visitor)
+        {
+            if (visitor == null) throw new VisitManagerException("VisitorManager - Addvisitor - visitor is null");
+            try
+            {
+                if (_repo.VisitorExists(visitor.Id)) throw new VisitManagerException("VisitorManager - Addvisitor - visitor has already been registered");
+                _repo.AddVisitor(visitor);
+            }
+            catch (Exception ex)
+            {
+                throw new VisitManagerException("VisitorManager - AddVisitor", ex);
+            }
+        }
+        public void DeleteVisitor(Visitor visitor)
+        {
+            if (visitor == null) throw new VisitManagerException("VisitorManager - DeleteVisitor - visitor is null");
+            try
+            {
+                if (!_repo.VisitorExists(visitor.Id)) throw new VisitManagerException("VisitorManager - DeleteVisitor - visitor is not registered");
+                _repo.RemoveVisitor(visitor.Id);
+            }
+            catch (Exception ex)
+            {
+                throw new VisitManagerException("VisitorManager - DeleteVisitor", ex);
+            }
+        }
+        public void UpdateVisitor(Visitor visitor)
+        {
+            if (visitor == null) throw new VisitManagerException("VisitorManager - UpdateVisitor - visitor is null");
+            try
+            {
+                if (!_repo.VisitorExists(visitor.Id)) throw new VisitManagerException("VisitorManager - UpdateVisitor - visitor is not registered");
+                if (_repo.GetVisitor(visitor.Id).Equals(visitor)) throw new VisitManagerException("VisitorManager - UpdateVisitor - updated visitor is unchanged");
+                _repo.UpdateVisitor(visitor);
+            }
+            catch (Exception ex)
+            {
+                throw new VisitManagerException("VisitorManager - UpdateVisitor", ex);
+            }
+        }
+        public IReadOnlyList<Visitor> GetVisitors()
+        {
+            try
+            {
+                return _repo.GetAllVisitors().AsReadOnly();
+            }
+            catch (Exception ex)
+            {
+                throw new VisitManagerException("VisitorManager - GetVisitors", ex);
+            }
+        }
+
+        public Visitor GetVisitor(int id)
+        {
+            if (id <= 0) throw new VisitManagerException("VisitorManager - Getvisitor - id is null");
+            try
+            {
+                return _repo.GetVisitor(id);
+            }
+            catch (Exception ex)
+            {
+                throw new VisitManagerException("VisitorManager - GetVisitor", ex);
+            }
+        }
+
+        }
 }

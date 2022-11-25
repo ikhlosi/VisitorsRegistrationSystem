@@ -16,5 +16,13 @@ namespace VisitorsRegistrationSystemBL.Interfaces
         bool VisitExists(int id);
         Visit GetVisit(int id);
         IReadOnlyList<Visit> GetVisits();
+        void AddVisitor(Visitor visitor);
+        void RemoveVisitor(int id);
+        void UpdateVisitor(Visitor visitor);
+        bool VisitorExists(Visitor visitor);
+        bool VisitorExists(int id);
+        Visitor GetVisitor(int id);
+        List<Visitor> GetAllVisitors();
+
     }
 }

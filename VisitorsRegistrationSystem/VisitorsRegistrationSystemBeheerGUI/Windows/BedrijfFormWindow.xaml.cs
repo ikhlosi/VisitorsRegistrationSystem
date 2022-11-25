@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using VisitorsRegistrationSystemBL.Domain;
 
 namespace VisitorsRegistrationSystemBeheerGUI.Windows
 {
@@ -19,9 +20,18 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
     /// </summary>
     public partial class BedrijfFormWindow : Window
     {
-        public BedrijfFormWindow()
+        public BedrijfFormWindow(Company c)
         {
             InitializeComponent();
+            InitializeData(c);
+        }
+
+        public void InitializeData(Company c)
+        {
+            txtbNaam.Text = c.Name;
+            txtbVAT.Text = c.VATNumber;
+            txtbEmail.Text = c.Email;
+            txtbTelNr.Text = c.TelephoneNumber;
         }
     }
 }
