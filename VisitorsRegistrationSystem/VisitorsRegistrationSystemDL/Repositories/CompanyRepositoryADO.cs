@@ -21,10 +21,12 @@ namespace VisitorsRegistrationSystemDL.Repositories
             this.connectionString = connectionString;
         }
         
+
+        // TODO2711 bij checken ofdat comapny exists, als de company "deleted" staat bestaat hij dan?
         public bool CompanyExistsInDB(Company company)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select count(*) from Company where VAT= @VAT;";
+            string query = @"select count(*) from Company where VAT= @VAT AND visible = 1;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -55,7 +57,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public bool CompanyExistsInDB(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select count(*) from Company where id= @id;";
+            string query = @"select count(*) from Company where id= @id AND visible = 1;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -88,7 +90,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
             List<Company> companies = new List<Company>();
 
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id";
+            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -132,7 +134,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public Company GetCompanyByIdFromDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.id = @id";
+            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.id = @id where c.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -179,7 +181,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public IEnumerable<Company> GetCompaniesByNameFromDB(string name)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where name = @name";
+            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where name = @name AND c.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -228,7 +230,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public IEnumerable<Company> GetCompaniesByVatnumFromDB(string vatNum)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where VAT = @VAT";
+            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where VAT = @VAT AND c.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -277,8 +279,8 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public IEnumerable<Company> GetCompaniesByAddressFromDB(Address address)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string queryBusNULL = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where houseNr = @houseNr and street = @street and city = @city and bus is null";
-            string queryBusNOTNULL = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where houseNr = @houseNr and street = @street and city = @city and bus = @busNr";
+            string queryBusNULL = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where houseNr = @houseNr and street = @street and city = @city and bus is null AND c.visible = 1";
+            string queryBusNOTNULL = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where houseNr = @houseNr and street = @street and city = @city and bus = @busNr AND c.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -358,7 +360,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public IEnumerable<Company> GetCompaniesByTelnrFromDB(string telNr)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where telNr = @telNr";
+            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where telNr = @telNr AND c.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -407,7 +409,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public IEnumerable<Company> GetCompaniesByEmailFromDB(string email)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where email = @email";
+            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where email = @email AND c.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -452,9 +454,12 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
             }
         }
+
+        //TODO2711 kunnen we een company die al invisible staat nogmaals invisible zetten?
         public void RemoveCompanyFromDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
+            // TODO delete -> visible op 0
             string query = @"DELETE FROM company WHERE id = @id";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
@@ -538,10 +543,12 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
             }
         }
+        
+        // TODO2711 hier ook?
         public bool EmployeeExistsInDB(Employee employee)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select count(*) from Employee where firstName=@name and lastName=@lastname;";
+            string query = @"select count(*) from Employee where firstName=@name and lastName=@lastname AND visible = 1;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -567,7 +574,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public bool EmployeeExistsInDB(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select count(*) from Employee where id=@id;";
+            string query = @"select count(*) from Employee where id=@id AND visible = 1;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -592,7 +599,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public Employee GetEmployee(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select * from Employee where id=@id";
+            string query = @"select * from Employee where id=@id AND visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -627,7 +634,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         {
             List<Employee> employees = new List<Employee>();
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select * from Employee";
+            string query = @"select * from Employee where visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -660,6 +667,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        //TODO2711 kunnen we een employee die al invisible staat nogmaals invisible zetten?
         public void RemoveEmployeeFromDB(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -686,7 +694,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public void UpdateEmployeeInDB(Employee employee, Company company)
         {
-            // todo: Employee doesn't know about a CompanyId
+            // TODO2711: do we need a company object here?
             MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"update Employee set firstName=@name, lastName=@lastname, email=@email, occupation=@function, where id=@id;";
             using (MySqlCommand cmd = connection.CreateCommand())
@@ -715,7 +723,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public void WriteEmployeeInDB(Employee employee, Company company)
         {
-            // todo: Employee doesn't know about a CompanyId
+            // TODO2711: do we need a company object here?
             MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"insert into Employee (firstName, lastName, email, occupation) values (@name, @lastname, @email, @function);";
             using (MySqlCommand cmd = connection.CreateCommand())
@@ -745,7 +753,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         {
             List<Employee> employees = new List<Employee>();
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select * from Employee WHERE companyId=@companyId";
+            string query = @"select * from Employee WHERE companyId=@companyId and visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try

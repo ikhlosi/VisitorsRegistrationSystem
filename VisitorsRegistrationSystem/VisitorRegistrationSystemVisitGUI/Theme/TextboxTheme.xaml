@@ -13,14 +13,12 @@
             <Setter Property="Validation.ErrorTemplate">
                 <Setter.Value>
                     <ControlTemplate>
-                        <DockPanel>
-                            <TextBlock DockPanel.Dock="Right"
-                                       Foreground="Red"
-                                       FontSize="12pt"
-                                       Text="{Binding ElementName=placeholder, Path= AdornedElement.(Validation.Errors)[0].ErrorContent}"
-                                       Margin="0,0,50,50"/>
-                            <AdornedElementPlaceholder x:Name="placeholder" />
-                        </DockPanel>
+                        <Border BorderBrush="OrangeRed" BorderThickness="2" CornerRadius="0,10,10,0">
+                            <Grid>
+                                <AdornedElementPlaceholder/>
+                                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="OrangeRed" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,4,0"/>
+                            </Grid>
+                        </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

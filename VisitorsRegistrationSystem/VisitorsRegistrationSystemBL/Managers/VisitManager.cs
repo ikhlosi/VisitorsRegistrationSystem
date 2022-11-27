@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.DTO;
 using VisitorsRegistrationSystemBL.Exceptions;
 using VisitorsRegistrationSystemBL.Interfaces;
 
@@ -20,7 +21,7 @@ namespace VisitorsRegistrationSystemBL.Managers
 
         //private Dictionary<int, Visit> _visits = new Dictionary<int, Visit>();
 
-        public IReadOnlyList<Visit> GetVisits()
+        public IReadOnlyList<VisitDTO> GetVisits()
         {
             return _repo.GetVisits();
         }

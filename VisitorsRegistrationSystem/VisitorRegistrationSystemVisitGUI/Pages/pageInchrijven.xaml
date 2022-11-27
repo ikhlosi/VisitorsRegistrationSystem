@@ -10,7 +10,7 @@
       Title="pageInchrijven">
 
     <Grid MaxWidth="750">
-            <Grid.DataContext>
+        <Grid.DataContext>
             <Binding>
                 <Binding.Source>
                     <model:VisitorData/>
@@ -55,7 +55,15 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Email" Style="{StaticResource LabelTheme}" />
-                <TextBox x:Name="txtbEmail" Style="{StaticResource TextboxInputTheme}" />
+                <TextBox x:Name="txtbEmail" Style="{StaticResource TextboxInputTheme}">
+                    <TextBox.Text>
+                        <Binding Path="Email" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationrules:EmailValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Bedrijf Bezoeker" Style="{StaticResource LabelTheme}" />

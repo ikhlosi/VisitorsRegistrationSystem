@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.DTO;
 
 namespace VisitorsRegistrationSystemBL.Interfaces
 {
@@ -15,7 +16,8 @@ namespace VisitorsRegistrationSystemBL.Interfaces
         bool VisitExists(Visit visit);
         bool VisitExists(int id);
         Visit GetVisit(int id);
-        IReadOnlyList<Visit> GetVisits();
+        void EndVisit(string email);
+        IReadOnlyList<VisitDTO> GetVisits();
         void AddVisitor(Visitor visitor);
         void RemoveVisitor(int id);
         void UpdateVisitor(Visitor visitor);
