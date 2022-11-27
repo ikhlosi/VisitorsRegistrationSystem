@@ -12,144 +12,63 @@ using VisitorsRegistrationSystemBL.Factories;
 namespace TestDomain
 {
     public class VisitorTest {
-        private Visitor _validVisitor;
-        public VisitorTest() {
-            // _validVisitor = new Visitor("John", "john@outlook.com");
-            _validVisitor = VisitorFactory.MakeVisitor(null,"John","john@outlook.com",null);
-        }
-
-        [Theory]
-        [InlineData("John", "john@outlook.com")]
-        [InlineData("geert", "geert@outlook.com")]
-        public void Test_ctor_valid(string name, string email)
-        {
-            #region Arrange
-            #endregion
-            #region Act
-            Visitor v = VisitorFactory.MakeVisitor(null, name, email, "");
-            Visitor v2 = VisitorFactory.MakeVisitor(null, name, email, "companyA");
-            #endregion
-            #region Assert
-            Assert.Equal(name, v.Name);
-            Assert.Equal(email, v.Email);
-            Assert.Equal(name, v2.Name);
-            Assert.Equal(email, v2.Email);
-            Assert.Equal("companyA", v2.VisitorCompany);
-            #endregion
-        }
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData(" \n ")]
-        [InlineData("      ")]
-        public void Test_ctor_invalid_name(string name)
-        {
-            #region Arrange
-            Visitor v;
-            string email = "john@outlook.com";
-            #endregion
-            #region Act - Assert
-            var ex = Assert.Throws<VisitorException>(() => v = VisitorFactory.MakeVisitor(null,name, email,null));;
-
-            Assert.Equal("Visitor - Name is null or whitespace", ex.Message);
-            //Assert.Null(v);
-            #endregion
-        }
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData(" \n ")]
-        [InlineData("      ")]
-        [InlineData("john.com")]
-        [InlineData("john")]
-        public void Test_ctor_invalid_email(string email)
-        {
-            #region Arrange
-            Visitor v;
-            string name = "John";
-            #endregion
-            #region Act - Assert
-            var ex = Assert.Throws<VisitorException>(() => v = VisitorFactory.MakeVisitor(null,name, email,null));
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                Assert.Equal("Visitor - Email is null or whitespace", ex.Message);
-            }
-            else
-            {
-                Assert.Equal("Visitor - Email format invalid", ex.Message);
-                // todo: invalid email check: check whether EmailCheckerException is thrown
-            }
-            #endregion
-        }
-        //[Fact]
-        //public void Test_ctor_invalid_visitorCompany() {
-        //    #region Arrange
-        //    Company c = null;
-        //    Visitor v;
-        //    #endregion
-        //    #region Assert
-        //    //var ex = Assert.Throws<VisitorException>( () => v = new Visitor("John", "john@outlook.com", c) );
-        //    var ex = Assert.Throws<VisitorException>( () => v = new Visitor("John", "john@outlook.com") );
-        //    Assert.Equal("Visitor - Visitorcompany is null", ex.Message);
-        //    #endregion
-        //}
 
         [Fact]
-        public void Test_SetVisitorCompany_valid() {
-            #region Arrange & Act
-            _validVisitor.SetVisitorCompany("companyA");
-            #endregion
-            #region Assert
-            Assert.NotNull(_validVisitor.VisitorCompany);
-            Assert.Equal("companyA", _validVisitor.VisitorCompany);
-            #endregion
+        public void VisitorName_Valid()
+        {
+            Visitor visitor = VisitorFactory.MakeVisitor(1,"Tobias", "tobiaswille@hotmail.com", "CompanyTest");
+            Assert.Equal("Tobias", visitor.Name); ;
         }
-
         [Theory]
         [InlineData("")]
-        [InlineData(null)]
-        [InlineData(" \n ")]
-        [InlineData("      ")]
-        public void Test_SetVisitorCompany_invalid(string c) {
-            #region Arrange
-            // Visitor v = new Visitor("John", "john@outlook.com");
-            #endregion
-            #region Act - Assert
-            var ex = Assert.Throws<VisitorException>(() => _validVisitor.SetVisitorCompany(c));
-            Assert.Equal("Visitor - Visitorcompany is null", ex.Message);
-            Assert.Null(_validVisitor.VisitorCompany);
-            #endregion
+        [InlineData(" ")]
+        public void VisitorName_Invalid(string name)
+        {
+            Visitor visitor = VisitorFactory.MakeVisitor(1, "Tobias", "tobiaswille@hotmail.com", "CompanyTest");
+            Assert.Throws<VisitorException>(() => visitor.SetName(name));
         }
-
-        [Theory]
-        [InlineData(1)]
-        [InlineData(1000)]
-        public void Test_SetId_valid(int id) {
-            _validVisitor.SetId(id);
-            Assert.Equal(id, _validVisitor.Id);
-        }
-
-        [Theory]
-        [InlineData(-1)]
-        [InlineData(0)]
-        public void Test_SetId_invalid(int id) {
-            var ex = Assert.Throws<VisitorException>(() => _validVisitor.SetId(id));
-            Assert.Equal("Visitor - invalid Id", ex.Message);
-            // Assert.Null(_validVisitor.Id);
-        }
-
         [Fact]
-        public void Test_Equals_valid() {
-            // Arrange
-            _validVisitor.SetId(1);
-            // Act
-            Visitor v = VisitorFactory.MakeVisitor(null,_validVisitor.Name, _validVisitor.Email,null);
-            v.SetId(_validVisitor.Id);
-            // Assert
-            Assert.True(_validVisitor.Equals(v));
+        public void VisitorEmail_Valid()
+        {
+            Visitor visitor = VisitorFactory.MakeVisitor(1, "Tobias", "tobiaswille@hotmail.com", "CompanyTest");
+            Assert.Equal("tobiaswille@hotmail.com", visitor.Email);
         }
-        // todo: unit test Visitor Equals()
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void VisitorEmail_Invalid(string email)
+        {
+            Visitor visitor = VisitorFactory.MakeVisitor(1, "Tobias", "tobiaswille@hotmail.com", "CompanyTest");
+            Assert.Throws<VisitorException>(() => visitor.SetEmail(email));
+        }
+        [Fact]
+        public void SetVisitorCompany_Valid()
+        {
+            Visitor visitor = VisitorFactory.MakeVisitor(1, "Tobias", "tobiaswille@hotmail.com", "CompanyTest");
+            Assert.Equal("CompanyTest", visitor.VisitorCompany);
+        }
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void SetVisitorCompany_Invalid(string company)
+        {
+            Visitor visitor = VisitorFactory.MakeVisitor(1, "Tobias", "tobiaswille@hotmail.com", "CompanyTest");
+            Assert.Throws<VisitorException>(() => visitor.SetVisitorCompany(company));
+        }
+        [Fact]
+        public void SetVisitorId_Valid()
+        {
+            Visitor visitor = VisitorFactory.MakeVisitor(1, "Tobias", "tobiaswille@hotmail.com", "CompanyTest");
+            Assert.Equal(1, visitor.Id);
+        }
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void SetVisitorId_Invalid(string id)
+        {
+            Visitor visitor = VisitorFactory.MakeVisitor(1, "Tobias", "tobiaswille@hotmail.com", "CompanyTest");
+            Assert.Throws<VisitorException>(() => visitor.SetVisitorCompany(id));
+        }
+
     }
 }

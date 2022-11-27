@@ -32,29 +32,29 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         internal void SetName(string name)
         {
-            if (string.IsNullOrWhiteSpace(name)) throw new CompanyException("SetName - name is empty");
+            if (string.IsNullOrWhiteSpace(name)) throw new CompanyException("Company - SetName - name is empty");
             this.Name = name;
         }
 
         internal void SetVATNo(string vatNum) {
-            if (string.IsNullOrWhiteSpace(vatNum)) throw new CompanyException("SetVATNo - VAT number is empty");
+            if (string.IsNullOrWhiteSpace(vatNum)) throw new CompanyException("Company - SetVATNo - VAT number is empty");
             // TODO: Checker class  - VAT number check
             this.VATNumber = vatNum;
         }
 
         internal void SetAddress(Address a) {
-            if (a == null) throw new CompanyException("SetAddress - Address is null");
+            if (a == null) throw new CompanyException("Company - SetAddress - Address is null");
             this.Address = a;
         }
 
         internal void SetTelNo(string telNo) { 
-            if (string.IsNullOrWhiteSpace(telNo)) throw new CompanyException("SetTelNo - telephone number is empty");
+            if (string.IsNullOrWhiteSpace(telNo)) throw new CompanyException("Company - SetTelNo - telephone number is empty");
             this.TelephoneNumber = telNo;
         }
 
         internal void SetEmail (string email) {
-            if (string.IsNullOrWhiteSpace(email)) throw new CompanyException("SetEmail - email is empty");
-            if (!EmailChecker.IsValid(email)) throw new CompanyException("SetEmail - invalid format");
+            if (string.IsNullOrWhiteSpace(email)) throw new CompanyException("Company - SetEmail - email is empty");
+            if (!EmailChecker.IsValid(email)) throw new CompanyException("Company - SetEmail - invalid format");
             this.Email = email;
         }
 

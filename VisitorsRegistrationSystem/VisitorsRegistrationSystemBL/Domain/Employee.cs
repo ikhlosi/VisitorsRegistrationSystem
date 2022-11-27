@@ -24,23 +24,23 @@ namespace VisitorsRegistrationSystemBL.Domain {
         }
         public void SetName(string name)
         {
-            if (string.IsNullOrWhiteSpace(name)) throw new EmployeeException("SetName - name is empty");
+            if (string.IsNullOrWhiteSpace(name)) throw new EmployeeException("Employee - SetName - name is empty");
             this.Name = name;
         }
         public void SetLastName(string lastname)
         {
-            if (string.IsNullOrWhiteSpace(lastname)) throw new EmployeeException("SetLastName - lastname is empty");
+            if (string.IsNullOrWhiteSpace(lastname)) throw new EmployeeException("Employee - SetLastName - lastname is empty");
             this.LastName = lastname;
         }
         public void SetEmail(string email)
         {
-            if (string.IsNullOrWhiteSpace(email)) throw new EmployeeException("SetEmail - email is empty");
-            if (!EmailChecker.IsValid(email)) throw new EmployeeException("SetEmail - invalid format");
+            if (string.IsNullOrWhiteSpace(email)) throw new EmployeeException("Employee - SetEmail - email is empty");
+            if (!EmailChecker.IsValid(email)) throw new EmployeeException("Employee - SetEmail - invalid format");
             this.Email = email;
         }
         public void SetFunction(string function)
         {
-            if (string.IsNullOrWhiteSpace(function)) throw new EmployeeException("SetFunction - function is empty");
+            if (string.IsNullOrWhiteSpace(function)) throw new EmployeeException("Employee - SetFunction - function is empty");
             this.Function = function;
         }
 
