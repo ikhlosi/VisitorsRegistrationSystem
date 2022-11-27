@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.DTO;
 using VisitorsRegistrationSystemBL.Factories;
 using VisitorsRegistrationSystemBL.Interfaces;
 using VisitorsRegistrationSystemDL.Exceptions;
@@ -21,22 +22,18 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public void AddVisit(Visit visit)
         {
-            // TODO make starttime = now
-            // endtime has to be null
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"INSERT into Visit(visitorId,startTime,endTime,companyId,employeeId) values (@visitorId,@startTime,@endTime,@companyId,@employeeId)";
+            string query = @"INSERT into Visit(visitorId,startTime,endTime,companyId,employeeId) values (@visitorId,@startTime,null,@companyId,@employeeId)";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    // Parameters adden
                     cmd.Parameters.AddWithValue("@visitorId", visit.Visitor.Id);
-                    cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
+                    cmd.Parameters.AddWithValue("@startTime", DateTime.Now);
                     cmd.Parameters.AddWithValue("@companyId", visit.VisitedCompany.ID);
                     cmd.Parameters.AddWithValue("@employeeId", visit.VisitedEmployee.ID);
-                    // Query executen
                     cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -50,9 +47,11 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        //TODO2711 kunnen we een visit die al invisible staat nogmaals invisible zetten?
         public void RemoveVisit(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
+            // TODO delete -> visible op 0
             string query = @"DELETE from Visit where visitId = @id";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
@@ -60,9 +59,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    // Parameters adden
                     cmd.Parameters.AddWithValue("@id", id);
-                    // Query executen
                     cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -86,13 +83,11 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    // Parameters adden
                     cmd.Parameters.AddWithValue("@visitorId", visit.Visitor.Id);
                     cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
                     cmd.Parameters.AddWithValue("@companyId", visit.VisitedCompany.ID);
                     cmd.Parameters.AddWithValue("@employeeId", visit.VisitedEmployee.ID);
                     cmd.Parameters.AddWithValue("@visitId", visit.Id);
-                    // Query executen
                     cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -106,26 +101,23 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        // TODO2711 bij checken ofdat visit exists, als de visit "deleted" staat bestaat hij dan?
         public bool VisitExists(Visit visit)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select count(*) from Visit where visitorId= @visitorId AND startTime = @startTime";
+            string query = @"select count(*) from Visit where visitorId= @visitorId AND startTime = @startTime and visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    // Parameters adden
                     cmd.Parameters.AddWithValue("@visitorId",visit.Visitor.Id);
                     cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
-                    // Query executen
                     Int64 n = (Int64)cmd.ExecuteScalar();
                     if (n > 0)
                         return true;
                     return false;
-                    // Data lezen
-                    // Value returnen
                 }
                 catch (Exception ex)
                 {
@@ -141,22 +133,18 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public bool VisitExists(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select count(*) from Visit where visitId= @id;";
+            string query = @"select count(*) from Visit where visitId= @id and visible = 1;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    // Parameters adden
                     cmd.Parameters.AddWithValue("@id", iD);
-                    // Query executen
                     Int64 n = (Int64)cmd.ExecuteScalar();
                     if (n > 0)
                         return true;
                     return false;
-                    // Data lezen
-                    // Value returnen
                 }
                 catch (Exception ex)
                 {
@@ -172,17 +160,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public Visit GetVisit(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select v.visitId as vVI, v.startTime as vST, v.endTime as vEN, vi.id as viI, vi.name as viN, vi.email as viE, vi.visitorCompany as viV, e.id as eId, e.firstName as eFN, e.lastName as eLA , e.email as eEM, e.occupation eOC, c.id cId, c.name as cNA, c.VAT as cVA, c.email as cEM, c.telNr AS cTE,a.id as aId, a.street as aST, a.houseNr as aHO, a.bus as aBU, a.city as aCI from Visit v join Visitor vi on v.visitorId = vi.id join Employee e on v.employeeId = e.id join Company c on v.companyId = c.id join Address a on c.addressId = a.id where v.visitId = @visitId";
+            string query = @"select v.visitId as vVI, v.startTime as vST, v.endTime as vEN, vi.id as viI, vi.name as viN, vi.email as viE, vi.visitorCompany as viV, e.id as eId, e.firstName as eFN, e.lastName as eLA , e.email as eEM, e.occupation eOC, c.id cId, c.name as cNA, c.VAT as cVA, c.email as cEM, c.telNr AS cTE,a.id as aId, a.street as aST, a.houseNr as aHO, a.bus as aBU, a.city as aCI from Visit v join Visitor vi on v.visitorId = vi.id join Employee e on v.employeeId = e.id join Company c on v.companyId = c.id join Address a on c.addressId = a.id where v.visitId = @visitId and v.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    // Parameters adden
                     cmd.Parameters.AddWithValue("@visitId", id);
-                    // Query executen
-                    // Data lezen
                     Visit visit = null;
                     MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -220,7 +205,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         Visitor visitor = VisitorFactory.MakeVisitor(visitorId, visitorName, visitorEmail, visitorCompany);
                         visit = VisitFactory.MakeVisit(visitId, visitor, company, employee, startTime);
                     }
-                    // Value returnen
                     return visit;
                 }
                 catch (Exception ex)
@@ -234,9 +218,58 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        public IReadOnlyList<Visit> GetVisits() {
-            throw new NotImplementedException();
-            // TODO Methode schrijven
+        // TODO2711 toelichting endvisit
+        public void EndVisit(string email)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"update visit set endTime = now() where email = @email AND endTime is null;";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@email",email);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new VisitRepositoryADOException("EndVisit", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        public IReadOnlyList<VisitDTO> GetVisits() {
+            List<VisitDTO> visits = new List<VisitDTO>();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"SELECT * FROM visit where visible = 1 order by visitId";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    IDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        visits.Add(new VisitDTO((int)reader["visitId"], (int)reader["visitorId"], (DateTime)reader["startTime"], (DateTime)reader["endTime"], (int)reader["companyId"], (int)reader["employeeId"]));
+                    }
+                    reader.Close();
+                    return visits;
+                }
+                catch (Exception ex)
+                {
+                    throw new VisitRepositoryADOException("GetVisits");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public void AddVisitor(Visitor visitor)
@@ -265,10 +298,11 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-
+        //TODO2711 kunnen we een visitor die al invisible staat nogmaals invisible zetten?
         public void RemoveVisitor(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
+            // TODO delete -> visible op 0
             string query = @"DELETE FROM visitor WHERE id=@id";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
@@ -317,10 +351,11 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        // TODO2711 bij checken ofdat visitor exists, als de visitor "deleted" staat bestaat hij dan?
         public bool VisitorExists(Visitor visitor)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"SELECT COUNT(*) FROM visitor WHERE email=@email";
+            string query = @"SELECT COUNT(*) FROM visitor WHERE email=@email and visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -347,7 +382,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public bool VisitorExists(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"SELECT COUNT(*) FROM visitor WHERE id=@id";
+            string query = @"SELECT COUNT(*) FROM visitor WHERE id=@id and visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -374,7 +409,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public Visitor GetVisitor(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"SELECT * FROM visitor WHERE id=@id";
+            string query = @"SELECT * FROM visitor WHERE id=@id and visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -390,7 +425,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
                 catch (Exception ex)
                 {
-                    throw new VisitorRepositoryException("GetVisitor");
+                    throw new VisitRepositoryADOException("GetVisitor");
                 }
                 finally
                 {
@@ -404,7 +439,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         {
             List<Visitor> visitors = new List<Visitor>();
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"SELECT * FROM visitor";
+            string query = @"SELECT * FROM visitor where visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -421,7 +456,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
                 catch (Exception ex)
                 {
-                    throw new VisitorRepositoryException("GetVisitors");
+                    throw new VisitRepositoryADOException("GetVisitors");
                 }
                 finally
                 {
