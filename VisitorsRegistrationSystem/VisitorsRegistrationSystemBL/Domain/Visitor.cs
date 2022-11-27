@@ -30,29 +30,30 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         internal void SetName(string name)
         {
-            if (string.IsNullOrWhiteSpace(name)) throw new VisitorException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} - Name is null or whitespace");
+            if (string.IsNullOrWhiteSpace(name)) throw new VisitorException("Visitor - SetName - Name is null or whitespace");
             this.Name = name;
+                
         }
 
         internal void SetEmail (string email)
         {
-            if (string.IsNullOrWhiteSpace(email)) throw new VisitException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} - Email is null or whitespace");
-            if(!EmailChecker.IsValid(email)) throw new VisitException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} - Email format invalid");
+            if (string.IsNullOrWhiteSpace(email)) throw new VisitorException("Vistor - SetEmail - Email is null or whitespace");
+            if(!EmailChecker.IsValid(email)) throw new VisitorException("Visitor - SetEmail - Email format invalid");
             this.Email = email;
         }
 
         internal void SetVisitorCompany(string company)
         {
-            if (string.IsNullOrWhiteSpace(company)) throw new VisitException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} - Company is null or whitespace");
+            if (string.IsNullOrWhiteSpace(company)) throw new VisitorException("Visitor -SetVisitorCompany - Company is null or whitespace");
             this.VisitorCompany = company;
-        }
+        } 
 
         internal void SetId(int id)
         {
-            if (id <= 0) throw new VisitorException("Visitor - invalid Id");
+            if (id <= 0) throw new VisitorException("Visitor - SetId - invalid Id");
             this.Id = id;
         }
-
+         
         public override bool Equals(object? obj)
         {
             return obj is Visitor visitor &&

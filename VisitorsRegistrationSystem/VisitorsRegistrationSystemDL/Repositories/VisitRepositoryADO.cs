@@ -34,7 +34,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     // Parameters adden
                     cmd.Parameters.AddWithValue("@visitorId", visit.Visitor.Id);
                     cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
-                    cmd.Parameters.AddWithValue("@endTime", visit.EndTime);
                     cmd.Parameters.AddWithValue("@companyId", visit.VisitedCompany.ID);
                     cmd.Parameters.AddWithValue("@employeeId", visit.VisitedEmployee.ID);
                     // Query executen
@@ -90,7 +89,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     // Parameters adden
                     cmd.Parameters.AddWithValue("@visitorId", visit.Visitor.Id);
                     cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
-                    cmd.Parameters.AddWithValue("@endTime", visit.EndTime);
                     cmd.Parameters.AddWithValue("@companyId", visit.VisitedCompany.ID);
                     cmd.Parameters.AddWithValue("@employeeId", visit.VisitedEmployee.ID);
                     cmd.Parameters.AddWithValue("@visitId", visit.Id);

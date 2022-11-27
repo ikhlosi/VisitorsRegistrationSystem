@@ -22,42 +22,37 @@ namespace VisitorsRegistrationSystemBL.Domain
         public Company VisitedCompany { get; private set; }
         public Employee VisitedEmployee { get; private set; }
         public DateTime StartTime { get; private set; }
-        public DateTime EndTime { get; private set; }
-
+       
         internal void SetVisitor(Visitor visitor)
         {
-            if (visitor == null) throw new VisitException($"{this.GetType()}: {System.Reflection.MethodBase.GetCurrentMethod().Name} - Visitor is null");
+            if (visitor == null) throw new VisitException("Visit - SetVisitor - Visitor is null");
             this.Visitor = visitor;
         }
 
         internal void SetId(int id)
         {
-            if (id < 1) throw new VisitException("Visit - id smaller than 1");
+            if (id < 1) throw new VisitException("Visit - SetId - id smaller than 1");
             this.Id = id;
         }
 
         internal void SetVisitedCompany(Company visitedCompany)
         {
-            VisitedCompany = visitedCompany ?? throw new VisitException("Visit - Visited Company is null");
+            VisitedCompany = visitedCompany ?? throw new VisitException("Visit - SetVisitedCompany - Visited Company is null");
         }
 
         internal void SetVisitedEmployee(Employee visitedEmployee)
         {
             //if (!VisitedCompany.GetEmployees().Contains(visitedEmployee)) throw new VisitException("Visit - Employee not part of company");
-            VisitedEmployee = visitedEmployee ?? throw new VisitException("Visit - Visited Employee is null");
+            VisitedEmployee = visitedEmployee ?? throw new VisitException("Visit - SetVisitedEmployee - Visited Employee is null");
         }
 
         internal void SetStartTime(DateTime startTime)
         {
-            if (startTime < DateTime.Now) throw new VisitException("Visit - Start time is too late");
+            if (startTime < DateTime.Now) throw new VisitException("Visit - SetStartTime - Start time is too late");
             StartTime = startTime;
         }
 
-        public void SetEndTime(DateTime endTime)
-        {
-            // todo: checks
-            EndTime = endTime;
-        }
+      
 
         public bool IsSame(Visit otherVisit) {
             return (this.Id == otherVisit.Id) &&

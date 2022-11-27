@@ -27,21 +27,21 @@ namespace VisitorsRegistrationSystemBL.Domain
 
 
         public void SetCity(string city) {
-            if (string.IsNullOrWhiteSpace(city)) throw new AddressException("SetCity - city is empty");
+            if (string.IsNullOrWhiteSpace(city)) throw new AddressException("Address - SetCity - city is empty");
             this.City = city;
         }
         public void SetStreet(string street) { 
-            if (string.IsNullOrWhiteSpace(street)) throw new AddressException("SetStreet - street is empty");
+            if (string.IsNullOrWhiteSpace(street)) throw new AddressException("Address - SetStreet - street is empty");
             this.Street = street;
         }
 
         public void setId(int id)
         {
-            if(id < 1) throw new AddressException("SetId - id smaller than 1");
+            if(id < 1) throw new AddressException("Address - SetId - id smaller than 1");
             this.Id = id;
         }
         public void SetHouseNo(string houseNo) {
-            if (string.IsNullOrWhiteSpace(houseNo)) throw new AddressException("SetHouseNo - house number is empty");
+            if (string.IsNullOrWhiteSpace(houseNo)) throw new AddressException("Address - SetHouseNo - house number is empty");
             this.HouseNumber = houseNo;
         }
         public void SetBusNo(string? busNo)
