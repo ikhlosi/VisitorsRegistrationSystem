@@ -29,8 +29,7 @@ namespace TestDomain
             Company company = _visitedCompany;
             Visitor visitor = _visitor;
             Employee employee = _employee;
-            DateTime startTime = DateTime.Now;
-            DateTime endTime = DateTime.Now.AddHours(1);
+            DateTime startTime = DateTime.Now.AddHours(1);
 
             //Act 
             Visit visit = VisitFactory.MakeVisit(null, _visitor, _visitedCompany, _employee, startTime);
@@ -40,8 +39,6 @@ namespace TestDomain
             Assert.Equal(_visitedCompany, visit.VisitedCompany);
             Assert.Equal(_employee, visit.VisitedEmployee);
             Assert.Equal(startTime, visit.StartTime);
-            Assert.Equal(endTime, visit.EndTime);
-
         }
         [Theory]
         [InlineData(null)]

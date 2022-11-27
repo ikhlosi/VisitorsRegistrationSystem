@@ -14,8 +14,8 @@ namespace VisitorsRegistrationSystemBL.Factories {
 				if (id.HasValue) v.SetId(id.Value);
 				return v;
 			}
-			catch {
-				VisitException ex = new VisitException("VisitFactory - MakeVisit");
+			catch (Exception e){
+				VisitException ex = new VisitException("VisitFactory - MakeVisit",e);
 				ex.Data.Add("Visit ID", id);
 				ex.Data.Add("Visitor", visitor);
 				ex.Data.Add("VisitedCompany", visitedCompany);
