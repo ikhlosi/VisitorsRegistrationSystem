@@ -70,7 +70,7 @@ namespace TestDomain
 
             //Assert
             var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(1, visitor, company, employee, startTime)); ;
-            Assert.Equal("Visit - Visitor is null", ex.Message);
+            Assert.Equal("Visit - SetVisitor - Visitor is null", ex.Message);
         }
         [Theory]
         [InlineData(null)]
