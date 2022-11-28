@@ -9,6 +9,7 @@ using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.Factories;
 using VisitorsRegistrationSystemBL.Interfaces;
 using VisitorsRegistrationSystemDL.Exceptions;
+using System.ComponentModel.Design;
 
 namespace VisitorsRegistrationSystemDL.Repositories
 {
@@ -21,8 +22,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
             this.connectionString = connectionString;
         }
         
-
-        // TODO2711 bij checken ofdat comapny exists, als de company "deleted" staat bestaat hij dan?
         public bool CompanyExistsInDB(Company company)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -53,7 +52,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
             }
         }
-        // DONE
         public bool CompanyExistsInDB(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -84,7 +82,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
             }
         }
-        // DONE
         public IReadOnlyList<Company> GetCompaniesFromDB()
         {
             List<Company> companies = new List<Company>();
@@ -455,12 +452,10 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        //TODO2711 kunnen we een company die al invisible staat nogmaals invisible zetten?
         public void RemoveCompanyFromDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            // TODO delete -> visible op 0
-            string query = @"DELETE FROM company WHERE id = @id";
+            string query = @"update company set visible=0 where id = @id and visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -544,7 +539,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
         
-        // TODO2711 hier ook?
         public bool EmployeeExistsInDB(Employee employee)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -570,7 +564,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
             }
         }
-
         public bool EmployeeExistsInDB(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -667,11 +660,10 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        //TODO2711 kunnen we een employee die al invisible staat nogmaals invisible zetten?
         public void RemoveEmployeeFromDB(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"delete from Employee where id=@id";
+            string query = @"delete from Employee where id=@id and visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -694,9 +686,8 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public void UpdateEmployeeInDB(Employee employee, Company company)
         {
-            // TODO2711: do we need a company object here?
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update Employee set firstName=@name, lastName=@lastname, email=@email, occupation=@function, where id=@id;";
+            string query = @"update Employee set firstName=@name, lastName=@lastname, email=@email, occupation=@function,companyId = @companyId, where id=@id;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -708,6 +699,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     cmd.Parameters.AddWithValue("@email", employee.Email);
                     cmd.Parameters.AddWithValue("@function", employee.Function);
                     cmd.Parameters.AddWithValue("@id", employee.ID);
+                    cmd.Parameters.AddWithValue("@companyId",company.ID);
                     cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -723,9 +715,8 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public void WriteEmployeeInDB(Employee employee, Company company)
         {
-            // TODO2711: do we need a company object here?
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"insert into Employee (firstName, lastName, email, occupation) values (@name, @lastname, @email, @function);";
+            string query = @"insert into Employee (firstName, lastName, email, occupation,companyId) values (@name, @lastname, @email, @function, @companyId);";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -736,6 +727,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     cmd.Parameters.AddWithValue("@lastname", employee.LastName);
                     cmd.Parameters.AddWithValue("@email", employee.Email);
                     cmd.Parameters.AddWithValue("@function", employee.Function);
+                    cmd.Parameters.AddWithValue("@companyId", company.ID);
                     cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)

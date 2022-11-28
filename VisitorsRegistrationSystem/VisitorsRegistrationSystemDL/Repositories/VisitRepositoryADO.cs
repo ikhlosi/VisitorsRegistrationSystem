@@ -47,12 +47,10 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        //TODO2711 kunnen we een visit die al invisible staat nogmaals invisible zetten?
         public void RemoveVisit(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            // TODO delete -> visible op 0
-            string query = @"DELETE from Visit where visitId = @id";
+            string query = @"update visit set visible=0 where visitId = @id and visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -101,7 +99,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        // TODO2711 bij checken ofdat visit exists, als de visit "deleted" staat bestaat hij dan?
         public bool VisitExists(Visit visit)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -218,7 +215,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        // TODO2711 toelichting endvisit
         public void EndVisit(string email)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -298,12 +294,10 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        //TODO2711 kunnen we een visitor die al invisible staat nogmaals invisible zetten?
         public void RemoveVisitor(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            // TODO delete -> visible op 0
-            string query = @"DELETE FROM visitor WHERE id=@id";
+            string query = @"update visitor set visible=0 where id = @id and visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -351,7 +345,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        // TODO2711 bij checken ofdat visitor exists, als de visitor "deleted" staat bestaat hij dan?
         public bool VisitorExists(Visitor visitor)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
