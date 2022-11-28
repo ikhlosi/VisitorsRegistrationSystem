@@ -15,7 +15,7 @@ namespace VisitorRegistrationSystemVisitGUI.Model {
 		public string FirstName {
 			get { return _firstName; }
 			set {
-				if (string.IsNullOrWhiteSpace(value) || value.Length < 6) throw new ArgumentException("invalid name");
+				//if (string.IsNullOrWhiteSpace(value) || value.Length < 6) throw new ArgumentException("invalid name");
 				_firstName = value;
 				// OnPropertyChanged();
 			}
