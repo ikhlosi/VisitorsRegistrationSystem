@@ -84,16 +84,17 @@ namespace TestManagers
             this._mockRepo.Setup(repoInterface => repoInterface.VisitExists(visit)).Returns(false);
             //testen
             var ex = Assert.Throws<VisitException>(() => this._vm.UpdateVisit(visit));
-            Assert.Equal("VisitManager(Updatevisit) - visit does not exist", ex.Message);
+            Assert.Equal("VisitManager(Updatevisit) - visit does not exist", ex.InnerException.Message);
         }
         [Fact]
         public void UpdateVisit_Invalid_Visit_is_unchanged()
         {
-            Visit visit = VisitFactory.MakeVisit(null, _validVisitor, _visitedCompany, _employee, DateTime.Now.AddHours(1));
+            // id 1 moet meegegeven worden want je kan een visit niet updaten als je de id ervan niet weet
+            Visit visit = VisitFactory.MakeVisit(1, _validVisitor, _visitedCompany, _employee, DateTime.Now.AddHours(1));
             this._mockRepo.Setup(repoInterface => repoInterface.VisitExists(visit)).Returns(true);
             //testen
             var ex = Assert.Throws<VisitException>(() => this._vm.UpdateVisit(visit));
-            Assert.Equal("VisitManager(Updatevisit) - visit is unchanged", ex.Message);
+            Assert.Equal("VisitManager(Updatevisit) - visit is unchanged", ex.InnerException.Message);
         }
 
         //--------- Visistor part -----------
@@ -109,7 +110,7 @@ namespace TestManagers
         {
             this._mockRepo.Setup(repoInterface => repoInterface.VisitorExists(this._visitor.Id)).Returns(true);
             var ex = Assert.Throws<VisitManagerException>(() => this._vm.AddVisitor(this._visitor));
-            Assert.Equal("VisitManager - Addvisitor - visitor has already been registered", ex.Message);
+            Assert.Equal("VisitManager - Addvisitor - visitor has already been registered", ex.InnerException.Message);
         }
 
         [Fact]
@@ -133,7 +134,7 @@ namespace TestManagers
         {
             this._mockRepo.Setup(x => x.VisitorExists(this._visitor.Id)).Returns(false);
             var ex = Assert.Throws<VisitManagerException>(() => this._vm.DeleteVisitor(this._visitor));
-            Assert.Equal("VisitManager - DeleteVisitor - visitor is not registered", ex.Message);
+            Assert.Equal("VisitManager - DeleteVisitor - visitor is not registered", ex.InnerException.Message);
         }
 
         [Fact]
@@ -157,7 +158,7 @@ namespace TestManagers
         {
             this._mockRepo.Setup(x => x.VisitorExists(this._visitor.Id)).Returns(false);
             var ex = Assert.Throws<VisitManagerException>(() => this._vm.UpdateVisitor(this._visitor));
-            Assert.Equal("VisitManager - UpdateVisitor - visitor is not registered", ex.Message);
+            Assert.Equal("VisitManager - UpdateVisitor - visitor is not registered", ex.InnerException.Message);
         }
         [Fact]
         public void Test_UpdateVisitor_Invalid_VisitorIsUnchanged()
@@ -165,7 +166,7 @@ namespace TestManagers
             this._mockRepo.Setup(x => x.VisitorExists(this._visitor.Id)).Returns(true);
             this._mockRepo.Setup(x => x.GetVisitor(this._visitor.Id).Equals(_visitor)).Returns(true);
             var ex = Assert.Throws<VisitManagerException>(() => this._vm.UpdateVisitor(this._visitor));
-            Assert.Equal("VisitManager - UpdateVisitor - updated visitor is unchanged", ex.Message);
+            Assert.Equal("VisitManager - UpdateVisitor - updated visitor is unchanged", ex.InnerException.Message);
         }
 
         [Fact]

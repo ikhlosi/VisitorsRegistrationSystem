@@ -7,6 +7,7 @@ using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.DTO;
 using VisitorsRegistrationSystemBL.Exceptions;
 using VisitorsRegistrationSystemBL.Interfaces;
+using Moq;
 
 namespace VisitorsRegistrationSystemBL.Managers
 {
@@ -46,6 +47,9 @@ namespace VisitorsRegistrationSystemBL.Managers
             if (visit == null) throw new VisitException("VisitManager(Updatevisit) - visit is null");
             try {
                 if (!_repo.VisitExists(visit)) throw new VisitException("VisitManager(Updatevisit) - visit does not exist");
+                // wanneer je debugt en in de repo.getvisit probeert te springen springt hij ervoer
+                // waardoor je hieronder een nullreference exception krijgt, geen idee waar het fout gaat
+                // de methode getvisit werkt nochtans in een gewone consoletest
                 Visit visitFromDB = _repo.GetVisit(visit.Id);
                 if (visit.IsSame(visitFromDB)) throw new VisitException("VisitManager(Updatevisit) - visit is unchanged");
                 _repo.UpdateVisit(visit);

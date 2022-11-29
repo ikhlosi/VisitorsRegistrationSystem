@@ -15,10 +15,10 @@ Visitor visitor = VisitorFactory.MakeVisitor(1, "Arno", "arnovantieghem@gmail.co
 DateTime startTime = new DateTime(2023, 12, 29);
 Visit visit = VisitFactory.MakeVisit(null,visitor, company, employee, startTime);
 
-foreach (var i in vRepo.GetVisits())
-{
-    Console.WriteLine("\t" + i.ToString());
-}
+//foreach (var i in vRepo.GetVisits())
+//{
+//    Console.WriteLine("\t" + i.ToString());
+//}
 //Console.WriteLine("Adding visit");
 //vRepo.AddVisit(visit);
 //Console.WriteLine("Visit has been added");
@@ -41,5 +41,5 @@ foreach (var i in vRepo.GetVisits())
 //Visitor visitor1 = VisitorFactory.MakeVisitor(3, "Arno", "arnov@gmail.com", "Brightest");
 //Visit visitUpdate1 = VisitFactory.MakeVisit(2, visitor1, company, employee, startTime);
 //Console.WriteLine("Bestaat Visit met VisitorId: 3 en startDate: 30-12-2023 (moet false zijn)" + vRepo.VisitExists(visitUpdate1));
-
-//Console.WriteLine("Geef Visit met id: 4" + vRepo.GetVisit(4).ToString());
+Visit visit1 = vRepo.GetVisit(4);
+Console.WriteLine("Geef Visit met id: 4" + visit1);
