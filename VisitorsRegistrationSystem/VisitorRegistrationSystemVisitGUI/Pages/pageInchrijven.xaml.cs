@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.Factories;
 using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorRegistrationSystemVisitGUI.Pages
@@ -23,11 +24,12 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
     public partial class pageInchrijven : Page
     {
         private readonly CompanyManager _cm;
+        private VisitManager _vm;
 
-        public pageInchrijven(CompanyManager cm)
+        public pageInchrijven(CompanyManager cm, VisitManager vm)
         {
             _cm = cm;
-
+            _vm = vm;
             InitializeComponent();
             InitializeData();
         }
@@ -40,17 +42,23 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
 
         private void btnInschrijven_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Content = new PageInschrijvenSucces(_cm);
-            //MessageBoxResult result = MessageBox.Show("U bent ingeschreven!", "Mijn app", MessageBoxButton.OK);          
-            //if(result == MessageBoxResult.OK)
-            //{
-            //    Application.Current.MainWindow.Content = new pageMain(_cm);
-            //}
+            string visitorName = $"{txtbVoornaam.Text} {txtbAchternaam.Text}";
+            string visitorEmail = txtbEmail.Text;
+            string visitorCompany = txtbBedrijfBezoeker.Text;
+            Visitor visitor = VisitorFactory.MakeVisitor(null, visitorName, visitorEmail, visitorCompany);
+            Company visitedCompany = (Company)cbBedrijfAfspraak.SelectedItem;
+            Employee visitedEmployee = (Employee)cbAfspraakMet.SelectedItem;
+            visitor = _vm.AddVisitor(visitor);
+            Visit visit = VisitFactory.MakeVisit(null, visitor, visitedCompany, visitedEmployee, DateTime.Now.AddSeconds(1));
+            _vm.AddVisit(visit); // todo transacties: we willen geen Visitor toevoegen als we geen Visit hebben kunnen toevoegen
+            Application.Current.MainWindow.Content = new PageInschrijvenSucces(_cm, _vm);
+
+            // todo: btnInschrijven enkel klikbaar wanneer alles (correct) ingevuld
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Content = new pageMain(_cm);
+            Application.Current.MainWindow.Content = new pageMain(_cm, _vm);
         }
 
         private void cbBedrijfAfspraak_SelectionChanged(object sender, SelectionChangedEventArgs e)

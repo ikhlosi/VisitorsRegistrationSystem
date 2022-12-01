@@ -23,7 +23,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void AddVisit(Visit visit)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"INSERT into Visit(visitorId,startTime,endTime,companyId,employeeId) values (@visitorId,@startTime,null,@companyId,@employeeId)";
+            string query = @"INSERT into Visit(visitorId,startTime,companyId,employeeId,visible) values (@visitorId,@startTime,@companyId,@employeeId,1)";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -242,7 +242,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public IReadOnlyList<VisitDTO> GetVisits() {
             List<VisitDTO> visits = new List<VisitDTO>();
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"SELECT * FROM visit where visible = 1 order by visitId";
+            string query = @"SELECT * FROM Visit where visible = 1 order by visitId";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -268,10 +268,10 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        public void AddVisitor(Visitor visitor)
+        public Visitor AddVisitor(Visitor visitor)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"INSERT INTO visitor (name,email,visitorCompany) VALUES (@name,@email,@visitorCompany)";
+            string query = @"INSERT INTO Visitor (name,email,visitorCompany) VALUES (@name,@email,@visitorCompany)";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -282,6 +282,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     cmd.Parameters.AddWithValue("@email", visitor.Email);
                     cmd.Parameters.AddWithValue("@visitorCompany", visitor.VisitorCompany);
                     cmd.ExecuteNonQuery();
+                    int insertedId = (int)cmd.LastInsertedId;
+                    visitor.SetId(insertedId);
+                    return visitor;
                 }
                 catch (Exception ex)
                 {
@@ -348,7 +351,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public bool VisitorExists(Visitor visitor)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"SELECT COUNT(*) FROM visitor WHERE email=@email and visible = 1";
+            string query = @"SELECT COUNT(*) FROM Visitor WHERE email=@email and visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -356,7 +359,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     connection.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.AddWithValue("@email", visitor.Email);
-                    int n = (int)cmd.ExecuteScalar();
+                    Int64 n = (Int64)cmd.ExecuteScalar();
                     if (n > 0)
                         return true;
                     return false;
@@ -375,7 +378,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public bool VisitorExists(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"SELECT COUNT(*) FROM visitor WHERE id=@id and visible = 1";
+            string query = @"SELECT COUNT(*) FROM Visitor WHERE id=@id and visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -402,7 +405,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public Visitor GetVisitor(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"SELECT * FROM visitor WHERE id=@id and visible = 1";
+            string query = @"SELECT * FROM Visitor WHERE id=@id and visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -432,7 +435,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         {
             List<Visitor> visitors = new List<Visitor>();
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"SELECT * FROM visitor where visible = 1";
+            string query = @"SELECT * FROM Visitor where visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try

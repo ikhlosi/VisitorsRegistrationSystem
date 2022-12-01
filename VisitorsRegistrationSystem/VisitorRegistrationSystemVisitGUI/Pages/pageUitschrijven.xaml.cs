@@ -22,21 +22,23 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
     public partial class pageUitschrijven : Page
     {
         private readonly CompanyManager _cm;
+        private VisitManager _vm;
 
-        public pageUitschrijven(CompanyManager cm)
+        public pageUitschrijven(CompanyManager cm, VisitManager vm)
         {
             _cm = cm;
+            _vm = vm;
             InitializeComponent();
         }
 
         private void btnUitschrijven_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Content = new pageMain(_cm);
+            Application.Current.MainWindow.Content = new pageMain(_cm, _vm);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Content = new pageMain(_cm);
+            Application.Current.MainWindow.Content = new pageMain(_cm, _vm);
         }
     }
 }
