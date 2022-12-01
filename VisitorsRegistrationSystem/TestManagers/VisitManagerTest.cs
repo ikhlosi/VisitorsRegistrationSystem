@@ -92,6 +92,7 @@ namespace TestManagers
             // id 1 moet meegegeven worden want je kan een visit niet updaten als je de id ervan niet weet
             Visit visit = VisitFactory.MakeVisit(1, _validVisitor, _visitedCompany, _employee, DateTime.Now.AddHours(1));
             this._mockRepo.Setup(repoInterface => repoInterface.VisitExists(visit)).Returns(true);
+            this._mockRepo.Setup(repoInterface => repoInterface.GetVisit(visit.Id)).Returns(visit);
             //testen
             var ex = Assert.Throws<VisitException>(() => this._vm.UpdateVisit(visit));
             Assert.Equal("VisitManager(Updatevisit) - visit is unchanged", ex.InnerException.Message);

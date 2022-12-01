@@ -37,10 +37,12 @@ CREATE TABLE Employee(
 CREATE TABLE Visit(
 	visitorId int NOT NULL,
 	startTime datetime NOT NULL,
-	endTime datetime NOT NULL,
+	endTime datetime,
 	companyId int NOT NULL,
 	employeeId int NOT NULL,
-    CONSTRAINT PK_Visit PRIMARY KEY (visitorId,startTime) 
+	visitId INT NULL AUTO_INCREMENT,
+    CONSTRAINT PK_Visit PRIMARY KEY (visitorId,startTime),
+	CONSTRAINT UNIQUE INDEX visitId_UNIQUE (visitId ASC)
 );
 
 CREATE TABLE Visitor(
@@ -71,17 +73,17 @@ ALTER TABLE Visit
 ADD  CONSTRAINT FK_Visit_Visitor
 FOREIGN KEY (visitorId) REFERENCES Visitor (id);
 
-ALTER TABLE visitorsregistrationsystem.address 
+ALTER TABLE VisitorsRegistrationSystem.Address 
 ADD COLUMN visible BIT NULL DEFAULT true;
 
-ALTER TABLE visitorsregistrationsystem.company 
+ALTER TABLE VisitorsRegistrationSystem.Company 
 ADD COLUMN visible BIT NULL DEFAULT true;
 
-ALTER TABLE visitorsregistrationsystem.employee 
+ALTER TABLE VisitorsRegistrationSystem.Employee 
 ADD COLUMN visible BIT NULL DEFAULT true;
 
-ALTER TABLE visitorsregistrationsystem.visit 
+ALTER TABLE VisitorsRegistrationSystem.Visit 
 ADD COLUMN visible BIT NULL DEFAULT true;
 
-ALTER TABLE visitorsregistrationsystem.visitor 
+ALTER TABLE VisitorsRegistrationSystem.Visitor 
 ADD COLUMN visible BIT NULL DEFAULT true;
