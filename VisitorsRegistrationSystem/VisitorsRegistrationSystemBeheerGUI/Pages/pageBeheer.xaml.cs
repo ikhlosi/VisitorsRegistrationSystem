@@ -112,14 +112,12 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                         textColumn.Binding = new Binding(param);
                         dgDataTable.Columns.Add(textColumn);
                     }
-
                     AddActionButtonsColumn(true, false);
 
                     foreach (object item in companies)
                     {
                         dgDataTable.Items.Add(item);
                     }
-
                     break;
                 case "Medewerkers":
                     List<Employee> employees = new List<Employee>();
@@ -199,9 +197,110 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                 default:
                     break;
             }
+
             SavedCompanyId = 0;
             SavedVisitorId = 0;
             cmbSearchParameter.SelectedIndex = 0;
+        }
+
+        private void btnToevoegen_Click(object sender, RoutedEventArgs e)
+        {
+            switch (CheckedRadioButton)
+            {
+                case "Bedrijven":
+                    BedrijfFormWindow bfw = new BedrijfFormWindow();
+                    bfw.ShowDialog();
+                    rbBedrijven.IsChecked = false;
+                    rbBedrijven.IsChecked = true;
+                    break;
+                case "Medewerkers":
+                    MedewerkerFormWindow mfw = new MedewerkerFormWindow();
+                    mfw.ShowDialog();
+                    rbMedewerkers.IsChecked = false;
+                    rbMedewerkers.IsChecked = true;
+                    break;
+                case "Bezoekers":
+                    break;
+                case "Bezoeken":
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+        private void EditButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            switch (dgDataTable.SelectedValue.GetType().Name)
+            {
+                case nameof(Company):
+                    BedrijfFormWindow bfw = new BedrijfFormWindow((Company)dgDataTable.SelectedValue);
+                    bfw.ShowDialog();
+                    rbBedrijven.IsChecked = false;
+                    rbBedrijven.IsChecked = true;
+                    break;
+                case nameof(Employee):
+                    MedewerkerFormWindow mfw = new MedewerkerFormWindow();
+                    mfw.ShowDialog();
+                    rbMedewerkers.IsChecked = false;
+                    rbMedewerkers.IsChecked = true;
+                    break;
+                case nameof(Visitor):
+                    break;
+                case nameof(VisitDTO):
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            string typeName = dgDataTable.SelectedValue.GetType().Name;
+            switch (typeName)
+            {
+                case nameof(Company):
+                    _cm.RemoveCompany((Company)dgDataTable.SelectedValue);
+                    rbBedrijven.IsChecked = false;
+                    rbBedrijven.IsChecked = true;
+                    break;
+                case nameof(Employee):
+                    _cm.RemoveEmployee((Employee)dgDataTable.SelectedValue);
+                    rbMedewerkers.IsChecked = false;
+                    rbMedewerkers.IsChecked = true;
+                    break;
+                case nameof(Visitor):
+                    MessageBox.Show(typeName);
+                    break;
+                case nameof(VisitDTO):
+                    MessageBox.Show(typeName);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void EmployeeButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            SavedCompanyId = ((Company)dgDataTable.SelectedValue).ID;
+            ((RadioButton)stpFilterRadioButtons.Children[1]).IsChecked = true;
+        }
+
+        private void VisitButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            SavedVisitorId = ((Visitor)dgDataTable.SelectedValue).Id;
+            ((RadioButton)stpFilterRadioButtons.Children[3]).IsChecked = true;
+        }
+
+        private void cmbSearchParameter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            txtbFilter.Text = "";
+            dgDataTable.Items.Filter = ResultsFilter;
+        }
+
+        private void txtbFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            dgDataTable.Items.Filter = ResultsFilter;
         }
 
         private void AddActionButtonsColumn(bool showEmployeeButton, bool showVisitButton)
@@ -253,102 +352,5 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
         }
 
 
-        private void btnToevoegen_Click(object sender, RoutedEventArgs e)
-        {
-            switch (CheckedRadioButton)
-            {
-                case "Bedrijven":
-                    BedrijfFormWindow bfw = new BedrijfFormWindow();
-                    bfw.ShowDialog();
-                    rbBedrijven.IsChecked = false;
-                    rbBedrijven.IsChecked = true;
-                    break;
-                case "Medewerkers":
-                    MedewerkerFormWindow mfw = new MedewerkerFormWindow();
-                    mfw.ShowDialog();
-                    rbMedewerkers.IsChecked = true;
-                    break;
-                case "Bezoekers":
-                    break;
-                case "Bezoeken":
-                    break;
-                default:
-                    break;
-            }
-
-        }
-
-
-        private void EditButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            switch (dgDataTable.SelectedValue.GetType().Name)
-            {
-                case nameof(Company):
-                    BedrijfFormWindow bfw = new BedrijfFormWindow((Company)dgDataTable.SelectedValue);
-                    bfw.ShowDialog();
-                    rbBedrijven.IsChecked = false;
-                    rbBedrijven.IsChecked = true;
-                    break;
-                case nameof(Employee):
-                    MedewerkerFormWindow mfw = new MedewerkerFormWindow();
-                    mfw.ShowDialog();
-                    rbMedewerkers.IsChecked = true;
-                    break;
-                case nameof(Visitor):
-                    break;
-                case nameof(VisitDTO):
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            string typeName = dgDataTable.SelectedValue.GetType().Name;
-            switch (typeName)
-            {
-                case nameof(Company):
-                    _cm.RemoveCompany((Company)dgDataTable.SelectedValue);
-                    rbBedrijven.IsChecked = false;
-                    rbBedrijven.IsChecked = true;
-                    break;
-                case nameof(Employee):
-                    _cm.RemoveEmployee((Employee)dgDataTable.SelectedValue);
-                    rbMedewerkers.IsChecked = true;
-                    break;
-                case nameof(Visitor):
-                    MessageBox.Show(typeName);
-                    break;
-                case nameof(VisitDTO):
-                    MessageBox.Show(typeName);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void EmployeeButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            SavedCompanyId = ((Company)dgDataTable.SelectedValue).ID;
-            ((RadioButton)stpFilterRadioButtons.Children[1]).IsChecked = true;
-        }
-
-        private void VisitButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            SavedVisitorId = ((Visitor)dgDataTable.SelectedValue).Id;
-            ((RadioButton)stpFilterRadioButtons.Children[3]).IsChecked = true;
-        }
-
-        private void cmbSearchParameter_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            txtbFilter.Text = "";
-            dgDataTable.Items.Filter = ResultsFilter;
-        }
-
-        private void txtbFilter_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            dgDataTable.Items.Filter = ResultsFilter;
-        }
     }
 }

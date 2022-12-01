@@ -57,22 +57,22 @@
             <GroupBox Header="Bedrijf" Grid.Row="0">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="50" Content="Naam"/>
+                        <Label Width="60" Content="Naam"/>
                         <TextBox x:Name="txtbNaam" Width="280"/>
                     </StackPanel>
             
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="50" Content="VAT"/>
+                        <Label Width="60" Content="VAT"/>
                         <TextBox x:Name="txtbVAT" Width="280"/>
                     </StackPanel>
             
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="50" Content="Email"/>
+                        <Label Width="60" Content="Email"/>
                         <TextBox x:Name="txtbEmail" Width="280"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="50" Content="TelNr"/>
+                        <Label Width="60" Content="TelNr"/>
                         <TextBox x:Name="txtbTelNr" Width="280"/>
                     </StackPanel>
                 </StackPanel>
@@ -81,7 +81,7 @@
             <GroupBox Header="Adres" Grid.Row="1">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="50" Content="Straat"/>
+                        <Label Width="60" Content="Straat"/>
                         <TextBox x:Name="txtbStraat" Width="160"/>
                         
                         <Label Width="30" Content="Nr"/>
@@ -92,7 +92,7 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="50" Content="Postcode"/>
+                        <Label Width="60" Content="Postcode"/>
                         <TextBox x:Name="txtbPostcode" Width="70"/>
 
                         <Label Width="40" Content="Stad"/>
