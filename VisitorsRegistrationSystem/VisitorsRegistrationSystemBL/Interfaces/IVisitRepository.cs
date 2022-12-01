@@ -18,7 +18,7 @@ namespace VisitorsRegistrationSystemBL.Interfaces
         Visit GetVisit(int id);
         void EndVisit(string email);
         IReadOnlyList<VisitDTO> GetVisits();
-        void AddVisitor(Visitor visitor);
+        Visitor AddVisitor(Visitor visitor);
         void RemoveVisitor(int id);
         void UpdateVisitor(Visitor visitor);
         bool VisitorExists(Visitor visitor);

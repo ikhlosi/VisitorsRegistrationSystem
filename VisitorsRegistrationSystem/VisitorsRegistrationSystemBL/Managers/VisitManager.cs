@@ -59,13 +59,13 @@ namespace VisitorsRegistrationSystemBL.Managers
             }
         }
 
-        public void AddVisitor(Visitor visitor)
+        public Visitor AddVisitor(Visitor visitor)
         {
             if (visitor == null) throw new VisitManagerException("VisitManager - Addvisitor - visitor is null");
             try
             {
-                if (_repo.VisitorExists(visitor.Id)) throw new VisitManagerException("VisitManager - Addvisitor - visitor has already been registered");
-                _repo.AddVisitor(visitor);
+                if (_repo.VisitorExists(visitor)) throw new VisitManagerException("VisitManager - Addvisitor - visitor has already been registered");
+                return _repo.AddVisitor(visitor);
             }
             catch (Exception ex)
             {

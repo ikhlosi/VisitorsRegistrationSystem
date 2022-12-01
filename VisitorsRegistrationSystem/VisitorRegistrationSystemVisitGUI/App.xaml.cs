@@ -28,8 +28,10 @@ namespace VisitorRegistrationSystemVisitGUI
             DotNetEnv.Env.TraversePath().Load();
             string? connString = Environment.GetEnvironmentVariable("CONNECTION_STRING_DB");
             ICompanyRepository companyRepo = new CompanyRepositoryADO(connString);
+            IVisitRepository visitRepo = new VisitRepositoryADO(connString);
             CompanyManager companyManager = new CompanyManager(companyRepo);
-            MainWindow mw = new MainWindow(companyManager);
+            VisitManager visitManager = new VisitManager(visitRepo);
+            MainWindow mw = new MainWindow(companyManager, visitManager);
             mw.Show();
         }
     }

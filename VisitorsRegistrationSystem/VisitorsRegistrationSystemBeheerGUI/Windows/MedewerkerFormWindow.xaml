@@ -5,8 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VisitorsRegistrationSystemBeheerGUI.Windows"
         mc:Ignorable="d"
-        Title="MedewerkerFormWindow" Height="450" Width="800">
-    <Grid>
+        Title="MedewerkerFormWindow" Height="200" Width="380" ResizeMode="NoResize">
+    <Grid Margin="5">
+        <StackPanel Orientation="Vertical">
+            
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Voornaam" Width="75"/>
+                <TextBox TextWrapping="Wrap" Height="25" Width="280"  VerticalAlignment="Center"/>
+            </StackPanel>
+            
+            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                <Label Content="Achternaam" Width="75"/>
+                <TextBox TextWrapping="Wrap" Height="25" Width="280" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel Margin="0,5,0,0"  Orientation="Horizontal">
+                <Label Content="Email" Width="75"/>
+                <TextBox TextWrapping="Wrap" Height="25" Width="280"  VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                <Label Content="Functie" Width="75"/>
+                <TextBox TextWrapping="Wrap" Height="25" Width="280"  VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <Button Content="Opslaan" Margin="0,10,0,0"/>
+        </StackPanel>
+        
         
     </Grid>
 </Window>

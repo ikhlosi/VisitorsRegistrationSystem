@@ -20,13 +20,15 @@ namespace VisitorRegistrationSystemVisitGUI.Pages {
     /// </summary>
     public partial class PageInschrijvenSucces : Page {
         private readonly CompanyManager _cm;
-        public PageInschrijvenSucces(CompanyManager cm) {
+        private VisitManager _vm;
+        public PageInschrijvenSucces(CompanyManager cm, VisitManager vm) {
             _cm = cm;
+            _vm = vm;
             InitializeComponent();
         }
 
         private void btnHome_Click(object sender, RoutedEventArgs e) {
-            Application.Current.MainWindow.Content = new pageMain(_cm);
+            Application.Current.MainWindow.Content = new pageMain(_cm, _vm); // todo: ? nu maken we een nieuwe main pagina aan. Kunnen we refereren naar die vorige?
         }
     }
 }

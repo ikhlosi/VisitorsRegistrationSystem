@@ -20,6 +20,11 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
     /// </summary>
     public partial class BedrijfFormWindow : Window
     {
+        public BedrijfFormWindow()
+        {
+            InitializeComponent();
+        }
+
         public BedrijfFormWindow(Company c)
         {
             InitializeComponent();
@@ -32,6 +37,26 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
             txtbVAT.Text = c.VATNumber;
             txtbEmail.Text = c.Email;
             txtbTelNr.Text = c.TelephoneNumber;
+            txtbStraat.Text = c.Address.Street;
+            txtbHuisnummer.Text = c.Address.HouseNumber;
+            txtbBusnummer.Text = c.Address.BusNumber;
+            txtbPostcode.Text = "";
+            txtbGemeente.Text = c.Address.City;
+        }
+
+        private void btnOpslaan_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void btnAfsluiten_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            this.DragMove();
         }
     }
 }

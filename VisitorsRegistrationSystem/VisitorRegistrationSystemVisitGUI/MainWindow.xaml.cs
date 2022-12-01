@@ -24,12 +24,12 @@ namespace VisitorRegistrationSystemVisitGUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow(CompanyManager cm)
+        public MainWindow(CompanyManager cm, VisitManager vm)
         {
             InitializeComponent();
             this.WindowState = WindowState.Maximized;
             //this.WindowStyle = WindowStyle.None;
-            Content = new pageMain(cm);
+            Content = new pageMain(cm, vm);
         }
     }
 }
