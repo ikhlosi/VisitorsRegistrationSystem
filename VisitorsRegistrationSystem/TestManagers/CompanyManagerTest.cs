@@ -11,9 +11,11 @@ namespace TestManagers
     {
         private CompanyManager _cm;
         private Mock<ICompanyRepository> _companyRepoMock;
+        private Employee _validEmployee;
         private Company _validCompany;
 
         public CompanyManagerTest() {
+            this._validEmployee = EmployeeFactory.MakeEmployee(1, "John", "Doe", null, "Senior Software Developer");
             this._validCompany = CompanyFactory.MakeCompany(null, "CompanyA", "XXXXXXXXX", null, null, "companya@outlook.com");
             this._companyRepoMock = new Mock<ICompanyRepository>();
             this._cm = new CompanyManager(_companyRepoMock.Object);
@@ -101,6 +103,100 @@ namespace TestManagers
             this._companyRepoMock.Setup(x => x.GetCompaniesFromDB()).Throws(new CompanyException());
             var ex = Assert.Throws<CompanyException>(() => this._cm.GetCompanies());
             Assert.Equal("CompanyManager - GetCompanies", ex.Message);
+        }
+        //--------------------Employee part--------------------------
+        [Fact]
+        public void Test_AddEmployee_invalid_EmployeeIsNull()
+        {
+            var ex = Assert.Throws<CompanyException>(() => this._cm.AddEmployee(null, this._validCompany));
+            Assert.Equal("CompanyManager - Addemployee - employee is null", ex.Message);
+        }
+
+        // test removed because checking if employee exists will be done in UI
+        //[Fact]
+        //public void Test_AddEmployee_invalid_EmployeeExistsInDB() {
+        //    this._companyRepoMock.Setup(x => x.EmployeeExistsInDB(this._validEmployee.ID)).Returns(true);
+        //    var ex = Assert.Throws<EmployeeException>(() => this._em.AddEmployee(this._validEmployee));
+        //    Assert.Equal("EmployeeManager - AddEmployee - employee already exists in DB.", ex.InnerException.Message);
+        //}
+
+
+
+        [Fact]
+        public void Test_AddEmployee_invalid_catch()
+        {
+            this._companyRepoMock.Setup(x => x.EmployeeExistsInDB(this._validEmployee.ID)).Returns(false);
+            this._companyRepoMock.Setup(x => x.WriteEmployeeInDB(this._validEmployee, this._validCompany)).Throws(new CompanyException());
+            var ex = Assert.Throws<CompanyException>(() => this._cm.AddEmployee(this._validEmployee, this._validCompany));
+            Assert.Equal("CompanyManager - AddEmployee", ex.Message);
+        }
+
+
+        [Fact]
+        public void Test_RemoveEmployee_invalid_EmployeeIsNull()
+        {
+            var ex = Assert.Throws<CompanyException>(() => this._cm.RemoveEmployee(null));
+            Assert.Equal("CompanyManager - RemoveEmployee - employee is null", ex.Message);
+        }
+
+        [Fact]
+        public void Test_RemoveEmployee_invalid_EmployeeNotInDB()
+        {
+            this._companyRepoMock.Setup(x => x.EmployeeExistsInDB(this._validEmployee.ID)).Returns(false);
+            var ex = Assert.Throws<CompanyException>(() => this._cm.RemoveEmployee(this._validEmployee));
+            Assert.Equal("CompanyManager - RemoveEmployee - employee does not exist in DB.", ex.InnerException.Message);
+        }
+
+        [Fact]
+        public void Test_RemoveEmployee_invalid_catch()
+        {
+            this._companyRepoMock.Setup(x => x.EmployeeExistsInDB(this._validEmployee.ID)).Returns(true);
+            this._companyRepoMock.Setup(x => x.RemoveEmployeeFromDB(this._validEmployee.ID)).Throws(new CompanyException());
+            var ex = Assert.Throws<CompanyException>(() => this._cm.RemoveEmployee(this._validEmployee));
+            Assert.Equal("CompanyManager - RemoveEmployee", ex.Message);
+        }
+
+        [Fact]
+        public void Test_UpdateEmployee_invalid_EmployeeIsNull()
+        {
+            var ex = Assert.Throws<CompanyException>(() => this._cm.UpdateEmployee(null, this._validCompany));
+            Assert.Equal("CompanyManager - UpdateEmployee - employee is null", ex.Message);
+        }
+
+        [Fact]
+        public void Test_UpdateEmployee_invalid_EmployeeNotInDB()
+        {
+            this._companyRepoMock.Setup(x => x.EmployeeExistsInDB(this._validEmployee.ID)).Returns(false);
+            var ex = Assert.Throws<CompanyException>(() => this._cm.UpdateEmployee(this._validEmployee, this._validCompany));
+            Assert.Equal("CompanyManager - UpdateEmployee - employee does not exist in DB.", ex.InnerException.Message);
+        }
+
+        [Fact]
+        public void Test_UpdateEmployee_invalid_IsSame()
+        {
+            this._companyRepoMock.Setup(x => x.EmployeeExistsInDB(this._validEmployee.ID)).Returns(true);
+            this._companyRepoMock.Setup(x => x.GetEmployee(this._validEmployee.ID)).Returns(this._validEmployee);
+            var ex = Assert.Throws<CompanyException>(() => this._cm.UpdateEmployee(this._validEmployee, this._validCompany));
+            Assert.Equal("CompanyManager - UpdateEmployee - fields are the same, nothing to update.", ex.InnerException.Message);
+        }
+
+        [Fact]
+        public void Test_UpdateEmployee_invalid_catch()
+        {
+            Employee differentValidEmployee = EmployeeFactory.MakeEmployee(null, "James", "Jackson", null, "Project Manager");
+            this._companyRepoMock.Setup(x => x.EmployeeExistsInDB(this._validEmployee.ID)).Returns(true);
+            this._companyRepoMock.Setup(x => x.GetEmployee(this._validEmployee.ID)).Returns(differentValidEmployee);
+            this._companyRepoMock.Setup(x => x.UpdateEmployeeInDB(this._validEmployee, this._validCompany)).Throws(new CompanyException());
+            var ex = Assert.Throws<CompanyException>(() => this._cm.UpdateEmployee(this._validEmployee, this._validCompany));
+            Assert.Equal("CompanyManager - UpdateEmployee", ex.Message);
+        }
+
+        [Fact]
+        public void Test_GetEmployees_invalid_catch()
+        {
+            this._companyRepoMock.Setup(x => x.GetEmployeesFromDB()).Throws(new CompanyException());
+            var ex = Assert.Throws<CompanyException>(() => this._cm.GetEmployees());
+            Assert.Equal("CompanyManager - GetEmployees", ex.Message);
         }
     }
 }
