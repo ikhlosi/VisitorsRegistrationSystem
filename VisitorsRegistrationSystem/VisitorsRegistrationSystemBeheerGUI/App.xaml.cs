@@ -29,7 +29,11 @@ namespace VisitorsRegistrationSystemBeheerGUI
             string? connString = Environment.GetEnvironmentVariable("CONNECTION_STRING_DB");
             ICompanyRepository companyRepo = new CompanyRepositoryADO(connString);
             CompanyManager companyManager = new CompanyManager(companyRepo);
-            MainWindow mw = new MainWindow(companyManager);
+
+            IVisitRepository visitRepository = new VisitRepositoryADO(connString);
+            VisitManager visitManager = new VisitManager(visitRepository);
+
+            MainWindow mw = new MainWindow(companyManager, visitManager);
             mw.Show();
         }
     }

@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation.Provider;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -23,6 +24,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VisitorsRegistrationSystemBeheerGUI.Windows;
 using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.DTO;
 using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorsRegistrationSystemBeheerGUI.Pages
@@ -33,11 +35,16 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
     public partial class pageBeheer : Page
     {
         private readonly CompanyManager _cm;
-        private int ShowEmployeeByCompanyId = 0;
+        private readonly VisitManager _vm;
 
-        public pageBeheer(CompanyManager cm)
+        private int SavedCompanyId = 0;
+        private int SavedVisitorId = 0;
+        private string? CheckedRadioButton = "";
+
+        public pageBeheer(CompanyManager cm, VisitManager vm)
         {
             _cm = cm;
+            _vm = vm;
 
             InitializeComponent();
             InitializeData();
@@ -89,7 +96,8 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             dgDataTable.Columns.Clear();
             dgDataTable.Items.Clear();
 
-            switch (((RadioButton)sender).Content.ToString())
+            CheckedRadioButton = ((RadioButton)sender).Content.ToString();
+            switch (CheckedRadioButton)
             {    
                 case "Bedrijven":
                     IReadOnlyList<Company> companies = _cm.GetCompanies();
@@ -105,7 +113,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                         dgDataTable.Columns.Add(textColumn);
                     }
 
-                    AddActionButtonsColumn(true);
+                    AddActionButtonsColumn(true, false);
 
                     foreach (object item in companies)
                     {
@@ -114,11 +122,37 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
 
                     break;
                 case "Medewerkers":
-                    IReadOnlyList<Employee> employees = _cm.GetEmployees();
-                    if (ShowEmployeeByCompanyId > 0) { employees = _cm.GetEmployeesFromCompanyId(ShowEmployeeByCompanyId); }                    
+                    List<Employee> employees = new List<Employee>();
+                    try
+                    {  
+                        if (SavedCompanyId > 0) { employees = _cm.GetEmployeesFromCompanyId(SavedCompanyId).ToList(); }
+                        else { employees = _cm.GetEmployees().ToList(); }
+
+                        cmbSearchParameter.Items.Add("All");
+                        foreach (string param in employees[0].GetType().GetProperties().Select(x => x.Name).ToList())
+                        {
+                            cmbSearchParameter.Items.Add(param);
+
+                            DataGridTextColumn textColumn = new DataGridTextColumn();
+                            textColumn.Header = param;
+                            textColumn.Binding = new Binding(param);
+                            dgDataTable.Columns.Add(textColumn);
+                        }
+
+                        AddActionButtonsColumn(false, false);
+
+                        foreach (object item in employees)
+                        {
+                            dgDataTable.Items.Add(item);
+                        }
+                    }
+                    catch (Exception ex) { MessageBox.Show("Geen medewerkers terugevonden!"); }
+                    break;
+                case "Bezoekers":
+                    IReadOnlyList<Visitor> visitors = _vm.GetVisitors();
 
                     cmbSearchParameter.Items.Add("All");
-                    foreach (string param in employees[0].GetType().GetProperties().Select(x => x.Name).ToList())
+                    foreach (string param in visitors[0].GetType().GetProperties().Select(x => x.Name).ToList())
                     {
                         cmbSearchParameter.Items.Add(param);
 
@@ -128,22 +162,49 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                         dgDataTable.Columns.Add(textColumn);
                     }
 
-                    AddActionButtonsColumn(false);
+                    AddActionButtonsColumn(false, true);
 
-                    foreach (object item in employees)
+                    foreach (object item in visitors)
                     {
                         dgDataTable.Items.Add(item);
                     }
+                    break;
+                case "Bezoeken":
+                    List<VisitDTO> visits = new List<VisitDTO>();
+                    try
+                    {
+                        if (SavedVisitorId > 0) { visits = _vm.GetVisits().ToList(); }
+                        else { visits = _vm.GetVisits().ToList(); }
 
+                        cmbSearchParameter.Items.Add("All");
+                        foreach (string param in visits[0].GetType().GetProperties().Select(x => x.Name).ToList())
+                        {
+                            cmbSearchParameter.Items.Add(param);
+
+                            DataGridTextColumn textColumn = new DataGridTextColumn();
+                            textColumn.Header = param;
+                            textColumn.Binding = new Binding(param);
+                            dgDataTable.Columns.Add(textColumn);
+                        }
+
+                        AddActionButtonsColumn(false, false);
+                         
+                        foreach (object item in visits)
+                        {
+                            dgDataTable.Items.Add(item);
+                        }
+                    }
+                    catch (Exception ex) { MessageBox.Show("Geen bezoeken teruggevonden!"); }
                     break;
                 default:
                     break;
             }
-            ShowEmployeeByCompanyId = 0;
+            SavedCompanyId = 0;
+            SavedVisitorId = 0;
             cmbSearchParameter.SelectedIndex = 0;
         }
 
-        private void AddActionButtonsColumn(bool showEmployeeButton)
+        private void AddActionButtonsColumn(bool showEmployeeButton, bool showVisitButton)
         {
             DataGridTemplateColumn col = new DataGridTemplateColumn();
             col.Header = "Actions";
@@ -153,6 +214,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             sp.SetValue(HorizontalAlignmentProperty, HorizontalAlignment.Center);
 
             if (showEmployeeButton) { sp.AppendChild(AddButton("👤", "EMPLOYEE_ACTION")); }
+            if (showVisitButton) { sp.AppendChild(AddButton("📒", "VISIT_ACTION")); }
             sp.AppendChild(AddButton("🖉", "EDIT_ACTION"));
             sp.AppendChild(AddButton("🗑", "DELETE_ACTION"));
 
@@ -180,11 +242,42 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     btn.SetValue(Button.BackgroundProperty, new SolidColorBrush(Colors.LightBlue));
                     btn.AddHandler(Button.ClickEvent, new RoutedEventHandler(EmployeeButton_OnClick));
                     break;
+                case "VISIT_ACTION":
+                    btn.SetValue(Button.BackgroundProperty, new SolidColorBrush(Colors.LightSalmon));
+                    btn.AddHandler(Button.ClickEvent, new RoutedEventHandler(VisitButton_OnClick));
+                    break;
                 default:
                     break;
             }
             return btn;
         }
+
+
+        private void btnToevoegen_Click(object sender, RoutedEventArgs e)
+        {
+            switch (CheckedRadioButton)
+            {
+                case "Bedrijven":
+                    BedrijfFormWindow bfw = new BedrijfFormWindow();
+                    bfw.ShowDialog();
+                    rbBedrijven.IsChecked = false;
+                    rbBedrijven.IsChecked = true;
+                    break;
+                case "Medewerkers":
+                    MedewerkerFormWindow mfw = new MedewerkerFormWindow();
+                    mfw.ShowDialog();
+                    rbMedewerkers.IsChecked = true;
+                    break;
+                case "Bezoekers":
+                    break;
+                case "Bezoeken":
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
 
         private void EditButton_OnClick(object sender, RoutedEventArgs e)
         {
@@ -193,10 +286,17 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                 case nameof(Company):
                     BedrijfFormWindow bfw = new BedrijfFormWindow((Company)dgDataTable.SelectedValue);
                     bfw.ShowDialog();
+                    rbBedrijven.IsChecked = false;
+                    rbBedrijven.IsChecked = true;
                     break;
                 case nameof(Employee):
                     MedewerkerFormWindow mfw = new MedewerkerFormWindow();
                     mfw.ShowDialog();
+                    rbMedewerkers.IsChecked = true;
+                    break;
+                case nameof(Visitor):
+                    break;
+                case nameof(VisitDTO):
                     break;
                 default:
                     break;
@@ -205,13 +305,39 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
 
         private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(dgDataTable.SelectedValue.ToString());
+            string typeName = dgDataTable.SelectedValue.GetType().Name;
+            switch (typeName)
+            {
+                case nameof(Company):
+                    _cm.RemoveCompany((Company)dgDataTable.SelectedValue);
+                    rbBedrijven.IsChecked = false;
+                    rbBedrijven.IsChecked = true;
+                    break;
+                case nameof(Employee):
+                    _cm.RemoveEmployee((Employee)dgDataTable.SelectedValue);
+                    rbMedewerkers.IsChecked = true;
+                    break;
+                case nameof(Visitor):
+                    MessageBox.Show(typeName);
+                    break;
+                case nameof(VisitDTO):
+                    MessageBox.Show(typeName);
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void EmployeeButton_OnClick(object sender, RoutedEventArgs e)
         {
-            ShowEmployeeByCompanyId = ((Company)dgDataTable.SelectedValue).ID;
+            SavedCompanyId = ((Company)dgDataTable.SelectedValue).ID;
             ((RadioButton)stpFilterRadioButtons.Children[1]).IsChecked = true;
+        }
+
+        private void VisitButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            SavedVisitorId = ((Visitor)dgDataTable.SelectedValue).Id;
+            ((RadioButton)stpFilterRadioButtons.Children[3]).IsChecked = true;
         }
 
         private void cmbSearchParameter_SelectionChanged(object sender, SelectionChangedEventArgs e)
