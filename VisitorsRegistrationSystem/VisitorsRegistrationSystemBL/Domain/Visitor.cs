@@ -22,11 +22,11 @@ namespace VisitorsRegistrationSystemBL.Domain
         public Visitor()
         {
         }
-
         public int Id { get; private set; }
         public string Name { get; private set; }
         public string Email { get; private set; }
         public string VisitorCompany { get; private set; }
+
 
         internal void SetName(string name)
         {
