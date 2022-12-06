@@ -663,7 +663,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void RemoveEmployeeFromDB(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"delete from Employee where id=@id and visible=1";
+            string query = @"update employee set visible=0 where id = @id and visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
