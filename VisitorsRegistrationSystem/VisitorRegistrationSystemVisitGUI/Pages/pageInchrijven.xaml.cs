@@ -50,7 +50,7 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
             Employee visitedEmployee = (Employee)cbAfspraakMet.SelectedItem;
             visitor = _vm.AddVisitor(visitor);
             Visit visit = VisitFactory.MakeVisit(null, visitor, visitedCompany, visitedEmployee, DateTime.Now.AddSeconds(1));
-            _vm.AddVisit(visit); // todo transacties: we willen geen Visitor toevoegen als we geen Visit hebben kunnen toevoegen
+            if(visitor.Id != 0) _vm.AddVisit(visit);
             Application.Current.MainWindow.Content = new PageInschrijvenSucces(_cm, _vm);
 
             // todo: btnInschrijven enkel klikbaar wanneer alles (correct) ingevuld

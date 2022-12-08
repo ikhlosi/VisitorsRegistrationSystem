@@ -64,7 +64,7 @@ namespace VisitorsRegistrationSystemBL.Managers
             if (visitor == null) throw new VisitManagerException("VisitManager - Addvisitor - visitor is null");
             try
             {
-                if (_repo.VisitorExists(visitor)) throw new VisitManagerException("VisitManager - Addvisitor - visitor has already been registered");
+                if (_repo.VisitorExists(visitor)) return _repo.GetVisitor(visitor.Email);
                 return _repo.AddVisitor(visitor);
             }
             catch (Exception ex)

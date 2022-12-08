@@ -24,6 +24,7 @@ namespace VisitorsRegistrationSystemBL.Interfaces
         bool VisitorExists(Visitor visitor);
         bool VisitorExists(int id);
         Visitor GetVisitor(int id);
+        Visitor GetVisitor(string email);
         List<Visitor> GetAllVisitors();
 
     }

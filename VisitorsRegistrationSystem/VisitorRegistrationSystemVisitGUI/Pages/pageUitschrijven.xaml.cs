@@ -33,6 +33,7 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
 
         private void btnUitschrijven_Click(object sender, RoutedEventArgs e)
         {
+            // TODO: in cm nog methode schrijven die repo.Endvisit oproept
             Application.Current.MainWindow.Content = new pageMain(_cm, _vm);
         }
 
