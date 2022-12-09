@@ -57,6 +57,20 @@ namespace VisitorsRegistrationSystemBL.Domain
             if (reservedSpace < 1) throw new ParkingException("Parking - SetReservedSpace - Reserved space is too small");
             ReservedSpace = reservedSpace;
         }
-        
+
+        public override bool Equals(object? obj)
+        {
+            return obj is ParkingContract contract &&
+                   ID == contract.ID &&
+                   EqualityComparer<Company>.Default.Equals(Company, contract.Company) &&
+                   StartDate == contract.StartDate &&
+                   EndDate == contract.EndDate &&
+                   ReservedSpace == contract.ReservedSpace;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(ID, Company, StartDate, EndDate, ReservedSpace);
+        }
     }
 }

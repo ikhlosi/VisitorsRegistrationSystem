@@ -63,5 +63,19 @@ namespace VisitorsRegistrationSystemBL.Domain
             ParkingDetails = parkingDetails;
         }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is Parking parking &&
+                   ID == parking.ID &&
+                   OccupiedSpaces == parking.OccupiedSpaces &&
+                   Full == parking.Full &&
+                   EqualityComparer<List<ParkingContract>>.Default.Equals(ParkingContracts, parking.ParkingContracts) &&
+                   EqualityComparer<List<ParkingDetail>>.Default.Equals(ParkingDetails, parking.ParkingDetails);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(ID, OccupiedSpaces, Full, ParkingContracts, ParkingDetails);
+        }
     }
 }

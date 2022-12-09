@@ -58,7 +58,20 @@ namespace VisitorsRegistrationSystemBL.Domain
             if (visitedCompanyID < 1) throw new ParkingException("ParkingDetail - SetVisitedCompanyID - Visited company ID is null");
             VisitedCompanyID = visitedCompanyID;
         }
-        
 
+        public override bool Equals(object? obj)
+        {
+            return obj is ParkingDetail detail &&
+                   ID == detail.ID &&
+                   StartTime == detail.StartTime &&
+                   EndTime == detail.EndTime &&
+                   LicensePlate == detail.LicensePlate &&
+                   VisitedCompanyID == detail.VisitedCompanyID;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(ID, StartTime, EndTime, LicensePlate, VisitedCompanyID);
+        }
     }
 }
