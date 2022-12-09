@@ -17,10 +17,19 @@ namespace VisitorsRegistrationSystemBL.Domain
             SetReservedSpace(reservedSpace);
         }
 
+        public ParkingContract(int iD, Company company, DateTime startDate, DateTime endDate, int reservedSpace)
+        {
+            SetID(iD);
+            SetCompany(company);
+            SetStartDate(startDate);
+            SetEndDate(endDate);
+            SetReservedSpace(reservedSpace);
+        }
+
         public int ID { get; private set; }
         public Company Company { get; set; }
         public DateTime StartDate {get;set;}
-        public DateTime EndDate {get;set;}  
+        public DateTime EndDate {get;set;}
         public int ReservedSpace { get; set; }
         
         public void SetID(int id)
