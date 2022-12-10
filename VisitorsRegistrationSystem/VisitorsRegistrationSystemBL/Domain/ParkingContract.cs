@@ -43,12 +43,10 @@ namespace VisitorsRegistrationSystemBL.Domain
         }
         internal void SetStartDate(DateTime startDate)
         {
-            if (startDate < DateTime.Now) throw new ParkingException("Parking - SetStartDate - Start date is too early");
             StartDate = startDate;
         }
         internal void SetEndDate(DateTime endDate)
         {
-            if (endDate < DateTime.Now) throw new ParkingException("Parking - SetEndDate - End date is too early");
             EndDate = endDate;
         }
         

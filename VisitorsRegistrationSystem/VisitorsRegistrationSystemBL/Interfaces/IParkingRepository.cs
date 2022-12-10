@@ -9,26 +9,33 @@ namespace VisitorsRegistrationSystemBL.Interfaces
 {
     public interface IParkingRepository
     {
+        #region Parking
         Parking GetParkingById(int iD);
-        ParkingContract GetParkingContractById(int iD);
-        List<ParkingContract> GetParkingContracts();
-        ParkingDetail GetParkingDetailById(int iD);
-        List<ParkingDetail> GetParkingDetails();
-        List<Parking> GetParkings();
-        bool ParkingContractExistsInDB(ParkingContract parkingContract);
-        bool ParkingContractExistsInDB(int id);
-        bool ParkingDetailExistsInDB(ParkingDetail parkingDetail);
-        bool ParkingDetailExistsInDB(int id);
-        bool ParkingExistsInDB(Parking parking);
+        Parking WriteParkingInDB(Parking parking);
         bool ParkingExistsInDB(int parkingID);
-        void RemoveParkingContractFromDB(int id);
-        void RemoveParkingDetailFromDB(int id);
         void RemoveParkingFromDB(int iD);
         void UpdateParking(Parking parking);
-        void UpdateParkingContract(ParkingContract parkingContract);
-        void UpdateParkingDetail(ParkingDetail parkingDetail);
+        List<Parking> GetParkings();
+        #endregion
+        
+        #region ParkingContract
         ParkingContract WriteParkingContractInDB(ParkingContract parkingContract);
+        ParkingContract GetParkingContractById(int iD);
+        List<ParkingContract> GetParkingContracts();
+        bool ParkingContractExistsInDB(ParkingContract parkingContract);
+        bool ParkingContractExistsInDB(int id);
+        void RemoveParkingContractFromDB(int id);
+        void UpdateParkingContract(ParkingContract parkingContract);
+        #endregion
+
+        #region ParkingDetail
+        bool ParkingDetailExistsInDB(ParkingDetail parkingDetail);
+        bool ParkingDetailExistsInDB(int id);
+        void RemoveParkingDetailFromDB(int id);
+        void UpdateParkingDetail(ParkingDetail parkingDetail);
         ParkingDetail WriteParkingDetailInDB(ParkingDetail parkingDetail);
-        Parking WriteParkingInDB(Parking parking);
+        ParkingDetail GetParkingDetailById(int iD);
+        List<ParkingDetail> GetParkingDetails();
+        #endregion
     }
 }

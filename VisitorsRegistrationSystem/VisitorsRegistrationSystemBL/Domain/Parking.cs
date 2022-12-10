@@ -9,27 +9,27 @@ namespace VisitorsRegistrationSystemBL.Domain
 {
     public class Parking
     {
-        public Parking(int occupiedSpaces, bool full, List<ParkingContract> parkingContracts,List<ParkingDetail> parkingDetails)
+        public Parking(int occupiedSpaces, bool full, List<ParkingContract> parkingContracts,List<ParkingDetail> parkingDetails, int totalSpaces)
         {
             SetOccupiedSpaces(occupiedSpaces);
             SetFull(full);
             SetParkingContracts(parkingContracts);
             SetParkingDetails(parkingDetails);
-            SetTotalSpaces();
+            SetTotalSpaces(totalSpaces);
         }
 
-        public Parking(int iD, int occupiedSpaces, bool full, List<ParkingContract> parkingContracts, List<ParkingDetail> parkingDetails)
+        public Parking(int iD, int occupiedSpaces, bool full, List<ParkingContract> parkingContracts, List<ParkingDetail> parkingDetails, int totalSpaces)
         {
             SetID(iD);
             SetOccupiedSpaces(occupiedSpaces);
             SetFull(full);
             SetParkingContracts(parkingContracts);
             SetParkingDetails(parkingDetails);
-            SetTotalSpaces();
+            SetTotalSpaces(totalSpaces);
         }
 
         public int ID { get; set; }
-        public static int TotalSpaces { get; set; }
+        public int TotalSpaces { get; set; }
         public int OccupiedSpaces { get; set; }
         public bool Full { get; set; }
         public List<ParkingContract> ParkingContracts { get; set; }
@@ -40,10 +40,10 @@ namespace VisitorsRegistrationSystemBL.Domain
             if (id == 0) throw new ParkingException("Parking - SetId - ID is null");
             this.ID = id;
         }
-        public static void SetTotalSpaces()
+        public void SetTotalSpaces(int totalSpaces)
         {
-            // todo: get total spaces from config file or databse
-            TotalSpaces = 100;
+            if (totalSpaces < 0) throw new ParkingException("Parking - SetTotalSpaces - Total spaces is too small");
+            this.TotalSpaces = totalSpaces;
         }
         public void SetOccupiedSpaces(int occupiedSpaces)
         {

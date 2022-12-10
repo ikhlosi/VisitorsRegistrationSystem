@@ -52,7 +52,7 @@ namespace VisitorsRegistrationSystemBL.Managers
             if (parking == null) throw new ParkingManagerException("ParkingManager - UpdateParking - parking is null.");
             try
             {
-                if (!_repo.ParkingExistsInDB(parking)) throw new ParkingManagerException("ParkingManager - UpdateParking - parking does not exist in DB.");
+                if (!_repo.ParkingExistsInDB(parking.ID)) throw new ParkingManagerException("ParkingManager - UpdateParking - parking does not exist in DB.");
                 if (_repo.GetParkingById(parking.ID).Equals(parking)) throw new ParkingManagerException("ParkingManager - UpdateParking - parking is not different");
                 _repo.UpdateParking(parking);
             }
