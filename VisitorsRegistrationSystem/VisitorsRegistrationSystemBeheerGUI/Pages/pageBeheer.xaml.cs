@@ -22,6 +22,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VisitorsRegistrationSystemBeheerGUI.Mapper;
+using VisitorsRegistrationSystemBeheerGUI.Model;
 using VisitorsRegistrationSystemBeheerGUI.Windows;
 using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.DTO;
@@ -40,6 +42,9 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
         private int SavedCompanyId = 0;
         private int SavedVisitorId = 0;
         private string? CheckedRadioButton = "";
+
+        private Dictionary<string, string> CompanyParameterDictionary = new Dictionary<string, string> { { "ID", "Id" }, { "Name", "Naam" }, { "VATNumber", "Ondernemingsnummer" }, { "Address", "Adres" }, { "TelephoneNumber", "Telefoonnummer" }, { "Email", "Email" } };
+        private Dictionary<string, string> EmployeeParameterDictionary = new Dictionary<string, string> { { "ID", "Id" }, { "Name", "Voornaam" }, { "LastName ", "Achternaam" }, { "Email", "Email" }, { "Company", "Bedrijf" }, { "Function", "Functie" } };
 
         public pageBeheer(CompanyManager cm, VisitManager vm)
         {
@@ -60,6 +65,23 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             ((RadioButton)stpFilterRadioButtons.Children[0]).IsChecked = true;
         }
 
+        private Dictionary<string,string> GetParamaterDictionary(object item)
+        {
+            switch (item.GetType().Name)
+            {
+                case nameof(CompanyDTO):
+                    return CompanyParameterDictionary;
+                case nameof(Employee):
+                    return EmployeeParameterDictionary;
+                case nameof(Visitor):
+                    return CompanyParameterDictionary;
+                case nameof(VisitDTO):
+                    return CompanyParameterDictionary;
+                default:
+                    return null;
+            }
+        }
+
         private bool ResultsFilter(object item)
         {
             if (string.IsNullOrEmpty(txtbFilter.Text) && ((string)cmbSearchParameter.SelectedValue != "All"))
@@ -73,7 +95,10 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                 {
                     if (param != "All")
                     {
-                        PropertyInfo? pi = item.GetType().GetProperty(param);
+                        Dictionary<string,string> parameterDictionary = GetParamaterDictionary(item);
+
+                        var key = parameterDictionary.FirstOrDefault(x => x.Value == param).Key;
+                        PropertyInfo? pi = item.GetType().GetProperty(key);
                         if (pi.GetValue(item, null).ToString().Contains(txtbFilter.Text, StringComparison.OrdinalIgnoreCase))
                         {
                             result = true;
@@ -85,7 +110,11 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             }
             else
             {
-                PropertyInfo? pi = item.GetType().GetProperty(cmbSearchParameter.Text);
+                Dictionary<string, string> parameterDictionary = GetParamaterDictionary(item);
+                if (parameterDictionary == null) return true;
+
+                var key = parameterDictionary.FirstOrDefault(x => x.Value == cmbSearchParameter.SelectedValue.ToString()).Key;
+                PropertyInfo? pi = item.GetType().GetProperty(key);
                 return pi.GetValue(item, null).ToString().Contains(txtbFilter.Text, StringComparison.OrdinalIgnoreCase);
             }
         }
@@ -100,15 +129,15 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             switch (CheckedRadioButton)
             {    
                 case "Bedrijven":
-                    IReadOnlyList<Company> companies = _cm.GetCompanies();
+                    IReadOnlyList<CompanyDTO> companies = MapFromDomain.MapFromCompany(_cm.GetCompanies());
 
                     cmbSearchParameter.Items.Add("All");
                     foreach (string param in companies[0].GetType().GetProperties().Select(x => x.Name).ToList())
                     {
-                        cmbSearchParameter.Items.Add(param);
+                        cmbSearchParameter.Items.Add(CompanyParameterDictionary[param]);
 
                         DataGridTextColumn textColumn = new DataGridTextColumn();
-                        textColumn.Header = param;
+                        textColumn.Header = CompanyParameterDictionary[param];
                         textColumn.Binding = new Binding(param);
                         dgDataTable.Columns.Add(textColumn);
                     }
@@ -129,10 +158,10 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                         cmbSearchParameter.Items.Add("All");
                         foreach (string param in employees[0].GetType().GetProperties().Select(x => x.Name).ToList())
                         {
-                            cmbSearchParameter.Items.Add(param);
+                            cmbSearchParameter.Items.Add(EmployeeParameterDictionary[param]);
 
                             DataGridTextColumn textColumn = new DataGridTextColumn();
-                            textColumn.Header = param;
+                            textColumn.Header = EmployeeParameterDictionary[param];
                             textColumn.Binding = new Binding(param);
                             dgDataTable.Columns.Add(textColumn);
                         }
@@ -233,8 +262,8 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
         {
             switch (dgDataTable.SelectedValue.GetType().Name)
             {
-                case nameof(Company):
-                    BedrijfFormWindow bfw = new BedrijfFormWindow((Company)dgDataTable.SelectedValue);
+                case nameof(CompanyDTO):
+                    BedrijfFormWindow bfw = new BedrijfFormWindow((CompanyDTO)dgDataTable.SelectedValue);
                     bfw.ShowDialog();
                     rbBedrijven.IsChecked = false;
                     rbBedrijven.IsChecked = true;
@@ -259,8 +288,8 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             string typeName = dgDataTable.SelectedValue.GetType().Name;
             switch (typeName)
             {
-                case nameof(Company):
-                    _cm.RemoveCompany((Company)dgDataTable.SelectedValue);
+                case nameof(CompanyDTO):
+                    _cm.RemoveCompany(_cm.GetCompanyById(((CompanyDTO)dgDataTable.SelectedValue).ID));
                     rbBedrijven.IsChecked = false;
                     rbBedrijven.IsChecked = true;
                     break;
@@ -306,7 +335,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
         private void AddActionButtonsColumn(bool showEmployeeButton, bool showVisitButton)
         {
             DataGridTemplateColumn col = new DataGridTemplateColumn();
-            col.Header = "Actions";
+            col.Header = "Acties";
             DataTemplate dt = new DataTemplate();
             var sp = new FrameworkElementFactory(typeof(WrapPanel));
             sp.SetValue(WrapPanel.OrientationProperty, Orientation.Horizontal);
