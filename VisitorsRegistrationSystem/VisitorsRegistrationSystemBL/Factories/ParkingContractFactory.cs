@@ -10,11 +10,11 @@ namespace VisitorsRegistrationSystemBL.Factories
 {
     public static class ParkingContractFactory
     {
-        public static ParkingContract MakeParkingContract(int? id,Company visitedCompany, DateTime startTime, DateTime endTime, int reservedSpace)
+        public static ParkingContract MakeParkingContract(int? id,Company company, DateTime startTime, DateTime endTime, int reservedSpace, int parkingId)
         {
             try
             {
-                ParkingContract pc = new ParkingContract(visitedCompany, startTime, endTime, reservedSpace) ;
+                ParkingContract pc = new ParkingContract(company, startTime, endTime, reservedSpace,parkingId) ;
                 if (id.HasValue) pc.SetID(id.Value);
                 return pc;
             }
@@ -22,7 +22,7 @@ namespace VisitorsRegistrationSystemBL.Factories
             {
                 ParkingException ex = new ParkingException("ParkingContractFactory - MakeParkingContract", e);
                 ex.Data.Add("ParkingContract ID", id);
-                ex.Data.Add("VisitedCompany", visitedCompany);
+                ex.Data.Add("Company", company);
                 ex.Data.Add("StartTime", startTime);
                 ex.Data.Add("EndTime", endTime);
                 ex.Data.Add("Parking", reservedSpace);

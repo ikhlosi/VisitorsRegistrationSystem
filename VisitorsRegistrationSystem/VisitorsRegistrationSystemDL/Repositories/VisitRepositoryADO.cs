@@ -460,7 +460,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         }
 
-
         public List<Visitor> GetAllVisitors()
         {
             List<Visitor> visitors = new List<Visitor>();

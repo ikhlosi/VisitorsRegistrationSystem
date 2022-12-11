@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.DTO;
 using VisitorsRegistrationSystemBL.Exceptions;
 using VisitorsRegistrationSystemBL.Interfaces;
 
@@ -76,7 +77,7 @@ namespace VisitorsRegistrationSystemBL.Managers
             }
         }
         
-        public List<Parking> GetParkings()
+        public IReadOnlyList<ParkingDTO> GetParkings()
         {
             try
             {
@@ -95,7 +96,6 @@ namespace VisitorsRegistrationSystemBL.Managers
             if (parkingContract == null) throw new ParkingManagerException("ParkingManager - AddParkingContract - parkingContract is null.");
             try
             {
-                if (_repo.ParkingContractExistsInDB(parkingContract)) throw new ParkingManagerException("ParkingManager - AddParkingContract - parkingContract already exists in DB.");
                 return _repo.WriteParkingContractInDB(parkingContract);
             }
             catch (Exception ex)
@@ -147,7 +147,7 @@ namespace VisitorsRegistrationSystemBL.Managers
             }
         }
         
-        public List<ParkingContract> GetParkingContracts()
+        public IReadOnlyList<ParkingContractDTO> GetParkingContracts()
         {
             try
             {
@@ -166,7 +166,6 @@ namespace VisitorsRegistrationSystemBL.Managers
             if (parkingDetail == null) throw new ParkingManagerException("ParkingManager - AddParkingDetail - parkingDetail is null.");
             try
             {
-                if (_repo.ParkingDetailExistsInDB(parkingDetail)) throw new ParkingManagerException("ParkingManager - AddParkingDetail - parkingDetail already exists in DB.");
                 return _repo.WriteParkingDetailInDB(parkingDetail);
             }
             catch (Exception ex)
@@ -218,7 +217,7 @@ namespace VisitorsRegistrationSystemBL.Managers
             }
         }
 
-        public List<ParkingDetail> GetParkingDetails()
+        public IReadOnlyList<ParkingDetailDTO> GetParkingDetails()
         {
             try
             {

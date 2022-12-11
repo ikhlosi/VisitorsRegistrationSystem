@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.DTO;
 
 namespace VisitorsRegistrationSystemBL.Interfaces
 {
@@ -15,27 +16,25 @@ namespace VisitorsRegistrationSystemBL.Interfaces
         bool ParkingExistsInDB(int parkingID);
         void RemoveParkingFromDB(int iD);
         void UpdateParking(Parking parking);
-        List<Parking> GetParkings();
+        IReadOnlyList<ParkingDTO> GetParkings();
         #endregion
         
         #region ParkingContract
         ParkingContract WriteParkingContractInDB(ParkingContract parkingContract);
         ParkingContract GetParkingContractById(int iD);
-        List<ParkingContract> GetParkingContracts();
-        bool ParkingContractExistsInDB(ParkingContract parkingContract);
+        IReadOnlyList<ParkingContractDTO> GetParkingContracts();
         bool ParkingContractExistsInDB(int id);
         void RemoveParkingContractFromDB(int id);
         void UpdateParkingContract(ParkingContract parkingContract);
         #endregion
 
         #region ParkingDetail
-        bool ParkingDetailExistsInDB(ParkingDetail parkingDetail);
         bool ParkingDetailExistsInDB(int id);
         void RemoveParkingDetailFromDB(int id);
         void UpdateParkingDetail(ParkingDetail parkingDetail);
         ParkingDetail WriteParkingDetailInDB(ParkingDetail parkingDetail);
         ParkingDetail GetParkingDetailById(int iD);
-        List<ParkingDetail> GetParkingDetails();
+        IReadOnlyList<ParkingDetailDTO> GetParkingDetails();
         #endregion
     }
 }

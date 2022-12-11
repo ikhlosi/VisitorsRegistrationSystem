@@ -1,10 +1,12 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.DTO;
 using VisitorsRegistrationSystemBL.Factories;
 using VisitorsRegistrationSystemBL.Interfaces;
 using VisitorsRegistrationSystemDL.Exceptions;
@@ -21,6 +23,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
             this.connectionString = connectionString;
         }
 
+        // parking methodes DONE + checked
         #region Parking
         public Parking GetParkingById(int iD)
         {
@@ -113,7 +116,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                             if (string.IsNullOrEmpty(busNo)) address = new Address(addressId, city, street, houseNo, null);
                             else address = new Address(addressId, city, street, houseNo, busNo);
                             company = CompanyFactory.MakeCompany(companyId, companyName, VAT, address, telNumber, email);
-                            parkingContract = new ParkingContract(parkingContractId, company, startDate, endDate, contractSpaces);
+                            parkingContract = new ParkingContract(parkingContractId, company, startDate, endDate, contractSpaces,parkingId);
                             parkingContracts.Add(parkingContract);
                         }
 
@@ -148,7 +151,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public Parking WriteParkingInDB(Parking parking)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"insert into parking (totalSpaces,occupiedSpaces,full) values(101,0,0)";
+            string query = @"insert into parking (totalSpaces,occupiedSpaces,full) values(@totalSpaces,@occupiedSpaces,@full)";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -203,63 +206,268 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public void RemoveParkingFromDB(int iD)
         {
-            throw new NotImplementedException();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"update parking set visible=0 where id = @id and visible=1";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@id", iD);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new ParkingRepositoryADOException("RemoveParkingFromDB", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public void UpdateParking(Parking parking)
         {
-            throw new NotImplementedException();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"update parking set totalSpaces = @totalSpaces, occupiedSpaces = @occupiedSpaces, full = @full where id = @id;";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@id", parking.ID);
+                    cmd.Parameters.AddWithValue("@totalSpaces", parking.TotalSpaces);
+                    cmd.Parameters.AddWithValue("@occupiedSpaces", parking.OccupiedSpaces);
+                    cmd.Parameters.AddWithValue("@full", parking.Full);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new ParkingRepositoryADOException("UpdateParking", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
-        public List<Parking> GetParkings()
+        public IReadOnlyList<ParkingDTO> GetParkings()
         {
-            throw new NotImplementedException();
+            List<ParkingDTO> parkings = new List<ParkingDTO>();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"select * from parking where visible = 1 order by id;";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    IDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        parkings.Add(new ParkingDTO((int)reader["id"], (int)reader["totalSpaces"], (int)reader["occupiedSpaces"], Convert.ToBoolean(reader["full"])));
+                    }
+                    reader.Close();
+                    return parkings;
+                }
+                catch (Exception ex)
+                {
+                    throw new ParkingRepositoryADOException("GetParkings");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         #endregion
 
+        // parkingContract methodes DONE + checked
         #region ParkingContract
         public ParkingContract WriteParkingContractInDB(ParkingContract parkingContract)
         {
-            throw new NotImplementedException();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"insert into parkingcontract(companyId, spaces,startDate,endDate,parkingId) values(@companyId,@spaces,@startDate,@endDate,@parkingId)";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@companyId", parkingContract.Company.ID);
+                    cmd.Parameters.AddWithValue("@spaces", parkingContract.ReservedSpace);
+                    cmd.Parameters.AddWithValue("@startDate", parkingContract.StartDate);
+                    cmd.Parameters.AddWithValue("@endDate", parkingContract.EndDate);
+                    cmd.Parameters.AddWithValue("@parkingId", parkingContract.parkingId);
+                    cmd.ExecuteNonQuery();
+                    int insertedId = (int)cmd.LastInsertedId;
+                    parkingContract.SetID(insertedId);
+                    return parkingContract;
+                }
+                catch (Exception ex)
+                {
+                    throw new ParkingRepositoryADOException("WriteParkingContractInDB", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public ParkingContract GetParkingContractById(int iD)
         {
-            throw new NotImplementedException();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"select pc.id as pcId, pc.companyId as pcCi, pc.spaces as pcSp, pc.startDate as pcSt, pc.endDate as pcEn, pc.parkingId as pcPa, c.name as cNa, c.VAT as cVa, c.email as cEm, c.telNr as cTe, c.addressId as cAd, a.street as aSt, a.city as aCi, a.houseNr as aHo, a.bus as aBu from parkingcontract pc join company c on pc.companyId = c.id join address a on c.addressId = a.id where pc.id= @id and pc.visible = 1;";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@id", iD);
+                    IDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    string busNr = "";
+                    if (reader["aBu"] != DBNull.Value)
+                    {
+                        busNr = (string)reader["aBu"];
+                    }
+                    Address address = new Address((string)reader["aCi"], (string)reader["aSt"], (string)reader["aHo"], busNr);
+                    Company company = CompanyFactory.MakeCompany((int)reader["pcCi"], (string)reader["cNa"], (string)reader["cVa"], address,(string)reader["cTe"], (string)reader["cEm"] );
+                    ParkingContract parkingContract = ParkingContractFactory.MakeParkingContract((int)reader["pcId"],company, (DateTime)reader["pcSt"], (DateTime)reader["pcEn"], (int)reader["pcSp"], (int)reader["pcPa"]);
+                    reader.Close();
+                    return parkingContract;
+                }
+                catch (Exception ex)
+                {
+                    throw new VisitRepositoryADOException("GetVisitor");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
-        public List<ParkingContract> GetParkingContracts()
+        public IReadOnlyList<ParkingContractDTO> GetParkingContracts()
         {
-            throw new NotImplementedException();
-        }
-
-        public bool ParkingContractExistsInDB(ParkingContract parkingContract)
-        {
-            throw new NotImplementedException();
+            List<ParkingContractDTO> parkingContracts = new List<ParkingContractDTO>();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"select * from parkingContract where visible = 1 order by id;";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    IDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        parkingContracts.Add(new ParkingContractDTO((int)reader["id"], (int)reader["companyId"], (int)reader["spaces"], (DateTime)reader["startDate"], (DateTime)reader["endDate"], (int)reader["parkingId"]));
+                    }
+                    reader.Close();
+                    return parkingContracts;
+                }
+                catch (Exception ex)
+                {
+                    throw new ParkingRepositoryADOException("GetParkings");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public bool ParkingContractExistsInDB(int id)
         {
-            throw new NotImplementedException();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"SELECT COUNT(*) FROM parkingContract WHERE id=@id and visible = 1";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@id", id);
+                    Int64 n = (Int64)cmd.ExecuteScalar();
+                    if (n > 0)
+                        return true;
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    throw new ParkingRepositoryADOException("ParkingContractExistsInDB", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public void RemoveParkingContractFromDB(int id)
         {
-            throw new NotImplementedException();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"update parkingContract set visible=0 where id = @id and visible=1";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new ParkingRepositoryADOException("RemoveParkingContractFromDB", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public void UpdateParkingContract(ParkingContract parkingContract)
         {
-            throw new NotImplementedException();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"update parkingcontract set companyId = @companyId, spaces=@spaces,startDate = @startDate,endDate = @endDate, parkingId=@parkingId where id=@id;";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@companyId", parkingContract.Company.ID);
+                    cmd.Parameters.AddWithValue("@spaces", parkingContract.ReservedSpace);
+                    cmd.Parameters.AddWithValue("@startDate", parkingContract.StartDate);
+                    cmd.Parameters.AddWithValue("@endDate", parkingContract.EndDate);
+                    cmd.Parameters.AddWithValue("@parkingId", parkingContract.parkingId);
+                    cmd.Parameters.AddWithValue("@id", parkingContract.ID);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new ParkingRepositoryADOException("UpdateParkingContract", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
         #endregion
 
+        
         #region ParkingDetail
-        public bool ParkingDetailExistsInDB(ParkingDetail parkingDetail)
-        {
-            throw new NotImplementedException();
-        }
 
         public bool ParkingDetailExistsInDB(int id)
         {
@@ -286,7 +494,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
             throw new NotImplementedException();
         }
 
-        public List<ParkingDetail> GetParkingDetails()
+        public IReadOnlyList<ParkingDetailDTO> GetParkingDetails()
         {
             throw new NotImplementedException();
         }
