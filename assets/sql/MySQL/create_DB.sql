@@ -89,7 +89,7 @@ ALTER TABLE VisitorsRegistrationSystem.Visitor
 ADD COLUMN visible BIT NULL DEFAULT true;
 
 CREATE TABLE `parking` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `totalSpaces` int DEFAULT '0',
   `occupiedSpaces` int DEFAULT '0',
   `full` bit(1) NOT NULL DEFAULT b'0',
