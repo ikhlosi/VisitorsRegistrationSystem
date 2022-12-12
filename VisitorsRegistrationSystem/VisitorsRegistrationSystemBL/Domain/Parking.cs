@@ -9,22 +9,10 @@ namespace VisitorsRegistrationSystemBL.Domain
 {
     public class Parking
     {
-        public Parking(int occupiedSpaces, bool full, List<ParkingContract> parkingContracts,List<ParkingDetail> parkingDetails, int totalSpaces)
+        public Parking(int occupiedSpaces, bool full, int totalSpaces)
         {
             SetOccupiedSpaces(occupiedSpaces);
             SetFull(full);
-            SetParkingContracts(parkingContracts);
-            SetParkingDetails(parkingDetails);
-            SetTotalSpaces(totalSpaces);
-        }
-
-        public Parking(int iD, int occupiedSpaces, bool full, List<ParkingContract> parkingContracts, List<ParkingDetail> parkingDetails, int totalSpaces)
-        {
-            SetID(iD);
-            SetOccupiedSpaces(occupiedSpaces);
-            SetFull(full);
-            SetParkingContracts(parkingContracts);
-            SetParkingDetails(parkingDetails);
             SetTotalSpaces(totalSpaces);
         }
 

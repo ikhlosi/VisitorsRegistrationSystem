@@ -9,11 +9,6 @@ namespace VisitorsRegistrationSystemBL.Domain
 {
     public class ParkingDetail
     {
-        public int ID { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public string LicensePlate { get; set; }
-        public int VisitedCompanyID { get; set; }
 
         public ParkingDetail(int id, DateTime startTime, DateTime endTime, string licensePlate, int visitedCompanyID)
         {
@@ -30,6 +25,11 @@ namespace VisitorsRegistrationSystemBL.Domain
             SetLicensePlate(licensePlate);
             SetVisitedCompanyID(visitedCompanyID);
         }
+        public int ID { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string LicensePlate { get; set; }
+        public int VisitedCompanyID { get; set; }
 
         public void SetID(int id)
         {
