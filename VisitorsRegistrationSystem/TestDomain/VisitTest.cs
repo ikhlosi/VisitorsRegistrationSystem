@@ -18,7 +18,7 @@ namespace TestDomain
         [Fact]
         public void Visit_SetId_Valid()
         {
-            Visit visit = VisitFactory.MakeVisit(2, new Visitor("Name", "Name@hotmail.com", "CompanyTest"), new Company("Name", "XXXXXX", "mail@hotmail.com"), new Employee("Name", "LastName", "Function"), DateTime.Now.AddHours(1));
+            Visit visit = VisitFactory.MakeVisit(2, new Visitor("Name", "Name@hotmail.com", "CompanyTest"), new Company("Name", "XXXXXX", "mail@hotmail.com"), new Employee("Name", "LastName", "Function"));
             Assert.Equal(2, visit.Id);
         }
         [Theory]
@@ -26,7 +26,7 @@ namespace TestDomain
         [InlineData(-1)]
         public void Visit_SetId_Invalid(int id)
         {
-            var ex = Assert.Throws<VisitException>(() => VisitFactory.MakeVisit(id, new Visitor("Name", "Name@hotmail.com", "CompanyTest"), new Company("Name", "XXXXXX", "mail@hotmail.com"), new Employee("Name", "LastName", "Function"), DateTime.Now.AddHours(1)));
+            var ex = Assert.Throws<VisitException>(() => VisitFactory.MakeVisit(id, new Visitor("Name", "Name@hotmail.com", "CompanyTest"), new Company("Name", "XXXXXX", "mail@hotmail.com"), new Employee("Name", "LastName", "Function")));
             Assert.Equal("Visit - SetId - id smaller than 1",ex.InnerException.Message);
         }
 
@@ -50,7 +50,7 @@ namespace TestDomain
             DateTime startTime = DateTime.Now.AddHours(1);
 
             //Act 
-            Visit visit = VisitFactory.MakeVisit(1, _visitor, _visitedCompany, _employee, startTime);
+            Visit visit = VisitFactory.MakeVisit(1, _visitor, _visitedCompany, _employee);
 
             //Assert
             Assert.Equal(_visitor, visit.Visitor);
@@ -69,7 +69,7 @@ namespace TestDomain
             DateTime startTime = DateTime.Now.AddHours(1);
 
             //Assert
-            var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(1, visitor, company, employee, startTime)); ;
+            var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(1, visitor, company, employee)); ;
             Assert.Equal("Visit - SetVisitor - Visitor is null", ex.InnerException.Message);
         }
         [Theory]
@@ -84,7 +84,7 @@ namespace TestDomain
 
             //Act 
             //Assert
-            var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(1, visitor, company, employee, startTime)); ;
+            var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(1, visitor, company, employee)); ;
             Assert.Equal("Visit - SetVisitedCompany - Visited Company is null", ex.InnerException.Message);
 
         }
@@ -99,7 +99,7 @@ namespace TestDomain
 
             //Act
             //Assert
-            var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(1, visitor, company, employee, startTime)); ;
+            var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(1, visitor, company, employee)); ;
             Assert.Equal("Visit - SetVisitedEmployee - Visited Employee is null", ex.InnerException.Message);
         }
         [Fact]
@@ -113,7 +113,7 @@ namespace TestDomain
 
             //Act
             //Assert
-            var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(1, visitor, company, employee, startTime)); ;
+            var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(1, visitor, company, employee)); ;
             Assert.Equal("Visit - SetStartTime - Start time is too early", ex.InnerException.Message);
         }
 

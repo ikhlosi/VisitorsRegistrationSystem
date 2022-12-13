@@ -28,7 +28,7 @@ namespace VisitorRegistrationSystemVisitGUI.Pages {
         }
 
         private void btnHome_Click(object sender, RoutedEventArgs e) {
-            Application.Current.MainWindow.Content = new pageMain(_cm, _vm); // todo: ? nu maken we een nieuwe main pagina aan. Kunnen we refereren naar die vorige?
+            Application.Current.MainWindow.Content = new pageMain(_cm, _vm);
         }
     }
 }

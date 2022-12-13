@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:VisitorRegistrationSystemVisitGUI.Pages"
+      xmlns:local="clr-namespace:VisitorRegistrationSystemVisitGUI.Pages" xmlns:validationrules="clr-namespace:VisitorRegistrationSystemVisitGUI.ValidationRules"
       mc:Ignorable="d" 
       d:DesignWidth="1400" d:DesignHeight="900"
       Title="pageUitschrijven">
@@ -22,7 +22,15 @@
         <StackPanel Grid.Row="3">
             <StackPanel Orientation="Horizontal">
                 <Label Content="Email" Style="{StaticResource LabelTheme}" />
-                <TextBox Style="{StaticResource TextboxInputTheme}" />
+                <TextBox x:Name="txtbEmail" Style="{StaticResource TextboxInputTheme}">
+                    <TextBox.Text>
+                        <Binding Path="Email" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationrules:EmailValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </StackPanel>
         </StackPanel>
 

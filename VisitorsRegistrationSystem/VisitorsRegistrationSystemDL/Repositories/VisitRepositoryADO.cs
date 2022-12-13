@@ -200,7 +200,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         Address address = new Address(addressId, city, street, houseNr, busNr);
                         Company company = CompanyFactory.MakeCompany(companyId, companyName, vatNo,address,telNo,companyEmail);
                         Visitor visitor = VisitorFactory.MakeVisitor(visitorId, visitorName, visitorEmail, visitorCompany);
-                        visit = VisitFactory.MakeVisit(visitId, visitor, company, employee, startTime);
+                        visit = VisitFactory.MakeVisit(visitId, visitor, company, employee);
                     }
                     return visit;
                 }

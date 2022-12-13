@@ -48,8 +48,8 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
             Visitor visitor = VisitorFactory.MakeVisitor(null, visitorName, visitorEmail, visitorCompany);
             Company visitedCompany = (Company)cbBedrijfAfspraak.SelectedItem;
             Employee visitedEmployee = (Employee)cbAfspraakMet.SelectedItem;
-            visitor = _vm.AddVisitor(visitor);
-            Visit visit = VisitFactory.MakeVisit(null, visitor, visitedCompany, visitedEmployee, DateTime.Now.AddSeconds(1));
+            //visitor = _vm.AddVisitor(visitor);
+            Visit visit = VisitFactory.MakeVisit(null, visitor, visitedCompany, visitedEmployee);
             _vm.AddVisit(visit); // todo transacties: we willen geen Visitor toevoegen als we geen Visit hebben kunnen toevoegen
             Application.Current.MainWindow.Content = new PageInschrijvenSucces(_cm, _vm);
 

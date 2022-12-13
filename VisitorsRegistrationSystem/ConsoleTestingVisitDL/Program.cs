@@ -13,7 +13,7 @@ Address address = new Address("Elsegem", "Kouterlos", "2a", null);
 Company company = CompanyFactory.MakeCompany(1, "Brightest", "1234567890", address, "+32479564643", "brightest@bright.com");
 Visitor visitor = VisitorFactory.MakeVisitor(1, "Arno", "arnovantieghem@gmail.com", "Brightest");
 DateTime startTime = new DateTime(2023, 12, 29);
-Visit visit = VisitFactory.MakeVisit(null,visitor, company, employee, startTime);
+Visit visit = VisitFactory.MakeVisit(null,visitor, company, employee);
 
 //foreach (var i in vRepo.GetVisits())
 //{
