@@ -9,6 +9,11 @@
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"  WindowStartupLocation="CenterScreen">
     <Border CornerRadius="5" BorderThickness="1" Background="GhostWhite" BorderBrush="LightGray">
         <Grid Margin="5">
+            <Grid.Resources>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+            </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="120" />
                 <RowDefinition Height="50" />

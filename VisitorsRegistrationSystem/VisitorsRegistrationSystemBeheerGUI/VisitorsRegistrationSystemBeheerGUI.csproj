@@ -8,10 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Images\" />
+    <None Remove="icon.ico" />
+    <None Remove="Images\logo.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
     <PackageReference Include="MySql.Data" Version="8.0.31" />
     <PackageReference Include="MySqlConnector" Version="2.2.0" />
   </ItemGroup>
@@ -19,6 +21,15 @@
   <ItemGroup>
     <ProjectReference Include="..\VisitorsRegistrationSystemBL\VisitorsRegistrationSystemBL.csproj" />
     <ProjectReference Include="..\VisitorsRegistrationSystemDL\VisitorsRegistrationSystemDL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

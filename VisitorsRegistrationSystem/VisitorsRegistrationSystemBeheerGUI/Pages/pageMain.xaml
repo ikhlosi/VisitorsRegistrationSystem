@@ -5,10 +5,34 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:VisitorsRegistrationSystemBeheerGUI.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignWidth="1400" d:DesignHeight="900"
       Title="pageMain">
+    <Grid MaxWidth="1000">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="135"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-    <Grid>
-        
+        <Grid Grid.Row="1">
+            <Image Width="515" Height="150" Source="/Images/logo.png"/>
+        </Grid>
+
+        <TextBlock Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" TextDecorations="Underline" FontSize="35" Margin="10" Foreground="#98bccf">Beheer</TextBlock>
+
+        <StackPanel Grid.Row="3" Orientation="Vertical">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnBedrijven" Content="Bedrijven" Style="{StaticResource MainButtonTheme}" Click="btnBedrijven_Click"/>
+                <Button x:Name="btnWerknemers" Content="Werknemers" Style="{StaticResource MainButtonTheme}" Click="btnWerknemers_Click"/>
+                <Button x:Name="btnBezoekers" Content="Bezoekers" Style="{StaticResource MainButtonTheme}" Click="btnBezoekers_Click"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnBezoeken" Content="Bezoeken" Style="{StaticResource MainButtonTheme}" Click="btnBezoeken_Click"/>
+                <Button x:Name="btnParking" Content="Parking" Style="{StaticResource MainButtonTheme}" Click="btnParking_Click"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>

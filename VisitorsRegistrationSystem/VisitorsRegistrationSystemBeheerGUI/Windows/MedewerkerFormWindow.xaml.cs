@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorsRegistrationSystemBeheerGUI.Windows
 {
@@ -20,14 +21,22 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
     /// </summary>
     public partial class MedewerkerFormWindow : Window
     {
-        public MedewerkerFormWindow()
+        CompanyManager _cm;
+
+        public MedewerkerFormWindow(CompanyManager cm)
         {
+            _cm = cm;
             InitializeComponent();
+
+            cmbBedrijf.ItemsSource = _cm.GetCompanies();
         }
 
-        public MedewerkerFormWindow(Employee e)
+        public MedewerkerFormWindow(CompanyManager cm, Employee e)
         {
+            _cm = cm;
             InitializeComponent();
+
+            cmbBedrijf.ItemsSource = _cm.GetCompanies();
             InitializeData(e);
         }
 

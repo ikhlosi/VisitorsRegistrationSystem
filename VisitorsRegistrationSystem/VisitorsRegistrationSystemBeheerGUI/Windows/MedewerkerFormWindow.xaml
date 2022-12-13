@@ -9,6 +9,12 @@
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"  WindowStartupLocation="CenterScreen">
     <Border CornerRadius="5" BorderThickness="1" Background="GhostWhite" BorderBrush="LightGray">
         <Grid Margin="5">
+            <Grid.Resources>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+            </Grid.Resources>
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="190" />
                 <RowDefinition Height="45" />
@@ -18,7 +24,7 @@
                 <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Bedrijf" Width="80"/>
-                        <ComboBox x:Name="cmbBedrijf" Height="25" Width="270" VerticalAlignment="Center" />
+                        <ComboBox x:Name="cmbBedrijf" SelectedIndex="0" Height="25" Width="270" VerticalAlignment="Center" />
                     </StackPanel>
 
                     <StackPanel  Margin="0,5,0,0" Orientation="Horizontal">

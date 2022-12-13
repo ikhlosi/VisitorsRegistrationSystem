@@ -22,8 +22,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using VisitorsRegistrationSystemBeheerGUI.Mapper;
-using VisitorsRegistrationSystemBeheerGUI.Model;
 using VisitorsRegistrationSystemBeheerGUI.Windows;
 using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.DTO;
@@ -48,23 +46,23 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
         private Dictionary<string, string> VisitorParameterDictionary = new Dictionary<string, string> { { "Id", "Id" }, { "Name", "Naam" }, { "Email", "Email" }, { "VisitorCompany", "Bedrijf" } };
         private Dictionary<string, string> VisitParameterDictionary = new Dictionary<string, string> { { "visitId", "Id" }, { "visitorId", "Bezoeker" }, { "companyId", "Bezochte Bedrijf" }, { "employeeId", "Bezochte Werknemer" }, { "startTime", "Start Bezoek" }, { "endTime", "Eind Bezoek" } };
 
-        public pageBeheer(CompanyManager cm, VisitManager vm)
+        public pageBeheer(CompanyManager cm, VisitManager vm, int tabIndex)
         {
             _cm = cm;
             _vm = vm;
 
             InitializeComponent();
-            InitializeData();
+            InitializeData(tabIndex);
         }
 
-        public void InitializeData()
+        public void InitializeData(int i)
         {
             foreach (RadioButton rb in stpFilterRadioButtons.Children)
             {
                 rb.Checked += new RoutedEventHandler(radioButtons_CheckedChanged);
             }
 
-            ((RadioButton)stpFilterRadioButtons.Children[0]).IsChecked = true;
+            ((RadioButton)stpFilterRadioButtons.Children[i]).IsChecked = true;
         }
 
         private Dictionary<string,string> GetParamaterDictionary(object item)
@@ -239,20 +237,28 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             switch (CheckedRadioButton)
             {
                 case "Bedrijven":
-                    BedrijfFormWindow bfw = new BedrijfFormWindow();
+                    BedrijfFormWindow bfw = new BedrijfFormWindow(_cm);
                     bfw.ShowDialog();
                     rbBedrijven.IsChecked = false;
                     rbBedrijven.IsChecked = true;
                     break;
                 case "Medewerkers":
-                    MedewerkerFormWindow mfw = new MedewerkerFormWindow();
+                    MedewerkerFormWindow mfw = new MedewerkerFormWindow(_cm);
                     mfw.ShowDialog();
                     rbMedewerkers.IsChecked = false;
                     rbMedewerkers.IsChecked = true;
                     break;
                 case "Bezoekers":
+                    BezoekerFormWindow brfw = new BezoekerFormWindow(_vm);
+                    brfw.ShowDialog();
+                    rbBezoekers.IsChecked = false;
+                    rbBezoekers.IsChecked = true;
                     break;
                 case "Bezoeken":
+                    BezoekFormWindow bkfw = new BezoekFormWindow(_cm, _vm);
+                    bkfw.ShowDialog();
+                    rbBezoeken.IsChecked = false;
+                    rbBezoeken.IsChecked = true;
                     break;
                 default:
                     break;
@@ -265,20 +271,28 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             switch (dgDataTable.SelectedValue.GetType().Name)
             {
                 case nameof(Company):
-                    BedrijfFormWindow bfw = new BedrijfFormWindow((Company)dgDataTable.SelectedValue);
+                    BedrijfFormWindow bfw = new BedrijfFormWindow(_cm, (Company)dgDataTable.SelectedValue);
                     bfw.ShowDialog();
                     rbBedrijven.IsChecked = false;
                     rbBedrijven.IsChecked = true;
                     break;
                 case nameof(Employee):
-                    MedewerkerFormWindow mfw = new MedewerkerFormWindow((Employee)dgDataTable.SelectedValue);
+                    MedewerkerFormWindow mfw = new MedewerkerFormWindow(_cm, (Employee)dgDataTable.SelectedValue);
                     mfw.ShowDialog();
                     rbMedewerkers.IsChecked = false;
                     rbMedewerkers.IsChecked = true;
                     break;
                 case nameof(Visitor):
+                    BezoekerFormWindow brfw = new BezoekerFormWindow(_vm, (Visitor)dgDataTable.SelectedValue);
+                    brfw.ShowDialog();
+                    rbBezoekers.IsChecked = false;
+                    rbBezoekers.IsChecked = true;
                     break;
                 case nameof(VisitDTO):
+                    BezoekFormWindow bkfw = new BezoekFormWindow(_cm, _vm, (VisitDTO)dgDataTable.SelectedValue);
+                    bkfw.ShowDialog();
+                    rbBezoeken.IsChecked = false;
+                    rbBezoeken.IsChecked = true;
                     break;
                 default:
                     break;
@@ -288,31 +302,35 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
         private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
         {
             string typeName = dgDataTable.SelectedValue.GetType().Name;
-            switch (typeName)
+            MessageBoxResult result = MessageBox.Show("Bent u zeker dat u deze record wilt verwijderen?", "Bevestiging", System.Windows.MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
             {
-                case nameof(Company):
-                    _cm.RemoveCompany((Company)dgDataTable.SelectedValue);
-                    rbBedrijven.IsChecked = false;
-                    rbBedrijven.IsChecked = true;
-                    break;
-                case nameof(Employee):
-                    _cm.RemoveEmployee((Employee)dgDataTable.SelectedValue);
-                    rbMedewerkers.IsChecked = false;
-                    rbMedewerkers.IsChecked = true;
-                    break;
-                case nameof(Visitor):
-                    //_vm.DeleteVisitor((Visitor)dgDataTable.SelectedValue);
-                    rbBezoekers.IsChecked = false;
-                    rbBezoekers.IsChecked = true;
-                    break;
-                case nameof(VisitDTO):
-                    //_vm.DeleteVisit((VisitDTO)dgDataTable.SelectedValue);
-                    rbBezoeken.IsChecked = false;
-                    rbBezoeken.IsChecked = true;
-                    break;
-                default:
-                    break;
-            }
+                switch (typeName)
+                {
+                    case nameof(Company):
+                        _cm.RemoveCompany((Company)dgDataTable.SelectedValue);
+                        rbBedrijven.IsChecked = false;
+                        rbBedrijven.IsChecked = true;
+                        break;
+                    case nameof(Employee):
+                        _cm.RemoveEmployee((Employee)dgDataTable.SelectedValue);
+                        rbMedewerkers.IsChecked = false;
+                        rbMedewerkers.IsChecked = true;
+                        break;
+                    case nameof(Visitor):
+                        //_vm.DeleteVisitor((Visitor)dgDataTable.SelectedValue);
+                        rbBezoekers.IsChecked = false;
+                        rbBezoekers.IsChecked = true;
+                        break;
+                    case nameof(VisitDTO):
+                        //_vm.DeleteVisit((VisitDTO)dgDataTable.SelectedValue);
+                        rbBezoeken.IsChecked = false;
+                        rbBezoeken.IsChecked = true;
+                        break;
+                    default:
+                        break;
+                }
+            } 
         }
 
         private void EmployeeButton_OnClick(object sender, RoutedEventArgs e)
@@ -385,7 +403,6 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             }
             return btn;
         }
-
 
     }
 }
