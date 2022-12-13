@@ -34,7 +34,7 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
         private void btnUitschrijven_Click(object sender, RoutedEventArgs e)
         {
             string visitorEmail = txtbEmail.Text;
-            _vm.DeleteVisit();
+            _vm.DeleteVisit(null);
             Application.Current.MainWindow.Content = new pageMain(_cm, _vm);
             // todo: end visit  and visitor (visible = 0)
         }

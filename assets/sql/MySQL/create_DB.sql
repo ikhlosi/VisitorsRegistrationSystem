@@ -88,7 +88,7 @@ ADD COLUMN visible BIT NULL DEFAULT true;
 ALTER TABLE VisitorsRegistrationSystem.Visitor 
 ADD COLUMN visible BIT NULL DEFAULT true;
 
-CREATE TABLE `parking` (
+CREATE TABLE `Parking` (
   `id` int NOT NULL AUTO_INCREMENT,
   `totalSpaces` int DEFAULT '0',
   `occupiedSpaces` int DEFAULT '0',
@@ -98,7 +98,7 @@ CREATE TABLE `parking` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `parkingdetails` (
+CREATE TABLE `Parkingdetails` (
   `id` int NOT NULL AUTO_INCREMENT,
   `startTime` datetime(2) NOT NULL,
   `endTime` datetime(2) DEFAULT NULL,
@@ -110,11 +110,11 @@ CREATE TABLE `parkingdetails` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `FK_ParkingDetails_Parking_idx` (`parkingId`),
   KEY `FK_ParkingDetails_Company_idx` (`visitedCompanyId`),
-  CONSTRAINT `FK_ParkingDetails_Company` FOREIGN KEY (`visitedCompanyId`) REFERENCES `company` (`id`),
-  CONSTRAINT `FK_ParkingDetails_Parking` FOREIGN KEY (`parkingId`) REFERENCES `parking` (`id`)
+  CONSTRAINT `FK_ParkingDetails_Company` FOREIGN KEY (`visitedCompanyId`) REFERENCES `Company` (`id`),
+  CONSTRAINT `FK_ParkingDetails_Parking` FOREIGN KEY (`parkingId`) REFERENCES `Parking` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `parkingcontract` (
+CREATE TABLE `Parkingcontract` (
   `id` int NOT NULL AUTO_INCREMENT,
   `companyId` int NOT NULL,
   `spaces` int DEFAULT '0',
@@ -126,6 +126,6 @@ CREATE TABLE `parkingcontract` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `FK_ParkingContract_Company_idx` (`companyId`),
   KEY `FK_ParkingContract_Parking_idx` (`parkingId`),
-  CONSTRAINT `FK_ParkingContract_Company` FOREIGN KEY (`companyId`) REFERENCES `company` (`id`),
-  CONSTRAINT `FK_ParkingContract_Parking` FOREIGN KEY (`parkingId`) REFERENCES `parking` (`id`)
+  CONSTRAINT `FK_ParkingContract_Company` FOREIGN KEY (`companyId`) REFERENCES `Company` (`id`),
+  CONSTRAINT `FK_ParkingContract_Parking` FOREIGN KEY (`parkingId`) REFERENCES `Parking` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

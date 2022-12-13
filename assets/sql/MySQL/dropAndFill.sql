@@ -1,5 +1,7 @@
-delete from ParkingContract;
-delete from parkingdetails;
+USE VisitorsRegistrationSystem;
+
+delete from Parkingcontract;
+delete from Parkingdetails;
 delete from Parking;
 delete from Visit;
 delete from Visitor;
@@ -40,14 +42,14 @@ INSERT INTO Visit(visitorId,startTime,endTime,companyId,employeeId,visitId,visib
 
 INSERT INTO Parking(id,totalSpaces,occupiedSpaces,full,visible) values(1,100,0,b'0',1);
 
-INSERT INTO parkingcontract(id,companyId,spaces,startDate,endDate,parkingId,visible) values(1,1,20,"2022-1-1","2023-1-1",1,1);
-INSERT INTO parkingcontract(id,companyId,spaces,startDate,endDate,parkingId,visible) values(2,2,10,"2022-10-1","2023-10-1",1,1);
-INSERT INTO parkingcontract(id,companyId,spaces,startDate,endDate,parkingId,visible) values(3,3,5,"2022-10-1","2023-10-1",1,1);
-INSERT INTO parkingcontract(id,companyId,spaces,startDate,endDate,parkingId,visible) values(4,4,15,"2022-11-1","2023-11-1",1,0);
-INSERT INTO parkingcontract(id,companyId,spaces,startDate,endDate,parkingId,visible) values(5,5,1,"2022-1-1","2023-1-1",1,1);
+INSERT INTO Parkingcontract(id,companyId,spaces,startDate,endDate,parkingId,visible) values(1,1,20,"2022-1-1","2023-1-1",1,1);
+INSERT INTO Parkingcontract(id,companyId,spaces,startDate,endDate,parkingId,visible) values(2,2,10,"2022-10-1","2023-10-1",1,1);
+INSERT INTO Parkingcontract(id,companyId,spaces,startDate,endDate,parkingId,visible) values(3,3,5,"2022-10-1","2023-10-1",1,1);
+INSERT INTO Parkingcontract(id,companyId,spaces,startDate,endDate,parkingId,visible) values(4,4,15,"2022-11-1","2023-11-1",1,0);
+INSERT INTO Parkingcontract(id,companyId,spaces,startDate,endDate,parkingId,visible) values(5,5,1,"2022-1-1","2023-1-1",1,1);
 
-insert into pARKINGDETAILS(id,startTime,endTime,licensePlate,visitedCompanyId,parkingId,visible) values(1,"2022-12-9","2022-12-9","ABC-123",1,1,1);
-insert into pARKINGDETAILS(id,startTime,endTime,licensePlate,visitedCompanyId,parkingId,visible) values(2,"2022-12-9","2022-12-10","ABC-456",1,1,1);
-insert into pARKINGDETAILS(id,startTime,endTime,licensePlate,visitedCompanyId,parkingId,visible) values(3,"2022-11-9","2022-12-9","DEF-123",2,1,1);
-insert into pARKINGDETAILS(id,startTime,endTime,licensePlate,visitedCompanyId,parkingId,visible) values(4,"2022-12-9","2022-12-9","1-EFG-456",3,1,0);
-insert into pARKINGDETAILS(id,startTime,endTime,licensePlate,visitedCompanyId,parkingId,visible) values(5,"2022-12-9","2022-12-9","2-AAA-111",4,1,1);
+insert into Parkingdetails(id,startTime,endTime,licensePlate,visitedCompanyId,parkingId,visible) values(1,"2022-12-9","2022-12-9","ABC-123",1,1,1);
+insert into Parkingdetails(id,startTime,endTime,licensePlate,visitedCompanyId,parkingId,visible) values(2,"2022-12-9","2022-12-10","ABC-456",1,1,1);
+insert into Parkingdetails(id,startTime,endTime,licensePlate,visitedCompanyId,parkingId,visible) values(3,"2022-11-9","2022-12-9","DEF-123",2,1,1);
+insert into Parkingdetails(id,startTime,endTime,licensePlate,visitedCompanyId,parkingId,visible) values(4,"2022-12-9","2022-12-9","1-EFG-456",3,1,0);
+insert into Parkingdetails(id,startTime,endTime,licensePlate,visitedCompanyId,parkingId,visible) values(5,"2022-12-9","2022-12-9","2-AAA-111",4,1,1);

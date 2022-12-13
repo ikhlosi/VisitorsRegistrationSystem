@@ -26,7 +26,9 @@ namespace VisitorsRegistrationSystemBeheerGUI.Mapper
             List<EmployeeDTO> map = new List<EmployeeDTO>();
             foreach (Employee e in list)
             {
-                map.Add(new EmployeeDTO(e.ID, e.Name, e.LastName, e.Email, ,e.Function));
+                // Om build errors te vermijden:
+                CompanyDTO company = new CompanyDTO(1, "blabla", "abcdefg", new Address("Gent", "kerkstr", "3", "b"), "1234567789", "blabla@abcdefg.com");
+                map.Add(new EmployeeDTO(e.ID, e.Name, e.LastName, e.Email, company ,e.Function));
             }
 
             return map;

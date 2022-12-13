@@ -24,16 +24,28 @@ namespace VisitorsRegistrationSystemDL.Repositories
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"INSERT into Visit(visitorId,startTime,companyId,employeeId,visible) values (@visitorId,@startTime,@companyId,@employeeId,1)";
+            string transactionQuery = @"START TRANSACTION;
+                                        INSERT INTO Visitor(name,email,visitorCompany) VALUES (@visitorName,@visitorEmail,@visitorCompany);
+                                        SET @visitorId:=LAST_INSERT_ID();
+                                        INSERT INTO Visit(visitorId,startTime,companyId,employeeId) VALUES (@visitorId,@startTime,@companyId,@employeeId);
+                                        COMMIT;";
+
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
-                    cmd.CommandText = query;
-                    cmd.Parameters.AddWithValue("@visitorId", visit.Visitor.Id);
-                    cmd.Parameters.AddWithValue("@startTime", DateTime.Now);
+                    cmd.CommandText = transactionQuery;
+                    cmd.Parameters.AddWithValue("@visitorName", visit.Visitor.Name);
+                    cmd.Parameters.AddWithValue("@visitorEmail", visit.Visitor.Email);
+                    cmd.Parameters.AddWithValue("@visitorCompany", visit.Visitor.VisitorCompany);
+                    cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
                     cmd.Parameters.AddWithValue("@companyId", visit.VisitedCompany.ID);
                     cmd.Parameters.AddWithValue("@employeeId", visit.VisitedEmployee.ID);
+                    //cmd.Parameters.AddWithValue("@visitorId", visit.Visitor.Id);
+                    //cmd.Parameters.AddWithValue("@startTime", DateTime.Now);
+                    //cmd.Parameters.AddWithValue("@companyId", visit.VisitedCompany.ID);
+                    //cmd.Parameters.AddWithValue("@employeeId", visit.VisitedEmployee.ID);
                     cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
