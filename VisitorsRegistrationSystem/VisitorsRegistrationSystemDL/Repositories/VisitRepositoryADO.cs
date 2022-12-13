@@ -431,6 +431,36 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         }
 
+        public Visitor GetVisitor(string email)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"SELECT * FROM Visitor WHERE email=@email and visible = 1";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@email", email);
+                    IDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    Visitor visitor = VisitorFactory.MakeVisitor((int)reader["id"], (string)reader["name"], (string)reader["email"], (string)reader["visitorCompany"]);
+                    reader.Close();
+                    return visitor;
+                }
+                catch (Exception ex)
+                {
+                    throw new VisitRepositoryADOException("GetVisitor");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+
+        }
+
+
         public List<Visitor> GetAllVisitors()
         {
             List<Visitor> visitors = new List<Visitor>();

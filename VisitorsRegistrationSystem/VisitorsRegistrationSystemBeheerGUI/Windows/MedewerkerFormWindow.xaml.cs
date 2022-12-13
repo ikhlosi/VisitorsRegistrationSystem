@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using VisitorsRegistrationSystemBL.Domain;
 
 namespace VisitorsRegistrationSystemBeheerGUI.Windows
 {
@@ -22,6 +23,36 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
         public MedewerkerFormWindow()
         {
             InitializeComponent();
+        }
+
+        public MedewerkerFormWindow(Employee e)
+        {
+            InitializeComponent();
+            InitializeData(e);
+        }
+
+        public void InitializeData(Employee e)
+        {
+            txtbVoornaam.Text = e.Name;
+            txtbAchternaam.Text = e.LastName;
+            txtbEmail.Text = e.Email;
+            txtbFunctie.Text = e.Function;
+        }
+
+        private void btnOpslaan_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnAfsluiten_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            this.DragMove();
         }
     }
 }

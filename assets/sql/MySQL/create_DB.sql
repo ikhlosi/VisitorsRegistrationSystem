@@ -87,3 +87,45 @@ ADD COLUMN visible BIT NULL DEFAULT true;
 
 ALTER TABLE VisitorsRegistrationSystem.Visitor 
 ADD COLUMN visible BIT NULL DEFAULT true;
+
+CREATE TABLE `parking` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `totalSpaces` int DEFAULT '0',
+  `occupiedSpaces` int DEFAULT '0',
+  `full` bit(1) NOT NULL DEFAULT b'0',
+  `visible` bit(1) NOT NULL DEFAULT b'1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `parkingdetails` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `startTime` datetime(2) NOT NULL,
+  `endTime` datetime(2) DEFAULT NULL,
+  `licensePlate` varchar(45) NOT NULL,
+  `visitedCompanyId` int NOT NULL,
+  `parkingId` int NOT NULL DEFAULT '1',
+  `visible` bit(1) NOT NULL DEFAULT b'1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `FK_ParkingDetails_Parking_idx` (`parkingId`),
+  KEY `FK_ParkingDetails_Company_idx` (`visitedCompanyId`),
+  CONSTRAINT `FK_ParkingDetails_Company` FOREIGN KEY (`visitedCompanyId`) REFERENCES `company` (`id`),
+  CONSTRAINT `FK_ParkingDetails_Parking` FOREIGN KEY (`parkingId`) REFERENCES `parking` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `parkingcontract` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `companyId` int NOT NULL,
+  `spaces` int DEFAULT '0',
+  `startDate` datetime(2) NOT NULL,
+  `endDate` datetime(2) NOT NULL,
+  `parkingId` int NOT NULL DEFAULT '1',
+  `visible` bit(1) NOT NULL DEFAULT b'1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `FK_ParkingContract_Company_idx` (`companyId`),
+  KEY `FK_ParkingContract_Parking_idx` (`parkingId`),
+  CONSTRAINT `FK_ParkingContract_Company` FOREIGN KEY (`companyId`) REFERENCES `company` (`id`),
+  CONSTRAINT `FK_ParkingContract_Parking` FOREIGN KEY (`parkingId`) REFERENCES `parking` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using VisitorsRegistrationSystemBeheerGUI.Model;
 using VisitorsRegistrationSystemBL.Domain;
 
 namespace VisitorsRegistrationSystemBeheerGUI.Windows
@@ -25,13 +26,13 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
             InitializeComponent();
         }
 
-        public BedrijfFormWindow(Company c)
+        public BedrijfFormWindow(CompanyDTO c)
         {
             InitializeComponent();
             InitializeData(c);
         }
 
-        public void InitializeData(Company c)
+        public void InitializeData(CompanyDTO c)
         {
             txtbNaam.Text = c.Name;
             txtbVAT.Text = c.VATNumber;
