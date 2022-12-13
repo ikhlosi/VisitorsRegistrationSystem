@@ -26,13 +26,13 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
             InitializeComponent();
         }
 
-        public BedrijfFormWindow(CompanyDTO c)
+        public BedrijfFormWindow(Company c)
         {
             InitializeComponent();
             InitializeData(c);
         }
 
-        public void InitializeData(CompanyDTO c)
+        public void InitializeData(Company c)
         {
             txtbNaam.Text = c.Name;
             txtbVAT.Text = c.VATNumber;

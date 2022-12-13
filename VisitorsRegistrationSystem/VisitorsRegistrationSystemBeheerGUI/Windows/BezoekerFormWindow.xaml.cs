@@ -15,13 +15,23 @@ using System.Windows.Shapes;
 namespace VisitorsRegistrationSystemBeheerGUI.Windows
 {
     /// <summary>
-    /// Interaction logic for VisitorFormWindow.xaml
+    /// Interaction logic for BezoekerFormWindow.xaml
     /// </summary>
-    public partial class VisitorFormWindow : Window
+    public partial class BezoekerFormWindow : Window
     {
-        public VisitorFormWindow()
+        public BezoekerFormWindow()
         {
             InitializeComponent();
+        }
+
+        private void btnOpslaan_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnAfsluiten_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

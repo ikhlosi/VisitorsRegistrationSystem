@@ -398,7 +398,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     connection.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.AddWithValue("@id", id);
-                    int n = (int)cmd.ExecuteScalar();
+                    Int64 n = (Int64)cmd.ExecuteScalar();
                     if (n > 0)
                         return true;
                     return false;
