@@ -128,7 +128,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                             endTime = (DateTime)reader["pdEt"];
                             licensePlate = (string)reader["pdLi"];
                             parkingDetailVisitedCompanyId = (int)reader["pdVi"];
-                            parkingDetail = new ParkingDetail(parkingDetailId, startTime, endTime, licensePlate, parkingDetailVisitedCompanyId);
+                            parkingDetail = new ParkingDetail(parkingDetailId, startTime, endTime, licensePlate, parkingDetailVisitedCompanyId,parkingId);
                             parkingDetails.Add(parkingDetail);
                         }
 
@@ -471,17 +471,82 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public bool ParkingDetailExistsInDB(int id)
         {
-            throw new NotImplementedException();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"SELECT COUNT(*) FROM parkingdetails WHERE id=@id and visible = 1";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@id", id);
+                    Int64 n = (Int64)cmd.ExecuteScalar();
+                    if (n > 0)
+                        return true;
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    throw new ParkingRepositoryADOException("ParkingDetailExistsInDB", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public void RemoveParkingDetailFromDB(int id)
         {
-            throw new NotImplementedException();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"update parkingDetails set visible=0 where id = @id and visible=1";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new ParkingRepositoryADOException("RemoveParkingDetailFromDB", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public void UpdateParkingDetail(ParkingDetail parkingDetail)
         {
-            throw new NotImplementedException();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"update parkingdetails set startTime = @startTime, endTime= @endTime, licensePlate= @licensePlate,visitedCompanyId= @visitedCompanyId,parkingId= @parkingId where id=@id;";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.Parameters.AddWithValue("@startTime", parkingDetail.StartTime);
+                    cmd.Parameters.AddWithValue("@endTime", parkingDetail.EndTime);
+                    cmd.Parameters.AddWithValue("@licensePlate", parkingDetail.LicensePlate);
+                    cmd.Parameters.AddWithValue("@visitedCompanyId", parkingDetail.VisitedCompanyID);
+                    cmd.Parameters.AddWithValue("@parkingId", parkingDetail.ParkingId);
+                    cmd.Parameters.AddWithValue("@id", parkingDetail.ID);
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new ParkingRepositoryADOException("UpdateParkingDetail", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public ParkingDetail WriteParkingDetailInDB(ParkingDetail parkingDetail)
@@ -491,12 +556,44 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public ParkingDetail GetParkingDetailById(int iD)
         {
-            throw new NotImplementedException();
+
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"SELECT * FROM parkingdetails WHERE id=@id and visible = 1";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@id", iD);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    ParkingDetail parkingDetail = null;
+                    while (reader.Read())
+                    {
+                        int ID = reader.GetInt32("id");
+                        DateTime StartTime = reader.GetDateTime("startTime");
+                        DateTime EndTime = reader.GetDateTime("endTime");
+                        string LicensePlate = reader.GetString("licensePlate");
+                        int VisitedCompanyID = reader.GetInt32("visitedCompanyId");
+                        int ParkingId = reader.GetInt32("parkingId");
+                        parkingDetail = new ParkingDetail(ID, StartTime, EndTime, LicensePlate, VisitedCompanyID, ParkingId);
+                    }
+                    return parkingDetail;
+                }
+                catch (Exception ex)
+                {
+                    throw new ParkingRepositoryADOException("GetParkingDetailById", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
-        public IReadOnlyList<ParkingDetailDTO> GetParkingDetails()
-        {
-            throw new NotImplementedException();
+            public IReadOnlyList<ParkingDetailDTO> GetParkingDetails()
+            {
+                throw new NotImplementedException();
         }
         #endregion
     }
