@@ -39,10 +39,10 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
             DateTime endTime = DateTime.Now;
             try {
                 _vm.EndVisit(visitorEmail, endTime);
-                Application.Current.MainWindow.Content = new pageMain(_cm, _vm);
+                Application.Current.MainWindow.Content = new pageUitschrijvenSucces(_cm, _vm);
             }
-            catch (VisitException ve) {
-                MessageBox.Show(ve.Message);
+            catch (Exception ve) {
+                MessageBox.Show(ve.InnerException.Message);
             }
         }
 

@@ -13,6 +13,7 @@ namespace VisitorsRegistrationSystemBL.Managers
 {
     public class VisitManager
     {
+        // todo: consistentie: VisitException gebruiken ipv VisitManagerException
         private IVisitRepository _repo;
 
         public VisitManager(IVisitRepository repo)
@@ -135,10 +136,12 @@ namespace VisitorsRegistrationSystemBL.Managers
             try {
                 if (!_repo.VisitorExists(email)) {
                     throw new VisitException("VisitManager - EndVisit - Visitor is not recognised");
+                    // todo: ? ask if necessary: extra connection
                 }
                 int rowsAffected = _repo.EndVisit(email, endTime);
                 if (rowsAffected <= 0) {
                     throw new VisitException("VisitManager - EndVisit - nothing changed");
+                    // todo: ? ask if ok: wanneer niets verandert in de DB krijgt de bezoeker een melding; wel pas nadat er connectie gelegd wordt met de DB en de "update" gebeurd is
                 }
             }
             catch (Exception ex) {

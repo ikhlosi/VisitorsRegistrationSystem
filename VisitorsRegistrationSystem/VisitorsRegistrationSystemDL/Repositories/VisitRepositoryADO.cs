@@ -240,7 +240,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
             string query = @"UPDATE Visit
                             JOIN Visitor ON Visit.visitorId = Visitor.id
                             SET Visit.endTime = @endTime
-                            WHERE Visitor.email = @email AND Visit.endTime = NULL;";
+                            WHERE Visitor.email = @email AND Visit.endTime IS NULL;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
