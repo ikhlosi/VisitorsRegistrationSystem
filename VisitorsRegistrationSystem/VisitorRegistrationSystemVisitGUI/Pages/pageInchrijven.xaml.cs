@@ -45,13 +45,16 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
             string visitorName = $"{txtbVoornaam.Text} {txtbAchternaam.Text}";
             string visitorEmail = txtbEmail.Text;
             string visitorCompany = txtbBedrijfBezoeker.Text;
-            Visitor visitor = VisitorFactory.MakeVisitor(null, visitorName, visitorEmail, visitorCompany);
-            Company visitedCompany = (Company)cbBedrijfAfspraak.SelectedItem;
-            Employee visitedEmployee = (Employee)cbAfspraakMet.SelectedItem;
-            //visitor = _vm.AddVisitor(visitor);
-            Visit visit = VisitFactory.MakeVisit(null, visitor, visitedCompany, visitedEmployee);
-            _vm.AddVisit(visit); // todo transacties: we willen geen Visitor toevoegen als we geen Visit hebben kunnen toevoegen
-            Application.Current.MainWindow.Content = new PageInschrijvenSucces(_cm, _vm);
+            try {
+                Visitor visitor = VisitorFactory.MakeVisitor(null, visitorName, visitorEmail, visitorCompany);
+                Company visitedCompany = (Company)cbBedrijfAfspraak.SelectedItem;
+                Employee visitedEmployee = (Employee)cbAfspraakMet.SelectedItem;
+                Visit visit = VisitFactory.MakeVisit(null, visitor, visitedCompany, visitedEmployee);
+                _vm.AddVisit(visit);
+                Application.Current.MainWindow.Content = new PageInschrijvenSucces(_cm, _vm);
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
 
             // todo: btnInschrijven enkel klikbaar wanneer alles (correct) ingevuld
         }

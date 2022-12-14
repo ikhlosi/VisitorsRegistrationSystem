@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.Exceptions;
 using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorRegistrationSystemVisitGUI.Pages
@@ -34,9 +36,14 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
         private void btnUitschrijven_Click(object sender, RoutedEventArgs e)
         {
             string visitorEmail = txtbEmail.Text;
-            _vm.DeleteVisit(null);
-            Application.Current.MainWindow.Content = new pageMain(_cm, _vm);
-            // todo: end visit  and visitor (visible = 0)
+            DateTime endTime = DateTime.Now;
+            try {
+                _vm.EndVisit(visitorEmail, endTime);
+                Application.Current.MainWindow.Content = new pageMain(_cm, _vm);
+            }
+            catch (VisitException ve) {
+                MessageBox.Show(ve.Message);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

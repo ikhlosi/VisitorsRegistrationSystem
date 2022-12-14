@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.DTO;
 using VisitorsRegistrationSystemBL.Factories;
@@ -23,30 +24,36 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void AddVisit(Visit visit)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"INSERT into Visit(visitorId,startTime,companyId,employeeId,visible) values (@visitorId,@startTime,@companyId,@employeeId,1)";
-            string transactionQuery = @"START TRANSACTION;
-                                        INSERT INTO Visitor(name,email,visitorCompany) VALUES (@visitorName,@visitorEmail,@visitorCompany);
-                                        SET @visitorId:=LAST_INSERT_ID();
-                                        INSERT INTO Visit(visitorId,startTime,companyId,employeeId) VALUES (@visitorId,@startTime,@companyId,@employeeId);
-                                        COMMIT;";
+            //string query = @"INSERT into Visit(visitorId,startTime,companyId,employeeId,visible) values (@visitorId,@startTime,@companyId,@employeeId,1)";
+            //string transactionQuery = @"START TRANSACTION;
+            //                            INSERT INTO Visitor(name,email,visitorCompany) VALUES (@visitorName,@visitorEmail,@visitorCompany);
+            //                            SET @visitorId:=LAST_INSERT_ID();
+            //                            INSERT INTO Visit(visitorId,startTime,companyId,employeeId) VALUES (@visitorId,@startTime,@companyId,@employeeId);
+            //                            COMMIT;";
 
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
-                    cmd.CommandText = transactionQuery;
+                    MySqlTransaction transaction = connection.BeginTransaction();
+                    cmd.Connection = connection; cmd.Transaction = transaction;
+
+                    cmd.CommandText = "INSERT INTO Visitor(name,email,visitorCompany) VALUES (@visitorName,@visitorEmail,@visitorCompany);";
                     cmd.Parameters.AddWithValue("@visitorName", visit.Visitor.Name);
                     cmd.Parameters.AddWithValue("@visitorEmail", visit.Visitor.Email);
                     cmd.Parameters.AddWithValue("@visitorCompany", visit.Visitor.VisitorCompany);
+                    cmd.ExecuteNonQuery();
+                    long visitorId = cmd.LastInsertedId;
+
+                    cmd.CommandText = "INSERT INTO Visit(visitorId,startTime,companyId,employeeId) VALUES (@visitorId,@startTime,@companyId,@employeeId);";
+                    cmd.Parameters.AddWithValue("@visitorId", visitorId);
                     cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
                     cmd.Parameters.AddWithValue("@companyId", visit.VisitedCompany.ID);
                     cmd.Parameters.AddWithValue("@employeeId", visit.VisitedEmployee.ID);
-                    //cmd.Parameters.AddWithValue("@visitorId", visit.Visitor.Id);
-                    //cmd.Parameters.AddWithValue("@startTime", DateTime.Now);
-                    //cmd.Parameters.AddWithValue("@companyId", visit.VisitedCompany.ID);
-                    //cmd.Parameters.AddWithValue("@employeeId", visit.VisitedEmployee.ID);
                     cmd.ExecuteNonQuery();
+
+                    transaction.Commit();
                 }
                 catch (Exception ex)
                 {
@@ -227,18 +234,23 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        public void EndVisit(string email)
+        public int EndVisit(string email, DateTime endTime)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update visit set endTime = now() where email = @email AND endTime is null;";
+            string query = @"UPDATE Visit
+                            JOIN Visitor ON Visit.visitorId = Visitor.id
+                            SET Visit.endTime = @endTime
+                            WHERE Visitor.email = @email AND Visit.endTime = NULL;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.AddWithValue("@email",email);
-                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("@email", email);
+                    cmd.Parameters.AddWithValue("@endTime", endTime);
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    return rowsAffected;
                 }
                 catch (Exception ex)
                 {
@@ -414,6 +426,31 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        public bool VisitorExists(string email) {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"SELECT COUNT(*) FROM Visitor WHERE email = @email and visible = 1";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@email", email);
+                    Int64 n = (Int64)cmd.ExecuteScalar();
+                    if (n > 0)
+                        return true;
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    throw new VisitRepositoryADOException("VisitorExists by id", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
         public Visitor GetVisitor(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -472,7 +509,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         }
 
-
         public List<Visitor> GetAllVisitors()
         {
             List<Visitor> visitors = new List<Visitor>();
@@ -502,5 +538,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
             }
         }
+
     }
 }

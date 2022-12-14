@@ -26,7 +26,6 @@ namespace VisitorsRegistrationSystemBL.Managers
         {
             return _repo.GetVisits();
         }
-
         public void AddVisit(Visit visit)
         {
             //TODO: Check if employee is part of company, when repositories classes are made
@@ -34,14 +33,12 @@ namespace VisitorsRegistrationSystemBL.Managers
             if (_repo.VisitExists(visit)) throw new VisitException("VisitManager - AddVisit - Visit does exist");
             _repo.AddVisit(visit);
         }
-
         public void DeleteVisit(Visit visit)
         {
             if (visit == null) throw new VisitException("VisitManager(Deletevisit) - visit is null");
             if (!_repo.VisitExists(visit)) throw new VisitException("VisitManager - Deletevisit - visit does not exist");
             _repo.RemoveVisit(visit.Id);
         }
-
         public void UpdateVisit(Visit visit)
         {
             if (visit == null) throw new VisitException("VisitManager(Updatevisit) - visit is null");
@@ -58,7 +55,6 @@ namespace VisitorsRegistrationSystemBL.Managers
                 throw new VisitException("VisitManager - UpdateVisit", ex);
             }
         }
-
         public Visitor AddVisitor(Visitor visitor)
         {
             if (visitor == null) throw new VisitManagerException("VisitManager - Addvisitor - visitor is null");
@@ -110,7 +106,6 @@ namespace VisitorsRegistrationSystemBL.Managers
                 throw new VisitManagerException("VisitManager - GetVisitors", ex);
             }
         }
-
         public Visitor GetVisitor(int id)
         {
             if (id <= 0) throw new VisitManagerException("VisitManager - Getvisitor - id is null");
@@ -123,6 +118,33 @@ namespace VisitorsRegistrationSystemBL.Managers
                 throw new VisitManagerException("VisitManager - GetVisitor", ex);
             }
         }
-
+        public Visitor GetVisitor(string email, DateTime endTime)
+        {
+            if (string.IsNullOrWhiteSpace(email)) throw new VisitManagerException("VisitManager - Getvisitor - email is null");
+            try
+            {
+                return _repo.GetVisitor(email);
+            }
+            catch (Exception ex)
+            {
+                throw new VisitManagerException("VisitManager - GetVisitor", ex);
+            }
         }
+        public void EndVisit(string email, DateTime endTime) {
+            if (string.IsNullOrWhiteSpace(email)) throw new VisitException("VisitManager - EndVisit - email is null");
+            try {
+                if (!_repo.VisitorExists(email)) {
+                    throw new VisitException("VisitManager - EndVisit - Visitor is not recognised");
+                }
+                int rowsAffected = _repo.EndVisit(email, endTime);
+                if (rowsAffected <= 0) {
+                    throw new VisitException("VisitManager - EndVisit - nothing changed");
+                }
+            }
+            catch (Exception ex) {
+                throw new VisitException("VisitManager - EndVisit", ex);
+            }
+        }
+
+    }
 }
