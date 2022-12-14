@@ -83,7 +83,7 @@ namespace VisitorsRegistrationSystemBL.Domain
         public bool IsSame(Company otherCompany) {
             // if (otherCompany == null) throw new CompanyException("Company - IsSame - argument is null", new ArgumentNullException());
             if (otherCompany == null) throw new CompanyException("Company - IsSame - argument is null");
-            return (this.ID == otherCompany.ID) && (this.Name == otherCompany.Name) && (this.VATNumber == otherCompany.VATNumber) && (this.Address == otherCompany.Address) && (this.TelephoneNumber == otherCompany.TelephoneNumber) && (this.Email == otherCompany.Email);
+            return (this.ID == otherCompany.ID) && (this.Name == otherCompany.Name) && (this.VATNumber == otherCompany.VATNumber) && (this.TelephoneNumber == otherCompany.TelephoneNumber) && (this.Email == otherCompany.Email);
         }
 
         public override bool Equals(object? obj) {

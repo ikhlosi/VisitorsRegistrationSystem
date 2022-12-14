@@ -87,7 +87,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
             List<Company> companies = new List<Company>();
 
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.visible = 1";
+            string query = @"select c.id,name,VAT,email,telNr, a.id as aId,city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -103,6 +103,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         string VAT = (string)reader["VAT"];
                         string email = (string)reader["email"];
                         string telNr = (string)reader["telNr"];
+                        int addressId = (int)reader["aId"];
                         string city = (string)reader["city"];
                         string street = (string)reader["street"];
                         string houseNr = (string)reader["houseNr"];
@@ -111,7 +112,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         {
                             busNr = (string)reader["bus"];
                         }
-                        Company company = CompanyFactory.MakeCompany(id,name,VAT,new Address(city,street,houseNr,busNr),telNr,email);
+                        Company company = CompanyFactory.MakeCompany(id,name,VAT,new Address(addressId,city,street,houseNr,busNr),telNr,email);
                         companies.Add(company);
                     }
                     reader.Close();

@@ -56,7 +56,8 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
         {
             if (_company != null)
             {
-                _cm.UpdateCompany(CompanyFactory.MakeCompany(_company.ID, txtbNaam.Text, txtbVAT.Text, new Address(txtbGemeente.Text, txtbStraat.Text, txtbHuisnummer.Text, txtbBusnummer.Text), txtbTelNr.Text, txtbEmail.Text));
+                _cm.UpdateCompany(CompanyFactory.MakeCompany(_company.ID, txtbNaam.Text, txtbVAT.Text, new Address(_company.Address.Id,txtbGemeente.Text, txtbStraat.Text, txtbHuisnummer.Text, txtbBusnummer.Text), txtbTelNr.Text, txtbEmail.Text));
+                // todo _cm.UpdateAddress
                 MessageBox.Show("Company has been Updated!");
             }
             else
