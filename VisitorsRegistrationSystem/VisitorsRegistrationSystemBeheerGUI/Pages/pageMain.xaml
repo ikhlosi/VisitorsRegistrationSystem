@@ -20,7 +20,7 @@
             <Image Width="515" Height="150" Source="/Images/logo.png"/>
         </Grid>
 
-        <TextBlock Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" TextDecorations="Underline" FontSize="35" Margin="10" Foreground="#98bccf">Beheer</TextBlock>
+        <TextBlock Grid.Row="2" FontFamily="/Fonts/#Inter" FontWeight="ExtraLight" HorizontalAlignment="Center" VerticalAlignment="Bottom" TextDecorations="Underline" FontSize="35" Margin="10" Foreground="#98bccf">Beheer</TextBlock>
 
         <StackPanel Grid.Row="3" Orientation="Vertical">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

@@ -23,6 +23,16 @@
                     </StackPanel>
 
                     <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                        <Label Content="Start Bezoek" Width="80"/>
+                        <xctk:DateTimePicker x:Name="dtpStartBezoek" ShowButtonSpinner="False" TimePickerShowButtonSpinner="False" Format="Custom" FormatString="dd MMMM yyyy HH:mm:ss" Height="25" Width="270" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                        <Label Content="Eind Bezoek" Width="80"/>
+                        <xctk:DateTimePicker x:Name="dtpEindBezoek" ShowButtonSpinner="False" TimePickerShowButtonSpinner="False" Format="Custom" FormatString="dd MMMM yyyy HH:mm:ss" Height="25" Width="270" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                         <Label Content="Bedrijf" Width="80"/>
                         <ComboBox x:Name="cmbBedrijf" SelectedIndex="0" Height="25" Width="270" VerticalAlignment="Center" SelectionChanged="cmbBedrijf_SelectionChanged" />
                     </StackPanel>
@@ -32,16 +42,6 @@
                         <ComboBox x:Name="cmbMedewerker" SelectedIndex="0" Height="25" Width="270" VerticalAlignment="Center" />
                     </StackPanel>
 
-                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                        <Label Content="Start Bezoek" Width="80"/>
-                        <xctk:DateTimePicker x:Name="dtpStartBezoek" ShowButtonSpinner="False" TimePickerShowButtonSpinner="False" Format="Custom" FormatString="dd MMMM yyyy HH:mm:ss" Height="25" Width="270" VerticalAlignment="Center"/>
-                    </StackPanel>
-
-                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                        <Label Content="Eind Bezoek" Width="80"/>
-                        <xctk:DateTimePicker x:Name="dtpEindBezoek" ShowButtonSpinner="False" TimePickerShowButtonSpinner="False" Format="Custom" FormatString="dd MMMM yyyy HH:mm:ss" Height="25" Width="270" VerticalAlignment="Center" />
-                    </StackPanel>
-                    
                 </StackPanel>
             </GroupBox>
 

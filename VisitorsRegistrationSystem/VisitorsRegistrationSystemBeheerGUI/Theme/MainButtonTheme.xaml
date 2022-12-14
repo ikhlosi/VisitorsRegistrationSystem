@@ -7,8 +7,9 @@
             <Setter Property="Margin" Value="10"/>
             <Setter Property="Height" Value="31" />
             <Setter Property="Width" Value="162"/>
+            <Setter Property="FontFamily" Value="/Fonts/#Inter" />
             <Setter Property="FontSize" Value="15"/>
-            <Setter Property="FontWeight" Value="Thin" />
+            <Setter Property="FontWeight" Value="Light" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="Background" Value="#1762A7" />
             <Setter Property="BorderBrush" Value="LightGray" />
