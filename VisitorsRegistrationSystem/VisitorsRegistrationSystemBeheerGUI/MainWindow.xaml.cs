@@ -25,7 +25,7 @@ namespace VisitorsRegistrationSystemBeheerGUI
         public MainWindow(CompanyManager cm, VisitManager vm)
         {
             InitializeComponent();
-            Application.Current.MainWindow.Content = new pageBeheer(cm, vm);
+            Application.Current.MainWindow.Content = new pageMain(cm, vm);
         }
     }
 }

@@ -11,8 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using VisitorsRegistrationSystemBeheerGUI.Model;
 using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.Factories;
+using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorsRegistrationSystemBeheerGUI.Windows
 {
@@ -21,18 +22,24 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
     /// </summary>
     public partial class BedrijfFormWindow : Window
     {
-        public BedrijfFormWindow()
+        private readonly CompanyManager _cm;
+        private Company? _company;
+
+        public BedrijfFormWindow(CompanyManager cm)
         {
+            _cm = cm;
             InitializeComponent();
         }
 
-        public BedrijfFormWindow(CompanyDTO c)
+        public BedrijfFormWindow(CompanyManager cm, Company c)
         {
+            _cm = cm;
+            _company = c;
             InitializeComponent();
             InitializeData(c);
         }
 
-        public void InitializeData(CompanyDTO c)
+        public void InitializeData(Company c)
         {
             txtbNaam.Text = c.Name;
             txtbVAT.Text = c.VATNumber;
@@ -47,6 +54,18 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
 
         private void btnOpslaan_Click(object sender, RoutedEventArgs e)
         {
+            if (_company != null)
+            {
+                _cm.UpdateCompany(CompanyFactory.MakeCompany(_company.ID, txtbNaam.Text, txtbVAT.Text, new Address(txtbGemeente.Text, txtbStraat.Text, txtbHuisnummer.Text, txtbBusnummer.Text), txtbTelNr.Text, txtbEmail.Text));
+                MessageBox.Show("Company has been Updated!");
+            }
+            else
+            {
+                _cm.AddCompany(CompanyFactory.MakeCompany(null, txtbNaam.Text, txtbVAT.Text, new Address(txtbGemeente.Text, txtbStraat.Text, txtbHuisnummer.Text, txtbBusnummer.Text), txtbTelNr.Text, txtbEmail.Text));
+                MessageBox.Show("Company has been Added!");
+            }
+
+            this.Close();
         }
 
         private void btnAfsluiten_Click(object sender, RoutedEventArgs e)

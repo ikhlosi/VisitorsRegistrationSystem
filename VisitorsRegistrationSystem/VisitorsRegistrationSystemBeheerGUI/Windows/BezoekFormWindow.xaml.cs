@@ -12,40 +12,50 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.DTO;
 using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorsRegistrationSystemBeheerGUI.Windows
 {
     /// <summary>
-    /// Interaction logic for MedewerkerFormWindow.xaml
+    /// Interaction logic for BezoekFormWindow.xaml
     /// </summary>
-    public partial class MedewerkerFormWindow : Window
+    public partial class BezoekFormWindow : Window
     {
         CompanyManager _cm;
+        VisitManager _vm;
 
-        public MedewerkerFormWindow(CompanyManager cm)
+        public BezoekFormWindow(CompanyManager cm, VisitManager vm)
         {
             _cm = cm;
+            _vm = vm;
             InitializeComponent();
 
+            cmbBezoeker.ItemsSource = _vm.GetVisitors();
             cmbBedrijf.ItemsSource = _cm.GetCompanies();
         }
 
-        public MedewerkerFormWindow(CompanyManager cm, Employee e)
+        public BezoekFormWindow(CompanyManager cm, VisitManager vm, VisitDTO visit)
         {
-            _cm = cm;
+            _cm= cm;
+            _vm= vm;
             InitializeComponent();
 
+            cmbBezoeker.ItemsSource = _vm.GetVisitors();
             cmbBedrijf.ItemsSource = _cm.GetCompanies();
-            InitializeData(e);
+            InitializeData(visit);
         }
 
-        public void InitializeData(Employee e)
+        public void InitializeData(VisitDTO v)
         {
-            txtbVoornaam.Text = e.Name;
-            txtbAchternaam.Text = e.LastName;
-            txtbEmail.Text = e.Email;
-            txtbFunctie.Text = e.Function;
+            dtpStartBezoek.Value = v.startTime;
+            dtpEindBezoek.Value = v.endTime;
+        }
+
+        private void cmbBedrijf_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cmbMedewerker.ItemsSource = _cm.GetEmployeesFromCompanyId(((Company)cmbBedrijf.SelectedItem).ID);
+            cmbMedewerker.SelectedIndex = 0;
         }
 
         private void btnOpslaan_Click(object sender, RoutedEventArgs e)

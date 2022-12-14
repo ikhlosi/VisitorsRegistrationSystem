@@ -17,40 +17,35 @@ using VisitorsRegistrationSystemBL.Managers;
 namespace VisitorsRegistrationSystemBeheerGUI.Windows
 {
     /// <summary>
-    /// Interaction logic for MedewerkerFormWindow.xaml
+    /// Interaction logic for BezoekerFormWindow.xaml
     /// </summary>
-    public partial class MedewerkerFormWindow : Window
+    public partial class BezoekerFormWindow : Window
     {
-        CompanyManager _cm;
+        VisitManager _vm;
 
-        public MedewerkerFormWindow(CompanyManager cm)
+        public BezoekerFormWindow(VisitManager vm)
         {
-            _cm = cm;
+            _vm = vm;
             InitializeComponent();
-
-            cmbBedrijf.ItemsSource = _cm.GetCompanies();
         }
 
-        public MedewerkerFormWindow(CompanyManager cm, Employee e)
+        public BezoekerFormWindow(VisitManager vm, Visitor visitor)
         {
-            _cm = cm;
+            _vm = vm;
             InitializeComponent();
-
-            cmbBedrijf.ItemsSource = _cm.GetCompanies();
-            InitializeData(e);
+            InitializeData(visitor);
         }
 
-        public void InitializeData(Employee e)
+        public void InitializeData(Visitor v)
         {
-            txtbVoornaam.Text = e.Name;
-            txtbAchternaam.Text = e.LastName;
-            txtbEmail.Text = e.Email;
-            txtbFunctie.Text = e.Function;
+            txtbNaam.Text = v.Name;
+            txtbEmail.Text = v.Email;
+            txtbBedrijf.Text = v.VisitorCompany;
         }
 
         private void btnOpslaan_Click(object sender, RoutedEventArgs e)
         {
-
+           
         }
 
         private void btnAfsluiten_Click(object sender, RoutedEventArgs e)
