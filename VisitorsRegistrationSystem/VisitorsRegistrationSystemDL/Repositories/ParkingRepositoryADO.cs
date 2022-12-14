@@ -134,7 +134,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
                     }
                     // Value returnen
-                    parking = new Parking(parkingId, occupiedSpaces, full, parkingContracts, parkingDetails,totalSpaces);
+                    parking = new Parking(/*parkingId,*/ occupiedSpaces, full,/* parkingContracts, parkingDetails,*/totalSpaces);
                     return parking;
                 }
                 catch (Exception ex)
