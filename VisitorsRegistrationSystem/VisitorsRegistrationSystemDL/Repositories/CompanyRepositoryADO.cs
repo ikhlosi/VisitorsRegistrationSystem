@@ -87,7 +87,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
             List<Company> companies = new List<Company>();
 
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select c.id,name,VAT,email,telNr, a.id as aId,city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.visible = 1";
+            string query = @"select c.id,name,VAT,email,telNr, a.id as aId,city,postalCode, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -105,6 +105,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         string telNr = (string)reader["telNr"];
                         int addressId = (int)reader["aId"];
                         string city = (string)reader["city"];
+                        string postcode = (string)reader["postalCode"];
                         string street = (string)reader["street"];
                         string houseNr = (string)reader["houseNr"];
                         string busNr = "";
@@ -112,7 +113,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         {
                             busNr = (string)reader["bus"];
                         }
-                        Company company = CompanyFactory.MakeCompany(id,name,VAT,new Address(addressId,city,street,houseNr,busNr),telNr,email);
+                        Company company = CompanyFactory.MakeCompany(id,name,VAT,new Address(addressId,city,postcode,street,houseNr,busNr),telNr,email);
                         companies.Add(company);
                     }
                     reader.Close();
@@ -153,6 +154,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         string email = (string)reader["email"];
                         string telNr = (string)reader["telNr"];
                         string city = (string)reader["city"];
+                        string postalCode = (string)reader["postalCode"];
                         string street = (string)reader["street"];
                         string houseNr = (string)reader["houseNr"];
                         string busNr = "";
@@ -160,7 +162,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         {
                             busNr = (string)reader["bus"];
                         }
-                        company = CompanyFactory.MakeCompany(iD, name, VAT, new Address(city, street, houseNr, busNr), telNr, email);
+                        company = CompanyFactory.MakeCompany(iD, name, VAT, new Address(city,postalCode, street, houseNr, busNr), telNr, email);
                     }
                     // Value returnen
                     return company;
@@ -201,6 +203,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         string email = (string)reader["email"];
                         string telNr = (string)reader["telNr"];
                         string city = (string)reader["city"];
+                        string postalCode = (string)reader["postalCode"];
                         string street = (string)reader["street"];
                         string houseNr = (string)reader["houseNr"];
                         string busNr = "";
@@ -208,7 +211,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         {
                             busNr = (string)reader["bus"];
                         }
-                        company = CompanyFactory.MakeCompany(iD, Name, VAT, new Address(city, street, houseNr, busNr), telNr, email);
+                        company = CompanyFactory.MakeCompany(iD, Name, VAT, new Address(city,postalCode, street, houseNr, busNr), telNr, email);
                         companies.Add(company);
                     }
                     // Value returnen
@@ -250,6 +253,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         string email = (string)reader["email"];
                         string telNr = (string)reader["telNr"];
                         string city = (string)reader["city"];
+                        string postalCode = (string)reader["postalCode"];
                         string street = (string)reader["street"];
                         string houseNr = (string)reader["houseNr"];
                         string busNr = "";
@@ -257,7 +261,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         {
                             busNr = (string)reader["bus"];
                         }
-                        company = CompanyFactory.MakeCompany(iD, Name, VAT, new Address(city, street, houseNr, busNr), telNr, email);
+                        company = CompanyFactory.MakeCompany(iD, Name, VAT, new Address(city,postalCode, street, houseNr, busNr), telNr, email);
                         companies.Add(company);
                     }
                     // Value returnen
@@ -304,10 +308,11 @@ namespace VisitorsRegistrationSystemDL.Repositories
                             string email = (string)reader["email"];
                             string TelNr = (string)reader["telNr"];
                             string city = (string)reader["city"];
+                            string postalCode = (string)reader["postalCode"];
                             string street = (string)reader["street"];
                             string houseNr = (string)reader["houseNr"];
                             string busNr = "";
-                            company = CompanyFactory.MakeCompany(iD, Name, VAT, new Address(city, street, houseNr, busNr), TelNr, email);
+                            company = CompanyFactory.MakeCompany(iD, Name, VAT, new Address(city,postalCode, street, houseNr, busNr), TelNr, email);
                             companies.Add(company);
                         }
                         return companies;
@@ -334,10 +339,11 @@ namespace VisitorsRegistrationSystemDL.Repositories
                             string email = (string)reader["email"];
                             string TelNr = (string)reader["telNr"];
                             string city = (string)reader["city"];
+                            string postalCode = (string)reader["postalCode"];
                             string street = (string)reader["street"];
                             string houseNr = (string)reader["houseNr"];
                             string busNr = (string)reader["bus"];
-                            company = CompanyFactory.MakeCompany(iD, Name, VAT, new Address(city, street, houseNr, busNr), TelNr, email);
+                            company = CompanyFactory.MakeCompany(iD, Name, VAT, new Address(city,postalCode, street, houseNr, busNr), TelNr, email);
                             companies.Add(company);
                         }
                         return companies;
@@ -380,6 +386,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         string email = (string)reader["email"];
                         string TelNr = (string)reader["telNr"];
                         string city = (string)reader["city"];
+                        string postalCode = (string)reader["postalCode"];
                         string street = (string)reader["street"];
                         string houseNr = (string)reader["houseNr"];
                         string busNr = "";
@@ -387,7 +394,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         {
                             busNr = (string)reader["bus"];
                         }
-                        company = CompanyFactory.MakeCompany(iD, Name, VAT, new Address(city, street, houseNr, busNr), TelNr, email);
+                        company = CompanyFactory.MakeCompany(iD, Name, VAT, new Address(city,postalCode, street, houseNr, busNr), TelNr, email);
                         companies.Add(company);
                     }
                     // Value returnen
@@ -429,6 +436,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         string Email = (string)reader["email"];
                         string telNr = (string)reader["telNr"];
                         string city = (string)reader["city"];
+                        string postalCode = (string)reader["postalCode"];
                         string street = (string)reader["street"];
                         string houseNr = (string)reader["houseNr"];
                         string busNr = "";
@@ -436,7 +444,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         {
                             busNr = (string)reader["bus"];
                         }
-                        company = CompanyFactory.MakeCompany(iD, Name, VAT, new Address(city, street, houseNr, busNr), telNr, Email);
+                        company = CompanyFactory.MakeCompany(iD, Name, VAT, new Address(city,postalCode, street, houseNr, busNr), telNr, Email);
                         companies.Add(company);
                     }
                     // Value returnen
@@ -609,8 +617,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     string email = null;
                     if (reader["email"] != DBNull.Value) email = (string)reader["email"];
                     string function = (string)reader["occupation"];
+                    int companyId = (int)reader["companyId"];
 
-                    Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function);
+                    Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function,companyId);
                     return employee;
                 }
                 catch (Exception ex)
@@ -641,11 +650,12 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         int id = (int)reader["id"];
                         string fname = (string)reader["firstName"];
                         string lname = (string)reader["lastName"];
+                        int companyId = (int)reader["companyId"];
                         string email = null;
                         if (reader["email"] != DBNull.Value) email = (string)reader["email"];
                         string function = (string)reader["occupation"];
 
-                        Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function);
+                        Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function,companyId);
                         employees.Add(employee);
                     }
                     return employees.AsReadOnly();
@@ -764,7 +774,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         if (reader["email"] != DBNull.Value) email = (string)reader["email"];
                         string function = (string)reader["occupation"];
 
-                        Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function);
+                        Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function,companyId);
                         employees.Add(employee);
                     }
                     return employees.AsReadOnly();

@@ -16,6 +16,7 @@ namespace VisitorsRegistrationSystemBL.Domain {
         public string LastName { get; private set; }
         public string Email { get; private set; }
         public string Function { get; private set; }
+        public int CompanyId { get; private set; }
 
         public void SetId(int id)
         {
@@ -43,7 +44,11 @@ namespace VisitorsRegistrationSystemBL.Domain {
             if (string.IsNullOrWhiteSpace(function)) throw new EmployeeException("Employee - SetFunction - function is empty");
             this.Function = function;
         }
-
+        public void SetCompanyId(int companyId)
+        {
+            if (companyId < 1) throw new EmployeeException("Employee - SetCompanyId - invalid ID");
+            this.CompanyId = companyId;
+        }
         public bool IsSame(Employee otherEmployee) 
         {
             if (otherEmployee == null) throw new EmployeeException("Employee - IsSame - argument is null");

@@ -10,12 +10,13 @@ namespace VisitorsRegistrationSystemBL.Factories
 {
     public static class EmployeeFactory
     {
-        public static Employee MakeEmployee(int? id, string name, string lastName, string email, string function)
+        public static Employee MakeEmployee(int? id, string name, string lastName, string email, string function,int? companyId)
         {
             try {
                 Employee e = new Employee(name, lastName, function);
                 if (id.HasValue) e.SetId(id.Value);
                 if (!string.IsNullOrWhiteSpace(email)) e.SetEmail(email);
+                if (companyId.HasValue) e.SetCompanyId(companyId.Value);
                 return e;
             }
             catch
@@ -26,6 +27,7 @@ namespace VisitorsRegistrationSystemBL.Factories
                 ex.Data.Add("Employee lastName", lastName);
                 ex.Data.Add("Employee email", email);
                 ex.Data.Add("Employee function", function);
+                ex.Data.Add("Employee companyId", companyId);
                 throw ex;
             }
         }

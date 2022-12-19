@@ -28,6 +28,7 @@ namespace VisitorsRegistrationSystemBL.Managers {
 
             try {
                 if (!_repo.CompanyExistsInDB(company.ID)) throw new CompanyException("CompanyManager - RemoveCompany - company does not exist in DB.");
+                if (_repo.GetEmployeesFromCompanyIdDB(company.ID).Count > 0) throw new CompanyException("CompanyManager - RemoveCompany - company has employees.");
                 _repo.RemoveCompanyFromDB(company.ID);
             }
             catch (Exception ex) {

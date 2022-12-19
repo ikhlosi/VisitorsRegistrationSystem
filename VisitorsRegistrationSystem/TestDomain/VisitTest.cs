@@ -35,8 +35,8 @@ namespace TestDomain
         private Visitor _visitor;
         public VisitTest()
         {
-            this._employee = EmployeeFactory.MakeEmployee(1, "Luffy", "Monkey D", "MonkeyDLuffy@hotmail.com", "CEO");
-            this._visitedCompany = CompanyFactory.MakeCompany(1, "companyA", "xxxxxx", new Address("Gent", "Sleepstraat", "2", null), "0471970495", "companyA@hotmail.com");
+            this._employee = EmployeeFactory.MakeEmployee(1, "Luffy", "Monkey D", "MonkeyDLuffy@hotmail.com", "CEO", null);
+            this._visitedCompany = CompanyFactory.MakeCompany(1, "companyA", "xxxxxx", new Address("Gent", "9000", "Sleepstraat", "2", null), "0471970495", "companyA@hotmail.com");
             this._visitor = VisitorFactory.MakeVisitor(1, "Ace", "Ace@hotmail.com", "CompanyV");
         }
         // TODO setten van endtime omdat we dit niet meer doen in constructor

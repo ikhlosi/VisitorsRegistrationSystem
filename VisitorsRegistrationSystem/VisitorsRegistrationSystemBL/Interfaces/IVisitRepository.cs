@@ -27,5 +27,6 @@ namespace VisitorsRegistrationSystemBL.Interfaces
         List<Visitor> GetAllVisitors();
         bool VisitorExists(string email);
         Visitor GetVisitor(string email);
+        IReadOnlyList<VisitDTO> GetVisitsByVisitorId(int visitordId);
     }
 }
