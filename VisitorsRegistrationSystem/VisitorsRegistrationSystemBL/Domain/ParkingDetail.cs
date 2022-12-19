@@ -9,21 +9,28 @@ namespace VisitorsRegistrationSystemBL.Domain
 {
     public class ParkingDetail
     {
-
-        public ParkingDetail(int id, DateTime startTime, DateTime endTime, string licensePlate, int visitedCompanyID)
+        public int ID { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string LicensePlate { get; set; }
+        public int VisitedCompanyID { get; set; }
+        public int ParkingId { get; set; }
+        public ParkingDetail(int id, DateTime startTime, DateTime endTime, string licensePlate, int visitedCompanyID,int parkingId)
         {
             SetID(id);
             SetStartTime(startTime);
             SetEndTime(endTime);
             SetLicensePlate(licensePlate);
             SetVisitedCompanyID(visitedCompanyID);
+            SetParkingId(parkingId);
         }
-        public ParkingDetail(DateTime startTime, DateTime endTime, string licensePlate, int visitedCompanyID)
+        public ParkingDetail(DateTime startTime, DateTime endTime, string licensePlate, int visitedCompanyID,int parkingId)
         {
             SetStartTime(startTime);
             SetEndTime(endTime);
             SetLicensePlate(licensePlate);
             SetVisitedCompanyID(visitedCompanyID);
+            SetParkingId(parkingId);
         }
         public int ID { get; set; }
         public DateTime StartTime { get; set; }
@@ -59,6 +66,12 @@ namespace VisitorsRegistrationSystemBL.Domain
             VisitedCompanyID = visitedCompanyID;
         }
 
+        public void SetParkingId(int parkingId)
+        {
+            if (parkingId < 1) throw new ParkingException("ParkingDetail - SetParkingId - Parking ID is smaller than 1");
+            ParkingId = parkingId;
+        }
+
         public override bool Equals(object? obj)
         {
             return obj is ParkingDetail detail &&
@@ -66,7 +79,8 @@ namespace VisitorsRegistrationSystemBL.Domain
                    StartTime == detail.StartTime &&
                    EndTime == detail.EndTime &&
                    LicensePlate == detail.LicensePlate &&
-                   VisitedCompanyID == detail.VisitedCompanyID;
+                   VisitedCompanyID == detail.VisitedCompanyID &&
+                   ParkingId == detail.ParkingId;
         }
 
         public override int GetHashCode()

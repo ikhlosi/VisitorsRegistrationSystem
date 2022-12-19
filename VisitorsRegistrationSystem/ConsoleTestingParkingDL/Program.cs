@@ -63,3 +63,18 @@ Console.WriteLine(pRepo.ParkingContractExistsInDB(9999));
 // done
 parkingContract.SetEndDate(DateTime.Now.AddYears(2));
 pRepo.UpdateParkingContract(parkingContract);
+
+// done
+Console.WriteLine(pRepo.ParkingContractExistsInDB(1));
+Console.WriteLine(pRepo.ParkingContractExistsInDB(9999));
+
+// done
+pRepo.RemoveParkingDetailFromDB(1);
+
+// done
+Console.WriteLine(pRepo.GetParkingDetailById(2));
+
+// done
+ParkingDetail parkingDetail = pRepo.GetParkingDetailById(2);
+parkingDetail.SetLicensePlate("1-ABC-123");
+pRepo.UpdateParkingDetail(parkingDetail);
