@@ -277,7 +277,12 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     IDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        visits.Add(new VisitDTO((int)reader["visitId"], (int)reader["visitorId"], (DateTime)reader["startTime"], (DateTime)reader["endTime"], (int)reader["companyId"], (int)reader["employeeId"]));
+                        DateTime? endTime = null;
+                        if (reader["endTime"] != DBNull.Value)
+                        {
+                            endTime = (DateTime)reader["endTime"];
+                        }
+                        visits.Add(new VisitDTO((int)reader["visitId"], (int)reader["visitorId"], (DateTime)reader["startTime"], endTime, (int)reader["companyId"], (int)reader["employeeId"]));
                     }
                     reader.Close();
                     return visits;

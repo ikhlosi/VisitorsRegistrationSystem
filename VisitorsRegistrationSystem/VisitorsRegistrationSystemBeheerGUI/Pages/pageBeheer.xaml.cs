@@ -42,7 +42,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
         private string? CheckedRadioButton = "";
 
         private Dictionary<string, string> CompanyParameterDictionary = new Dictionary<string, string> { { "ID", "Id" }, { "Name", "Naam" }, { "VATNumber", "Ondernemingsnummer" }, { "Address", "Adres" }, { "TelephoneNumber", "Telefoonnummer" }, { "Email", "Email" } };
-        private Dictionary<string, string> EmployeeParameterDictionary = new Dictionary<string, string> { { "ID", "Id" }, { "Name", "Voornaam" }, { "LastName", "Achternaam" }, { "Email", "Email" }, { "Function", "Functie" } };
+        private Dictionary<string, string> EmployeeParameterDictionary = new Dictionary<string, string> { { "ID", "Id" }, { "Name", "Voornaam" }, { "LastName", "Achternaam" }, { "Email", "Email" }, { "Function", "Functie" }, { "CompanyId", "Bedrijf" } };
         private Dictionary<string, string> VisitorParameterDictionary = new Dictionary<string, string> { { "Id", "Id" }, { "Name", "Naam" }, { "Email", "Email" }, { "VisitorCompany", "Bedrijf" } };
         private Dictionary<string, string> VisitParameterDictionary = new Dictionary<string, string> { { "visitId", "Id" }, { "visitorId", "Bezoeker" }, { "companyId", "Bezochte Bedrijf" }, { "employeeId", "Bezochte Werknemer" }, { "startTime", "Start Bezoek" }, { "endTime", "Eind Bezoek" } };
 
@@ -99,10 +99,13 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
 
                         var key = parameterDictionary.FirstOrDefault(x => x.Value == param).Key;
                         PropertyInfo? pi = item.GetType().GetProperty(key);
-                        if (pi.GetValue(item, null).ToString().Contains(txtbFilter.Text, StringComparison.OrdinalIgnoreCase))
+                        if (pi.GetValue(item, null) != null)
                         {
-                            result = true;
-                            break;
+                            if (pi.GetValue(item, null).ToString().Contains(txtbFilter.Text, StringComparison.OrdinalIgnoreCase))
+                            {
+                                result = true;
+                                break;
+                            }
                         }
                     }
                 }

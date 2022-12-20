@@ -36,7 +36,16 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
 
         private void InitializeData()
         {
-            cbBedrijfAfspraak.ItemsSource = _cm.GetCompanies();
+            //cbBedrijfAfspraak.ItemsSource = _cm.GetCompanies();
+            //cbBedrijfAfspraak.Items.Insert(0, "Kies een bedrijf");
+            //cbBedrijfAfspraak.SelectedIndex = 0;
+
+            cbBedrijfAfspraak.Items.Insert(0, "Kies een bedrijf");
+            IReadOnlyList<Company> companies = _cm.GetCompanies();
+            foreach (Company c in companies)
+            {
+                cbBedrijfAfspraak.Items.Add(c);
+            }
             cbBedrijfAfspraak.SelectedIndex = 0;
         }
 
@@ -66,7 +75,16 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
 
         private void cbBedrijfAfspraak_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            cbAfspraakMet.ItemsSource = _cm.GetEmployeesFromCompanyId(((Company)cbBedrijfAfspraak.SelectedValue).ID);
+            //cbAfspraakMet.Items.Add(_cm.GetEmployeesFromCompanyId(((Company)cbBedrijfAfspraak.SelectedValue).ID));
+            //cbAfspraakMet.Items.Insert(0, "Kies een medewerker");
+            //cbAfspraakMet.SelectedIndex = 0;
+
+            cbAfspraakMet.Items.Insert(0, "Kies een medewerker");
+            IReadOnlyList<Employee> employees = _cm.GetEmployeesFromCompanyId(((Company)cbBedrijfAfspraak.SelectedValue).ID);
+            foreach (Employee em in employees)
+            {
+                cbAfspraakMet.Items.Add(em);
+            }
             cbAfspraakMet.SelectedIndex = 0;
         }
     }
