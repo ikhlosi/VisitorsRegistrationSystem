@@ -78,12 +78,15 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
             //cbAfspraakMet.Items.Add(_cm.GetEmployeesFromCompanyId(((Company)cbBedrijfAfspraak.SelectedValue).ID));
             //cbAfspraakMet.Items.Insert(0, "Kies een medewerker");
             //cbAfspraakMet.SelectedIndex = 0;
-
+            cbAfspraakMet.Items.Clear();
             cbAfspraakMet.Items.Insert(0, "Kies een medewerker");
-            IReadOnlyList<Employee> employees = _cm.GetEmployeesFromCompanyId(((Company)cbBedrijfAfspraak.SelectedValue).ID);
-            foreach (Employee em in employees)
+            if (cbBedrijfAfspraak.SelectedIndex != 0)
             {
-                cbAfspraakMet.Items.Add(em);
+                IReadOnlyList<Employee> employees = _cm.GetEmployeesFromCompanyId(((Company)cbBedrijfAfspraak.SelectedValue).ID);
+                foreach (Employee em in employees)
+                {
+                    cbAfspraakMet.Items.Add(em);
+                }
             }
             cbAfspraakMet.SelectedIndex = 0;
         }
