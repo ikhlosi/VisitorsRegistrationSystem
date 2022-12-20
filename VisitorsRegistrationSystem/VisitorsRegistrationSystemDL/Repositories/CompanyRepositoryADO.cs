@@ -464,7 +464,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void RemoveCompanyFromDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update company set visible=0 where id = @id and visible=1";
+            string query = @"update company c join address a on c.addressId = a.id set c.visible=0, a.visible=0 where c.id = @id and c.visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
