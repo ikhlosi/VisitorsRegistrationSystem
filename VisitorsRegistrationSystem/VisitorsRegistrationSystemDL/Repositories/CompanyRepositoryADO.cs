@@ -87,7 +87,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
             List<Company> companies = new List<Company>();
 
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.visible = 1";
+            string query = @"select c.id,name,VAT,email,telNr, city,postalCode, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
