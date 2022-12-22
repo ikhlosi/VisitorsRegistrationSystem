@@ -22,6 +22,8 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public void AddVisit(Visit visit)
         {
+            // TODO make starttime = now
+            // endtime has to be null
             MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"INSERT into Visit(visitorId,startTime,companyId,employeeId,visible) values (@visitorId,@startTime,@companyId,@employeeId,1)";
             using (MySqlCommand cmd = connection.CreateCommand())
@@ -460,34 +462,8 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         }
 
-        public List<Visitor> GetAllVisitors()
-        {
-            List<Visitor> visitors = new List<Visitor>();
-            MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"SELECT * FROM Visitor where visible = 1";
-            using (MySqlCommand cmd = connection.CreateCommand())
-            {
-                try
-                {
-                    connection.Open();
-                    cmd.CommandText = query;
-                    IDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        visitors.Add(VisitorFactory.MakeVisitor((int)reader["id"], (string)reader["name"], (string)reader["email"], (string)reader["visitorCompany"]));
-                    }
-                    reader.Close();
-                    return visitors;
-                }
-                catch (Exception ex)
-                {
-                    throw new VisitRepositoryADOException("GetVisitors");
-                }
-                finally
-                {
-                    connection.Close();
-                }
-            }
+        public IReadOnlyList<Visit> GetVisits() {
+            throw new NotImplementedException();
         }
     }
 }

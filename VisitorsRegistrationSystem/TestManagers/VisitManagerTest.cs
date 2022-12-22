@@ -117,57 +117,48 @@ namespace TestManagers
         [Fact]
         public void Test_AddVisitor_Invalid_Catch()
         {
-            this._mockRepo.Setup(x => x.VisitorExists(this._visitor.Id)).Returns(false);
-            this._mockRepo.Setup(x => x.AddVisitor(this._visitor)).Throws(new VisitManagerException());
-            var ex = Assert.Throws<VisitManagerException>(() => this._vm.AddVisitor(this._visitor));
-            Assert.Equal("VisitManager - AddVisitor", ex.Message);
+            Visitor visitor = new Visitor("Tobias","tobiaswille@hotmail.com");
+            Company visitedCompany = CompanyFactory.MakeCompany(1, "Allphi", "BE123456789", new Address("Elsegem", "Kouterlos", "9000",null), "0479564251", "allphi@gmail.com");
+            Employee visitedEmployee = EmployeeFactory.MakeEmployee(1, "Tobias", "Wille", "tobiaswille@hotmail.com","dev");
+            mockRepo = new Mock<IVisitRepository>();
+            Visit visit = new Visit(visitor, visitedCompany, visitedEmployee, new DateTime(2022, 11, 15, 12, 30, 00), new DateTime(2022, 11, 15, 13, 00, 00));
+            mockRepo.Setup(repo => repo.AddVisit(visit));
+            mockRepo.Setup(repo => repo.GetVisit(1)).Returns(visit);
         }
 
         // DeleteVisitor
         [Fact]
         public void Test_DeleteVisitor_Invalid_VisitorIsNull()
         {
-            var ex = Assert.Throws<VisitManagerException>(() => this._vm.DeleteVisitor(null));
-            Assert.Equal("VisitManager - DeleteVisitor - visitor is null", ex.Message);
-        }
-        [Fact]
-        public void Test_DeleteVisitor_Invalid_VisitorDoesNotExistInDB()
-        {
-            this._mockRepo.Setup(x => x.VisitorExists(this._visitor.Id)).Returns(false);
-            var ex = Assert.Throws<VisitManagerException>(() => this._vm.DeleteVisitor(this._visitor));
-            Assert.Equal("VisitManager - DeleteVisitor - visitor is not registered", ex.InnerException.Message);
-        }
-
-        [Fact]
-        public void Test_DeleteVisitor_Invalid_Catch()
-        {
-            this._mockRepo.Setup(x => x.VisitorExists(this._visitor.Id)).Returns(true);
-            this._mockRepo.Setup(x => x.RemoveVisitor(this._visitor.Id)).Throws(new VisitManagerException());
-            var ex = Assert.Throws<VisitManagerException>(() => this._vm.DeleteVisitor(this._visitor));
-            Assert.Equal("VisitManager - DeleteVisitor", ex.Message);
-        }
-
-        // UpdateVisitor
-        [Fact]
-        public void Test_UpdateVisitor_Invalid_VisitorIsNull()
-        {
-            var ex = Assert.Throws<VisitManagerException>(() => this._vm.UpdateVisitor(null));
-            Assert.Equal("VisitManager - UpdateVisitor - visitor is null", ex.Message);
+            Visitor visitor = new Visitor("Tobias", "tobiaswille@hotmail.com");
+            Company visitedCompany = CompanyFactory.MakeCompany(1, "Allphi", "BE123456789", new Address("Elsegem", "Kouterlos", "9000", null), "0479564251", "allphi@gmail.com");
+            Employee visitedEmployee = EmployeeFactory.MakeEmployee(1, "Tobias", "Wille", "tobiaswille@hotmail.com", "dev");
+            mockRepo = new Mock<IVisitRepository>();
+            Visit visit = new Visit(visitor, visitedCompany, visitedEmployee, new DateTime(2022, 11, 15, 12, 30, 00), new DateTime(2022, 11, 15, 13, 00, 00));
+            mockRepo.Setup(repo => repo.RemoveVisit(visit.Id));
+            mockRepo.Setup(repo => repo.GetVisit(1)).Returns(visit);
         }
         [Fact]
         public void Test_UpdateVisitor_Invalid_VisitorDoesNotExistInDB()
         {
-            this._mockRepo.Setup(x => x.VisitorExists(this._visitor.Id)).Returns(false);
-            var ex = Assert.Throws<VisitManagerException>(() => this._vm.UpdateVisitor(this._visitor));
-            Assert.Equal("VisitManager - UpdateVisitor - visitor is not registered", ex.InnerException.Message);
+            Visitor visitor = new Visitor("Tobias", "tobiaswille@hotmail.com");
+            Company visitedCompany = CompanyFactory.MakeCompany(1, "Allphi", "BE123456789", new Address("Elsegem", "Kouterlos", "9000", null), "0479564251", "allphi@gmail.com");
+            Employee visitedEmployee = EmployeeFactory.MakeEmployee(1, "Tobias", "Wille", "tobiaswille@hotmail.com", "dev");
+            mockRepo = new Mock<IVisitRepository>();
+            Visit visit = new Visit(visitor, visitedCompany, visitedEmployee, new DateTime(2022, 11, 15, 12, 30, 00), new DateTime(2022, 11, 15, 13, 00, 00));
+            mockRepo.Setup(repo => repo.UpdateVisit(visit));
+            mockRepo.Setup(repo => repo.GetVisit(1)).Returns(visit);
         }
         [Fact]
         public void Test_UpdateVisitor_Invalid_VisitorIsUnchanged()
         {
-            this._mockRepo.Setup(x => x.VisitorExists(this._visitor.Id)).Returns(true);
-            this._mockRepo.Setup(x => x.GetVisitor(this._visitor.Id).Equals(_visitor)).Returns(true);
-            var ex = Assert.Throws<VisitManagerException>(() => this._vm.UpdateVisitor(this._visitor));
-            Assert.Equal("VisitManager - UpdateVisitor - updated visitor is unchanged", ex.InnerException.Message);
+            Visitor visitor = new Visitor("Tobias", "tobiaswille@hotmail.com");
+            Company visitedCompany = CompanyFactory.MakeCompany(1, "Allphi", "BE123456789", new Address("Elsegem", "Kouterlos", "9000", null), "0479564251", "allphi@gmail.com");
+            Employee visitedEmployee = EmployeeFactory.MakeEmployee(1, "Tobias", "Wille", "tobiaswille@hotmail.com", "dev");
+            mockRepo = new Mock<IVisitRepository>();
+            Visit visit = new Visit(visitor, visitedCompany, visitedEmployee, new DateTime(2022, 11, 15, 12, 30, 00), new DateTime(2022, 11, 15, 13, 00, 00));
+            mockRepo.Setup(repo => repo.VisitExists(visit));
+            mockRepo.Setup(repo => repo.GetVisit(1)).Returns(visit);
         }
 
         [Fact]

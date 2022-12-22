@@ -35,14 +35,14 @@ namespace VisitorsRegistrationSystemBL.Domain
                 
         }
 
-        internal void SetEmail (string email)
+        private void SetEmail (string email)
         {
             if (string.IsNullOrWhiteSpace(email)) throw new VisitorException("Vistor - SetEmail - Email is null or whitespace");
             if(!EmailChecker.IsValid(email)) throw new VisitorException("Visitor - SetEmail - Email format invalid");
             this.Email = email;
         }
 
-        internal void SetVisitorCompany(string company)
+        private void SetVisitorCompany(string company)
         {
             if (string.IsNullOrWhiteSpace(company)) throw new VisitorException("Visitor -SetVisitorCompany - Company is null or whitespace");
             this.VisitorCompany = company;
