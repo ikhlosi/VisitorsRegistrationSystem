@@ -62,13 +62,14 @@ namespace TestingMySQLConnection {
                         string email = (string)reader["email"];
                         string telNr = (string)reader["telNr"];
                         string city = (string)reader["city"];
+                        string postalCode = (string)reader["postalCode"];
                         string street = (string)reader["street"];
                         string houseNr = (string)reader["houseNr"];
                         string busNr = "";
                         if (reader["bus"] != DBNull.Value) {
                             busNr = (string)reader["bus"];
                         }
-                        Company company = CompanyFactory.MakeCompany(id, name, VAT, new Address(city, street, houseNr, busNr), telNr, email);
+                        Company company = CompanyFactory.MakeCompany(id, name, VAT, new Address(city,postalCode, street, houseNr, busNr), telNr, email);
                         companies.Add(company);
                     }
                     reader.Close();

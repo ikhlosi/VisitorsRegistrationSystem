@@ -15,7 +15,7 @@ namespace TestDomain
         [Fact]
         public void SetCity_valid()
         {
-            Address address = new Address("Gent","sleepstraat","5",null);
+            Address address = new Address("Gent", "9000", "sleepstraat","5",null);
             address.SetCity("Gent");
             Assert.Equal("Gent", address.City);
         }
@@ -24,7 +24,7 @@ namespace TestDomain
         [InlineData("  ")]
         public void SetCity_Invalid(string city)
         {
-            Address address = new Address("Gent", "sleepstraat", "5", null);
+            Address address = new Address("Gent", "9000", "sleepstraat", "5", null);
             Assert.Throws<AddressException>(() => address.SetCity(city));
 
 
@@ -32,7 +32,7 @@ namespace TestDomain
             [Fact]
         public void SetStreet_valid()
         {
-            Address address = new Address("Gent", "sleepstraat", "5", null);
+            Address address = new Address("Gent", "9000", "sleepstraat", "5", null);
             address.SetStreet("sleepstraat");
             Assert.Equal("sleepstraat", address.Street);
         }
@@ -41,7 +41,7 @@ namespace TestDomain
         [InlineData("  ")]
         public void SetStreet_Invalid(string street)
         {
-            Address address = new Address("Gent", "sleepstraat", "5", null);
+            Address address = new Address("Gent", "9000", "sleepstraat", "5", null);
             Assert.Throws<AddressException>(() => address.SetStreet(street));
 
 
@@ -49,7 +49,7 @@ namespace TestDomain
         [Fact]
         public void SetHouseNo_valid()
         {
-            Address address = new Address("Gent", "sleepstraat", "5", null);
+            Address address = new Address("Gent", "9000", "sleepstraat", "5", null);
             address.SetHouseNo("5");
             Assert.Equal("5", address.HouseNumber);
         }
@@ -58,7 +58,7 @@ namespace TestDomain
         [InlineData("  ")]
         public void SetHouseNo_Invalid(string houseNo)
         {
-            Address address = new Address("Gent", "sleepstraat", "5", null);
+            Address address = new Address("Gent", "9000", "sleepstraat", "5", null);
             Assert.Throws<AddressException>(() => address.SetHouseNo(houseNo));
 
 
@@ -66,7 +66,7 @@ namespace TestDomain
         [Fact]
         public void SetBusNo_valid()
         {
-            Address address = new Address("Gent", "sleepstraat", "5", "502");
+            Address address = new Address("Gent", "9000", "sleepstraat", "5", "502");
             address.SetBusNo("505");
             Assert.Equal("505", address.BusNumber);
         }

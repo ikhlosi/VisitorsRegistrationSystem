@@ -28,7 +28,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public Parking GetParkingById(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select p.id as pId, p.totalSpaces as pTs, p.occupiedSpaces as pOs, p.full as pFu, pc.id as pcId, pc.companyId as pcCo, pc.spaces as pcSp, pc.startDate as pcSd, pc.endDate as pcEd, pd.id as pdId, pd.startTime as pdSt, pd.endTime as pdEt, pd.licensePlate as pdLi, pd.visitedCompanyId as pdVi, c.id as cId, c.name as cNa, c.vat as cVa, c.email as cEm, c.telNr as cTe, a.id as aId, a.street as aSt, a.city as aCi, a.houseNr as aHo, a.bus as aBu from parking p inner join parkingcontract pc on p.id = pc.parkingId inner join parkingdetails pd on pd.parkingId = p.id join company c on pc.companyId = c.id join address a on c.addressId = a.id where p.id= 1 and p.visible=1 and pc.visible = 1 and pd.visible = 1 and c.visible = 1 and a.visible = 1;";
+            string query = @"select p.id as pId, p.totalSpaces as pTs, p.occupiedSpaces as pOs, p.full as pFu, pc.id as pcId, pc.companyId as pcCo, pc.spaces as pcSp, pc.startDate as pcSd, pc.endDate as pcEd, pd.id as pdId, pd.startTime as pdSt, pd.endTime as pdEt, pd.licensePlate as pdLi, pd.visitedCompanyId as pdVi, c.id as cId, c.name as cNa, c.vat as cVa, c.email as cEm, c.telNr as cTe, a.id as aId, a.street as aSt, a.city as aCi,a.postalCode as aPo, a.houseNr as aHo, a.bus as aBu from parking p inner join parkingcontract pc on p.id = pc.parkingId inner join parkingdetails pd on pd.parkingId = p.id join company c on pc.companyId = c.id join address a on c.addressId = a.id where p.id= 1 and p.visible=1 and pc.visible = 1 and pd.visible = 1 and c.visible = 1 and a.visible = 1;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -62,6 +62,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
                     int addressId = 0;
                     string city = "";
+                    string postalCode = "";
                     string street = "";
                     string houseNo = "";
                     string? busNo = "";
@@ -106,6 +107,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
                             addressId = (int)reader["aId"];
                             city = (string)reader["aSt"];
+                            postalCode = (string)reader["aPo"];
                             street = (string)reader["aCi"];
                             houseNo = (string)reader["aHo"];
                             if (reader["aBu"] != DBNull.Value)
@@ -113,8 +115,8 @@ namespace VisitorsRegistrationSystemDL.Repositories
                                 busNo = (string)reader["aBu"];
                             }
 
-                            if (string.IsNullOrEmpty(busNo)) address = new Address(addressId, city, street, houseNo, null);
-                            else address = new Address(addressId, city, street, houseNo, busNo);
+                            if (string.IsNullOrEmpty(busNo)) address = new Address(addressId, city,postalCode, street, houseNo, null);
+                            else address = new Address(addressId, city,postalCode, street, houseNo, busNo);
                             company = CompanyFactory.MakeCompany(companyId, companyName, VAT, address, telNumber, email);
                             parkingContract = new ParkingContract(parkingContractId, company, startDate, endDate, contractSpaces,parkingId);
                             parkingContracts.Add(parkingContract);
@@ -134,7 +136,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
                     }
                     // Value returnen
-                    parking = new Parking(/*parkingId,*/ occupiedSpaces, full,/* parkingContracts, parkingDetails,*/totalSpaces);
+                    parking = ParkingFactory.MakeParking(parkingId, occupiedSpaces, full, parkingContracts, parkingDetails,totalSpaces);
                     return parking;
                 }
                 catch (Exception ex)
@@ -323,7 +325,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public ParkingContract GetParkingContractById(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select pc.id as pcId, pc.companyId as pcCi, pc.spaces as pcSp, pc.startDate as pcSt, pc.endDate as pcEn, pc.parkingId as pcPa, c.name as cNa, c.VAT as cVa, c.email as cEm, c.telNr as cTe, c.addressId as cAd, a.street as aSt, a.city as aCi, a.houseNr as aHo, a.bus as aBu from parkingcontract pc join company c on pc.companyId = c.id join address a on c.addressId = a.id where pc.id= @id and pc.visible = 1;";
+            string query = @"select pc.id as pcId, pc.companyId as pcCi, pc.spaces as pcSp, pc.startDate as pcSt, pc.endDate as pcEn, pc.parkingId as pcPa, c.name as cNa, c.VAT as cVa, c.email as cEm, c.telNr as cTe, c.addressId as cAd, a.street as aSt, a.city as aCi,a.postalCode as aPo, a.houseNr as aHo, a.bus as aBu from parkingcontract pc join company c on pc.companyId = c.id join address a on c.addressId = a.id where pc.id= @id and pc.visible = 1;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -338,7 +340,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     {
                         busNr = (string)reader["aBu"];
                     }
-                    Address address = new Address((string)reader["aCi"], (string)reader["aSt"], (string)reader["aHo"], busNr);
+                    Address address = new Address((string)reader["aCi"], (string)reader["aPo"], (string)reader["aSt"], (string)reader["aHo"], busNr);
                     Company company = CompanyFactory.MakeCompany((int)reader["pcCi"], (string)reader["cNa"], (string)reader["cVa"], address,(string)reader["cTe"], (string)reader["cEm"] );
                     ParkingContract parkingContract = ParkingContractFactory.MakeParkingContract((int)reader["pcId"],company, (DateTime)reader["pcSt"], (DateTime)reader["pcEn"], (int)reader["pcSp"], (int)reader["pcPa"]);
                     reader.Close();

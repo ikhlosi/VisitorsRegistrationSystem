@@ -23,7 +23,7 @@ namespace TestManagers
             this._mockRepo = new Mock<IVisitRepository>();
             this._validVisitor = VisitorFactory.MakeVisitor(null, "tony", "tonytonychopper@hotmail.com", "CompanyVisitor");
             this._vm = new VisitManager(this._mockRepo.Object);
-            this._visitedCompany = CompanyFactory.MakeCompany(null, "companyA", "xxxxxx", new Address("Gent", "Sleepstraat", "2", null), "0471970495", "companyA@hotmail.com");
+            this._visitedCompany = CompanyFactory.MakeCompany(null, "companyA", "xxxxxx", new Address("Gent", "9000", "Sleepstraat", "2", null), "0471970495", "companyA@hotmail.com");
             this._employee = EmployeeFactory.MakeEmployee(null, "Luffy", "Monkey D", "MonkeyDLuffy@hotmail.com", "CEO");
             this._visitor = VisitorFactory.MakeVisitor(null, "jos", "jos@hotmail.com", "CompanyV");
         }
@@ -146,8 +146,6 @@ namespace TestManagers
             var ex = Assert.Throws<VisitManagerException>(() => this._vm.DeleteVisitor(this._visitor));
             Assert.Equal("VisitManager - DeleteVisitor", ex.Message);
         }
-
-        // UpdateVisitor
         [Fact]
         public void Test_UpdateVisitor_Invalid_VisitorIsNull()
         {

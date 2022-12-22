@@ -9,7 +9,7 @@ string connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING_
 VisitRepositoryADO vRepo = new VisitRepositoryADO(connectionString);
 
 Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester");
-Address address = new Address("Elsegem", "Kouterlos", "2a", null);
+Address address = new Address("Elsegem", "9000", "Kouterlos", "2a", null);
 Company company = CompanyFactory.MakeCompany(1, "Brightest", "1234567890", address, "+32479564643", "brightest@bright.com");
 Visitor visitor = VisitorFactory.MakeVisitor(1, "Arno", "arnovantieghem@gmail.com", "Brightest");
 DateTime startTime = new DateTime(2023, 12, 29);
