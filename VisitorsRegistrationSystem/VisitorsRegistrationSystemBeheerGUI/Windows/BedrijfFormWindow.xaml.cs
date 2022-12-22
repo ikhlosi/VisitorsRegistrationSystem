@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.Factories;
+using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorsRegistrationSystemBeheerGUI.Windows
 {
@@ -20,13 +22,19 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
     /// </summary>
     public partial class BedrijfFormWindow : Window
     {
-        public BedrijfFormWindow()
+        private readonly CompanyManager _cm;
+        private Company? _company;
+
+        public BedrijfFormWindow(CompanyManager cm)
         {
+            _cm = cm;
             InitializeComponent();
         }
 
-        public BedrijfFormWindow(Company c)
+        public BedrijfFormWindow(CompanyManager cm, Company c)
         {
+            _cm = cm;
+            _company = c;
             InitializeComponent();
             InitializeData(c);
         }
@@ -46,6 +54,19 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
 
         private void btnOpslaan_Click(object sender, RoutedEventArgs e)
         {
+            if (_company != null)
+            {
+                _cm.UpdateCompany(CompanyFactory.MakeCompany(_company.ID, txtbNaam.Text, txtbVAT.Text, new Address(_company.Address.Id,txtbGemeente.Text,txtbPostcode.Text, txtbStraat.Text, txtbHuisnummer.Text, txtbBusnummer.Text), txtbTelNr.Text, txtbEmail.Text));;
+                // todo _cm.UpdateAddress
+                MessageBox.Show("Company has been Updated!");
+            }
+            else
+            {
+                _cm.AddCompany(CompanyFactory.MakeCompany(null, txtbNaam.Text, txtbVAT.Text, new Address(txtbGemeente.Text,txtbPostcode.Text, txtbStraat.Text, txtbHuisnummer.Text, txtbBusnummer.Text), txtbTelNr.Text, txtbEmail.Text));
+                MessageBox.Show("Company has been Added!");
+            }
+
+            this.Close();
         }
 
         private void btnAfsluiten_Click(object sender, RoutedEventArgs e)

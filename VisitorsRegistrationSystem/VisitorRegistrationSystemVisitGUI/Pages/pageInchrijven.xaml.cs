@@ -36,7 +36,16 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
 
         private void InitializeData()
         {
-            cbBedrijfAfspraak.ItemsSource = _cm.GetCompanies();
+            //cbBedrijfAfspraak.ItemsSource = _cm.GetCompanies();
+            //cbBedrijfAfspraak.Items.Insert(0, "Kies een bedrijf");
+            //cbBedrijfAfspraak.SelectedIndex = 0;
+
+            cbBedrijfAfspraak.Items.Insert(0, "Kies een bedrijf");
+            IReadOnlyList<Company> companies = _cm.GetCompanies();
+            foreach (Company c in companies)
+            {
+                cbBedrijfAfspraak.Items.Add(c);
+            }
             cbBedrijfAfspraak.SelectedIndex = 0;
         }
 
@@ -45,13 +54,16 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
             string visitorName = $"{txtbVoornaam.Text} {txtbAchternaam.Text}";
             string visitorEmail = txtbEmail.Text;
             string visitorCompany = txtbBedrijfBezoeker.Text;
-            Visitor visitor = VisitorFactory.MakeVisitor(null, visitorName, visitorEmail, visitorCompany);
-            Company visitedCompany = (Company)cbBedrijfAfspraak.SelectedItem;
-            Employee visitedEmployee = (Employee)cbAfspraakMet.SelectedItem;
-            visitor = _vm.AddVisitor(visitor);
-            Visit visit = VisitFactory.MakeVisit(null, visitor, visitedCompany, visitedEmployee, DateTime.Now.AddSeconds(1));
-            if(visitor.Id != 0) _vm.AddVisit(visit);
-            Application.Current.MainWindow.Content = new PageInschrijvenSucces(_cm, _vm);
+            try {
+                Visitor visitor = VisitorFactory.MakeVisitor(null, visitorName, visitorEmail, visitorCompany);
+                Company visitedCompany = (Company)cbBedrijfAfspraak.SelectedItem;
+                Employee visitedEmployee = (Employee)cbAfspraakMet.SelectedItem;
+                Visit visit = VisitFactory.MakeVisit(null, visitor, visitedCompany, visitedEmployee);
+                _vm.AddVisit(visit);
+                Application.Current.MainWindow.Content = new PageInschrijvenSucces(_cm, _vm);
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
 
             // todo: btnInschrijven enkel klikbaar wanneer alles (correct) ingevuld
         }
@@ -63,7 +75,19 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
 
         private void cbBedrijfAfspraak_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            cbAfspraakMet.ItemsSource = _cm.GetEmployeesFromCompanyId(((Company)cbBedrijfAfspraak.SelectedValue).ID);
+            //cbAfspraakMet.Items.Add(_cm.GetEmployeesFromCompanyId(((Company)cbBedrijfAfspraak.SelectedValue).ID));
+            //cbAfspraakMet.Items.Insert(0, "Kies een medewerker");
+            //cbAfspraakMet.SelectedIndex = 0;
+            cbAfspraakMet.Items.Clear();
+            cbAfspraakMet.Items.Insert(0, "Kies een medewerker");
+            if (cbBedrijfAfspraak.SelectedIndex != 0)
+            {
+                IReadOnlyList<Employee> employees = _cm.GetEmployeesFromCompanyId(((Company)cbBedrijfAfspraak.SelectedValue).ID);
+                foreach (Employee em in employees)
+                {
+                    cbAfspraakMet.Items.Add(em);
+                }
+            }
             cbAfspraakMet.SelectedIndex = 0;
         }
     }

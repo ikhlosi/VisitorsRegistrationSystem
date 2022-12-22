@@ -19,7 +19,7 @@ namespace TestDomain
         public void SetID_Success()
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent","9000","Straatlaan", "10", null), "+32482455642", "company@company.be");
             #endregion
             #region Act
             companyA.SetID(2);
@@ -46,7 +46,7 @@ namespace TestDomain
         public void SetName_Success()
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent","9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
             #endregion
             #region Act
             companyA.SetName("Company B");
@@ -186,7 +186,7 @@ namespace TestDomain
         {
             #region Arrange
             Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
-            Employee expectedResult = EmployeeFactory.MakeEmployee(1, "Bart", "Jan", "bart@company.be", "admin");
+            Employee expectedResult = EmployeeFactory.MakeEmployee(1, "Bart", "Jan", "bart@company.be", "admin", null);
             #endregion
             #region Act
             companyA.AddEmployee(expectedResult);
@@ -202,7 +202,7 @@ namespace TestDomain
         {
             #region Arrange
             Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
-            Employee expectedResult = EmployeeFactory.MakeEmployee(1, "Bart", "Jan", "bart@company.be", "admin");
+            Employee expectedResult = EmployeeFactory.MakeEmployee(1, "Bart", "Jan", "bart@company.be", "admin",null);
             #endregion
             #region Act & Assert
             Assert.Throws<CompanyException>(() => companyA.AddEmployee(employee));
@@ -217,7 +217,7 @@ namespace TestDomain
         {
             #region Arrange
             Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
-            Employee expectedResult = EmployeeFactory.MakeEmployee(1, "Bart", "Jan", "bart@company.be", "admin");
+            Employee expectedResult = EmployeeFactory.MakeEmployee(1, "Bart", "Jan", "bart@company.be", "admin", null);
             companyA.AddEmployee(expectedResult);
             #endregion
             #region Act

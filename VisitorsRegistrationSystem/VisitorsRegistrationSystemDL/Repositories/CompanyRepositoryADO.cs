@@ -87,7 +87,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
             List<Company> companies = new List<Company>();
 
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select c.id,name,VAT,email,telNr, city,postalCode, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.visible = 1";
+            string query = @"select c.id,name,VAT,email,telNr, a.id as aId,city,postalCode, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -103,6 +103,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         string VAT = (string)reader["VAT"];
                         string email = (string)reader["email"];
                         string telNr = (string)reader["telNr"];
+                        int addressId = (int)reader["aId"];
                         string city = (string)reader["city"];
                         string postalCode = (string)reader["postalCode"];
                         string street = (string)reader["street"];
@@ -112,7 +113,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         {
                             busNr = (string)reader["bus"];
                         }
-                        Company company = CompanyFactory.MakeCompany(id,name,VAT,new Address(city,postalCode,street,houseNr,busNr),telNr,email);
+                        Company company = CompanyFactory.MakeCompany(id,name,VAT,new Address(addressId,city,postalcode,street,houseNr,busNr),telNr,email);
                         companies.Add(company);
                     }
                     reader.Close();
@@ -132,7 +133,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public Company GetCompanyByIdFromDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.id = @id where c.visible = 1";
+            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.id = @id and c.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -463,7 +464,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void RemoveCompanyFromDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update company set visible=0 where id = @id and visible=1";
+            string query = @"update company c join address a on c.addressId = a.id set c.visible=0, a.visible=0 where c.id = @id and c.visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -616,8 +617,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     string email = null;
                     if (reader["email"] != DBNull.Value) email = (string)reader["email"];
                     string function = (string)reader["occupation"];
+                    int companyId = (int)reader["companyId"];
 
-                    Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function);
+                    Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function,companyId);
                     return employee;
                 }
                 catch (Exception ex)
@@ -648,11 +650,12 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         int id = (int)reader["id"];
                         string fname = (string)reader["firstName"];
                         string lname = (string)reader["lastName"];
+                        int companyId = (int)reader["companyId"];
                         string email = null;
                         if (reader["email"] != DBNull.Value) email = (string)reader["email"];
                         string function = (string)reader["occupation"];
 
-                        Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function);
+                        Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function,companyId);
                         employees.Add(employee);
                     }
                     return employees.AsReadOnly();
@@ -771,7 +774,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         if (reader["email"] != DBNull.Value) email = (string)reader["email"];
                         string function = (string)reader["occupation"];
 
-                        Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function);
+                        Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function,companyId);
                         employees.Add(employee);
                     }
                     return employees.AsReadOnly();

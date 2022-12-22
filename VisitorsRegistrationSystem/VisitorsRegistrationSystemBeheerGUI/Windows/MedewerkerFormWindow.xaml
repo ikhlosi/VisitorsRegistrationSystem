@@ -5,33 +5,134 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VisitorsRegistrationSystemBeheerGUI.Windows"
         mc:Ignorable="d"
-        Title="MedewerkerFormWindow" Height="200" Width="380" ResizeMode="NoResize">
-    <Grid Margin="5">
-        <StackPanel Orientation="Vertical">
+        Title="MedewerkerFormWindow" Height="240" Width="380" ResizeMode="NoResize"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"  WindowStartupLocation="CenterScreen">
+    <Border CornerRadius="5" BorderThickness="1" Background="GhostWhite" BorderBrush="LightGray">
+        <Grid Margin="5">
+            <Grid.Resources>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+            </Grid.Resources>
             
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Voornaam" Width="75"/>
-                <TextBox TextWrapping="Wrap" Height="25" Width="280"  VerticalAlignment="Center"/>
-            </StackPanel>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="190" />
+                <RowDefinition Height="45" />
+            </Grid.RowDefinitions>
+
+            <GroupBox Header="Medewerker" Grid.Row="0">
+                <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Bedrijf" Width="80"/>
+                        <ComboBox x:Name="cmbBedrijf" SelectedIndex="0" Height="25" Width="270" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <StackPanel  Margin="0,5,0,0" Orientation="Horizontal">
+                        <Label Content="Voornaam" Width="80"/>
+                        <TextBox x:Name="txtbVoornaam" TextWrapping="Wrap" Height="25" Width="270"  VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                        <Label Content="Achternaam" Width="80"/>
+                        <TextBox x:Name="txtbAchternaam" TextWrapping="Wrap" Height="25" Width="270" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,5,0,0"  Orientation="Horizontal">
+                        <Label  Content="Email" Width="80"/>
+                        <TextBox x:Name="txtbEmail" TextWrapping="Wrap" Height="25" Width="270"  VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                        <Label Content="Functie" Width="80"/>
+                        <TextBox x:Name="txtbFunctie" TextWrapping="Wrap" Height="25" Width="270"  VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
             
-            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                <Label Content="Achternaam" Width="75"/>
-                <TextBox TextWrapping="Wrap" Height="25" Width="280" VerticalAlignment="Center"/>
-            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
 
-            <StackPanel Margin="0,5,0,0"  Orientation="Horizontal">
-                <Label Content="Email" Width="75"/>
-                <TextBox TextWrapping="Wrap" Height="25" Width="280"  VerticalAlignment="Center"/>
-            </StackPanel>
+                    <Button x:Name="btnOpslaan" Content="Opslaan" Width="150" Padding="2" Margin="5" Height="25" Foreground="DarkGreen" Background="White" Click="btnOpslaan_Click" >
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="10"></Setter>
+                            </Style>
+                        </Button.Resources>
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="BorderBrush" Value="LightGray" />
+                                <Setter Property="BorderThickness" Value="1" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsDefaulted" Value="true">
+                                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="White"/>
+                                                    <Setter Property="Background" TargetName="border" Value="DarkGreen"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="true">
+                                                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="White"/>
+                                                    <Setter Property="Background" TargetName="border" Value="DarkGreen"/>
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="false">
+                                                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="White"/>
+                                                    <Setter Property="Background" TargetName="border" Value="DarkGreen"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
-            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                <Label Content="Functie" Width="75"/>
-                <TextBox TextWrapping="Wrap" Height="25" Width="280"  VerticalAlignment="Center"/>
-            </StackPanel>
+                    <Button x:Name="btnAfsluiten" Content="Afsluiten"  Width="150" Padding="2" Margin="5" Height="25" Foreground="DarkRed" Background="White" Click="btnAfsluiten_Click" >
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="10"></Setter>
+                            </Style>
+                        </Button.Resources>
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="BorderBrush" Value="LightGray" />
+                                <Setter Property="BorderThickness" Value="1" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsDefaulted" Value="true">
+                                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="White"/>
+                                                    <Setter Property="Background" TargetName="border" Value="DarkRed"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="true">
+                                                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="White"/>
+                                                    <Setter Property="Background" TargetName="border" Value="DarkRed"/>
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="false">
+                                                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="White"/>
+                                                    <Setter Property="Background" TargetName="border" Value="DarkRed"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
-            <Button Content="Opslaan" Margin="0,10,0,0"/>
-        </StackPanel>
-        
-        
-    </Grid>
+                </StackPanel>
+            
+        </Grid>
+    </Border>    
 </Window>

@@ -16,12 +16,12 @@ using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorRegistrationSystemVisitGUI.Pages {
     /// <summary>
-    /// Interaction logic for PageInschrijvenSucces.xaml
+    /// Interaction logic for pageUitschrijvenSucces.xaml
     /// </summary>
-    public partial class PageInschrijvenSucces : Page {
+    public partial class pageUitschrijvenSucces : Page {
         private readonly CompanyManager _cm;
         private VisitManager _vm;
-        public PageInschrijvenSucces(CompanyManager cm, VisitManager vm) {
+        public pageUitschrijvenSucces(CompanyManager cm, VisitManager vm) {
             _cm = cm;
             _vm = vm;
             InitializeComponent();
@@ -29,5 +29,6 @@ namespace VisitorRegistrationSystemVisitGUI.Pages {
         private void btnHome_Click(object sender, RoutedEventArgs e) {
             Application.Current.MainWindow.Content = new pageMain(_cm, _vm);
         }
+
     }
 }

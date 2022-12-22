@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorsRegistrationSystemBeheerGUI.Pages
 {
@@ -20,9 +21,40 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
     /// </summary>
     public partial class pageMain : Page
     {
-        public pageMain()
+        private readonly CompanyManager _cm;
+        private readonly VisitManager _vm;
+
+        public pageMain(CompanyManager cm, VisitManager vm)
         {
+            _cm = cm;
+            _vm = vm;
             InitializeComponent();
+        }
+
+        private void btnBedrijven_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Content = new pageBeheer(_cm, _vm, 0);
+        }
+
+        private void btnWerknemers_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Content = new pageBeheer(_cm, _vm, 1);
+        }
+
+        private void btnBezoekers_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Content = new pageBeheer(_cm, _vm, 2);
+        }
+
+        private void btnBezoeken_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Content = new pageBeheer(_cm, _vm, 3);
+        }
+
+        private void btnParking_Click(object sender, RoutedEventArgs e)
+        {
+            //posible background for button: #A73A17
+            //Application.Current.MainWindow.Content = new pageBeheer(_cm, _vm, 4);
         }
     }
 }

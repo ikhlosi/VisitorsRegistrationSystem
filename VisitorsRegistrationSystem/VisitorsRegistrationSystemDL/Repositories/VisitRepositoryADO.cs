@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.DTO;
 using VisitorsRegistrationSystemBL.Factories;
@@ -25,18 +26,36 @@ namespace VisitorsRegistrationSystemDL.Repositories
             // TODO make starttime = now
             // endtime has to be null
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"INSERT into Visit(visitorId,startTime,companyId,employeeId,visible) values (@visitorId,@startTime,@companyId,@employeeId,1)";
+            //string query = @"INSERT into Visit(visitorId,startTime,companyId,employeeId,visible) values (@visitorId,@startTime,@companyId,@employeeId,1)";
+            //string transactionQuery = @"START TRANSACTION;
+            //                            INSERT INTO Visitor(name,email,visitorCompany) VALUES (@visitorName,@visitorEmail,@visitorCompany);
+            //                            SET @visitorId:=LAST_INSERT_ID();
+            //                            INSERT INTO Visit(visitorId,startTime,companyId,employeeId) VALUES (@visitorId,@startTime,@companyId,@employeeId);
+            //                            COMMIT;";
+
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
-                    cmd.CommandText = query;
-                    cmd.Parameters.AddWithValue("@visitorId", visit.Visitor.Id);
-                    cmd.Parameters.AddWithValue("@startTime", DateTime.Now);
+                    MySqlTransaction transaction = connection.BeginTransaction();
+                    cmd.Connection = connection; cmd.Transaction = transaction;
+
+                    cmd.CommandText = "INSERT INTO Visitor(name,email,visitorCompany) VALUES (@visitorName,@visitorEmail,@visitorCompany);";
+                    cmd.Parameters.AddWithValue("@visitorName", visit.Visitor.Name);
+                    cmd.Parameters.AddWithValue("@visitorEmail", visit.Visitor.Email);
+                    cmd.Parameters.AddWithValue("@visitorCompany", visit.Visitor.VisitorCompany);
+                    cmd.ExecuteNonQuery();
+                    long visitorId = cmd.LastInsertedId;
+
+                    cmd.CommandText = "INSERT INTO Visit(visitorId,startTime,companyId,employeeId) VALUES (@visitorId,@startTime,@companyId,@employeeId);";
+                    cmd.Parameters.AddWithValue("@visitorId", visitorId);
+                    cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
                     cmd.Parameters.AddWithValue("@companyId", visit.VisitedCompany.ID);
                     cmd.Parameters.AddWithValue("@employeeId", visit.VisitedEmployee.ID);
                     cmd.ExecuteNonQuery();
+
+                    transaction.Commit();
                 }
                 catch (Exception ex)
                 {
@@ -159,7 +178,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public Visit GetVisit(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select v.visitId as vVI, v.startTime as vST, v.endTime as vEN, vi.id as viI, vi.name as viN, vi.email as viE, vi.visitorCompany as viV, e.id as eId, e.firstName as eFN, e.lastName as eLA , e.email as eEM, e.occupation eOC, c.id cId, c.name as cNA, c.VAT as cVA, c.email as cEM, c.telNr AS cTE,a.id as aId,a.postalCode as aPo, a.street as aST, a.houseNr as aHO, a.bus as aBU, a.city as aCI from Visit v join Visitor vi on v.visitorId = vi.id join Employee e on v.employeeId = e.id join Company c on v.companyId = c.id join Address a on c.addressId = a.id where v.visitId = @visitId and v.visible = 1";
+            string query = @"select v.visitId as vVI, v.startTime as vST, v.endTime as vEN, vi.id as viI, vi.name as viN, vi.email as viE, vi.visitorCompany as viV, e.id as eId, e.firstName as eFN, e.lastName as eLA , e.email as eEM, e.occupation eOC, c.id cId, c.name as cNA, c.VAT as cVA, c.email as cEM, c.telNr AS cTE,a.id as aId, a.street as aST, a.houseNr as aHO, a.bus as aBU, a.city as aCI, a.postalCode as aPo from Visit v join Visitor vi on v.visitorId = vi.id join Employee e on v.employeeId = e.id join Company c on v.companyId = c.id join Address a on c.addressId = a.id where v.visitId = @visitId and v.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -178,7 +197,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         string employeeFunction = (string)reader["eOC"];
                         int addressId = (int)reader["aID"];
                         string city = (string)reader["aCI"];
-                        string postalCode = (string)reader["aPO"];
+                        string postalCode = (string)reader["aPo"];
                         string street = (string)reader["aST"];
                         string houseNr = (string)reader["aHO"];
                         string busNr = "";
@@ -199,11 +218,11 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         DateTime startTime = (DateTime)reader["vST"];
                         DateTime endTime = (DateTime)reader["vEN"];
 
-                        Employee employee = EmployeeFactory.MakeEmployee(employeeId, employeeName, employeeLastName, employeeEmail, employeeFunction);
+                        Employee employee = EmployeeFactory.MakeEmployee(employeeId, employeeName, employeeLastName, employeeEmail, employeeFunction,companyId);
                         Address address = new Address(addressId, city,postalCode, street, houseNr, busNr);
-                        Company company = CompanyFactory.MakeCompany(companyId, companyName, vatNo, address, telNo, companyEmail);
+                        Company company = CompanyFactory.MakeCompany(companyId, companyName, vatNo,address,telNo,companyEmail);
                         Visitor visitor = VisitorFactory.MakeVisitor(visitorId, visitorName, visitorEmail, visitorCompany);
-                        visit = VisitFactory.MakeVisit(visitId, visitor, company, employee, startTime);
+                        visit = VisitFactory.MakeVisit(visitId, visitor, company, employee);
                     }
                     return visit;
                 }
@@ -218,10 +237,13 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        public void EndVisit(string email)
+        public int EndVisit(string email, DateTime endTime)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update visit set endTime = now() where email = @email AND endTime is null;";
+            string query = @"UPDATE Visit
+                            JOIN Visitor ON Visit.visitorId = Visitor.id
+                            SET Visit.endTime = @endTime
+                            WHERE Visitor.email = @email AND Visit.endTime IS NULL;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -229,7 +251,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     connection.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.AddWithValue("@email", email);
-                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("@endTime", endTime);
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    return rowsAffected;
                 }
                 catch (Exception ex)
                 {
@@ -256,7 +280,12 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     IDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        visits.Add(new VisitDTO((int)reader["visitId"], (int)reader["visitorId"], (DateTime)reader["startTime"], (DateTime)reader["endTime"], (int)reader["companyId"], (int)reader["employeeId"]));
+                        DateTime? endTime = null;
+                        if (reader["endTime"] != DBNull.Value)
+                        {
+                            endTime = (DateTime)reader["endTime"];
+                        }
+                        visits.Add(new VisitDTO((int)reader["visitId"], (int)reader["visitorId"], (DateTime)reader["startTime"], endTime, (int)reader["companyId"], (int)reader["employeeId"]));
                     }
                     reader.Close();
                     return visits;
@@ -304,7 +333,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void RemoveVisitor(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update visitor set visible=0 where id = @id and visible=1";
+            string query = @"update visitor t1 join visit t2 on t1.id = t2.visitorId set t1.visible = 0, t2.visible = 0 where t1.id = @id;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -390,7 +419,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     connection.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.AddWithValue("@id", id);
-                    int n = (int)cmd.ExecuteScalar();
+                    Int64 n = (Int64)cmd.ExecuteScalar();
                     if (n > 0)
                         return true;
                     return false;
@@ -406,6 +435,31 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        public bool VisitorExists(string email) {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"SELECT COUNT(*) FROM Visitor WHERE email = @email and visible = 1";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@email", email);
+                    Int64 n = (Int64)cmd.ExecuteScalar();
+                    if (n > 0)
+                        return true;
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    throw new VisitRepositoryADOException("VisitorExists by id", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
         public Visitor GetVisitor(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -486,6 +540,37 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 catch (Exception ex)
                 {
                     throw new VisitRepositoryADOException("GetVisitors");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        public IReadOnlyList<VisitDTO> GetVisitsByVisitorId(int visitordId)
+        {
+            List<VisitDTO> visits = new List<VisitDTO>();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"SELECT * FROM Visit where visible = 1 and visitorId = @id order by visitId";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@id", visitordId);
+                    IDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        visits.Add(new VisitDTO((int)reader["visitId"], (int)reader["visitorId"], (DateTime)reader["startTime"], (DateTime)reader["endTime"], (int)reader["companyId"], (int)reader["employeeId"]));
+                    }
+                    reader.Close();
+                    return visits;
+                }
+                catch (Exception ex)
+                {
+                    throw new VisitRepositoryADOException("GetVisits");
                 }
                 finally
                 {

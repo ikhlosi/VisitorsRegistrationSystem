@@ -48,7 +48,6 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         internal void SetStartTime(DateTime startTime)
         {
-            if (startTime < DateTime.Now) throw new VisitException("Visit - SetStartTime - Start time is too early");
             StartTime = startTime;
         }
 
