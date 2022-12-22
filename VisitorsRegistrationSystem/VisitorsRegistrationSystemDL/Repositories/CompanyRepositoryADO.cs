@@ -105,7 +105,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         string telNr = (string)reader["telNr"];
                         int addressId = (int)reader["aId"];
                         string city = (string)reader["city"];
-                        string postcode = (string)reader["postalCode"];
+                        string postalCode = (string)reader["postalCode"];
                         string street = (string)reader["street"];
                         string houseNr = (string)reader["houseNr"];
                         string busNr = "";
@@ -113,7 +113,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         {
                             busNr = (string)reader["bus"];
                         }
-                        Company company = CompanyFactory.MakeCompany(id,name,VAT,new Address(addressId,city,postcode,street,houseNr,busNr),telNr,email);
+                        Company company = CompanyFactory.MakeCompany(id,name,VAT,new Address(addressId,city,postalCode,street,houseNr,busNr),telNr,email);
                         companies.Add(company);
                     }
                     reader.Close();

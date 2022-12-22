@@ -146,8 +146,6 @@ namespace TestManagers
             var ex = Assert.Throws<VisitManagerException>(() => this._vm.DeleteVisitor(this._visitor));
             Assert.Equal("VisitManager - DeleteVisitor", ex.Message);
         }
-
-        // UpdateVisitor
         [Fact]
         public void Test_UpdateVisitor_Invalid_VisitorIsNull()
         {

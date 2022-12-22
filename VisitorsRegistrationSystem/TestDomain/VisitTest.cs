@@ -15,6 +15,7 @@ namespace TestDomain
 {
     public class VisitTest
     {
+        // TODO setten van endtime omdat we dit niet meer doen in constructor
         [Fact]
         public void Visit_SetId_Valid()
         {
@@ -78,10 +79,10 @@ namespace TestDomain
         {
             //Arrange 
             Visit v;
-            Visitor visitor = _visitor;
-            Employee employee = _employee;
-            DateTime startTime = DateTime.Now.AddHours(1);
-
+            Visitor visitor = new Visitor("Tobias", "tobiaswille@hotmail.com", "Google");
+            Employee employee = new Employee("John", "Doe", "TeamLead");
+            DateTime startTime = DateTime.Now;
+            DateTime endTime = DateTime.Now.AddHours(1);
             //Act 
             //Assert
             var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(1, visitor, company, employee)); ;
@@ -93,10 +94,10 @@ namespace TestDomain
         public void Test_ctor_Invalid_Employee(Employee employee)
         {
             Visit v;
-            Company company = _visitedCompany;
-            Visitor visitor = _visitor;
-            DateTime startTime = DateTime.Now.AddHours(1);
-
+            Company company = new Company("CompanyA", "XXXXXXX", "CompanyA@hotmail.com");
+            Visitor visitor = new Visitor("Tobias", "Tobias@hotmail.com","Google");
+            DateTime startTime = DateTime.Now;
+            DateTime endTime = DateTime.Now.AddHours(1);
             //Act
             //Assert
             var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(1, visitor, company, employee)); ;
@@ -106,11 +107,11 @@ namespace TestDomain
         public void Test_ctor_Invalid_Time_Start_Earlier_Than_Now()
         {
             Visit v;
-            Company company = _visitedCompany;
-            Visitor visitor = _visitor;
-            Employee employee = _employee;
-            DateTime startTime = DateTime.Now.AddDays(-1);
-
+            Company company = new Company("CompanyA", "XXXXXXX", "CompanyA@hotmail.com");
+            Visitor visitor = new Visitor("Tobias", "Tobias@hotmail.com", "Google");
+            Employee employee = new Employee("Arno", "Vantieghem", "Tester");
+            DateTime startTime = DateTime.MinValue.AddHours(2);
+            DateTime endTime = DateTime.MinValue.AddHours(1);
             //Act
             //Assert
             var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(1, visitor, company, employee)); ;

@@ -23,6 +23,8 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         public void AddVisit(Visit visit)
         {
+            // TODO make starttime = now
+            // endtime has to be null
             MySqlConnection connection = new MySqlConnection(connectionString);
             //string query = @"INSERT into Visit(visitorId,startTime,companyId,employeeId,visible) values (@visitorId,@startTime,@companyId,@employeeId,1)";
             //string transactionQuery = @"START TRANSACTION;
@@ -128,7 +130,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.AddWithValue("@visitorId",visit.Visitor.Id);
+                    cmd.Parameters.AddWithValue("@visitorId", visit.Visitor.Id);
                     cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
                     Int64 n = (Int64)cmd.ExecuteScalar();
                     if (n > 0)
@@ -264,7 +266,8 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        public IReadOnlyList<VisitDTO> GetVisits() {
+        public IReadOnlyList<VisitDTO> GetVisits()
+        {
             List<VisitDTO> visits = new List<VisitDTO>();
             MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"SELECT * FROM Visit where visible = 1 order by visitId";
