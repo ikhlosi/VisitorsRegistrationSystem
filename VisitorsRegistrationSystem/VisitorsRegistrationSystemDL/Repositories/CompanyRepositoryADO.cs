@@ -113,7 +113,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         {
                             busNr = (string)reader["bus"];
                         }
-                        Company company = CompanyFactory.MakeCompany(id,name,VAT,new Address(addressId,city,postalcode,street,houseNr,busNr),telNr,email);
+                        Company company = CompanyFactory.MakeCompany(id,name,VAT,new Address(addressId,city,postalCode,street,houseNr,busNr),telNr,email);
                         companies.Add(company);
                     }
                     reader.Close();

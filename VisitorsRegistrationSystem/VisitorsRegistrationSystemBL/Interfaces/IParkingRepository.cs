@@ -26,6 +26,8 @@ namespace VisitorsRegistrationSystemBL.Interfaces
         bool ParkingContractExistsInDB(int id);
         void RemoveParkingContractFromDB(int id);
         void UpdateParkingContract(ParkingContract parkingContract);
+        IReadOnlyList<ParkingContractDTO> GetParkingContracts(int parkingId);
+
         #endregion
 
         #region ParkingDetail
@@ -35,6 +37,7 @@ namespace VisitorsRegistrationSystemBL.Interfaces
         ParkingDetail WriteParkingDetailInDB(ParkingDetail parkingDetail);
         ParkingDetail GetParkingDetailById(int iD);
         IReadOnlyList<ParkingDetailDTO> GetParkingDetails();
+        IReadOnlyList<ParkingDetailDTO> GetParkingDetails(int parkingId);
         #endregion
     }
 }
