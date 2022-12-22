@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.Exceptions;
 using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorRegistrationSystemVisitGUI.Pages
@@ -33,8 +35,15 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
 
         private void btnUitschrijven_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: in cm nog methode schrijven die repo.Endvisit oproept
-            Application.Current.MainWindow.Content = new pageMain(_cm, _vm);
+            string visitorEmail = txtbEmail.Text;
+            DateTime endTime = DateTime.Now;
+            try {
+                _vm.EndVisit(visitorEmail, endTime);
+                Application.Current.MainWindow.Content = new pageUitschrijvenSucces(_cm, _vm);
+            }
+            catch (Exception ve) {
+                MessageBox.Show(ve.InnerException.Message);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

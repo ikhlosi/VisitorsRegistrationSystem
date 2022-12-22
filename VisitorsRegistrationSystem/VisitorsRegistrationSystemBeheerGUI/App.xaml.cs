@@ -33,7 +33,10 @@ namespace VisitorsRegistrationSystemBeheerGUI
             IVisitRepository visitRepository = new VisitRepositoryADO(connString);
             VisitManager visitManager = new VisitManager(visitRepository);
 
-            MainWindow mw = new MainWindow(companyManager, visitManager);
+            IParkingRepository parkingRepository = new ParkingRepositoryADO(connString);
+            ParkingManager parkingManager = new ParkingManager(parkingRepository);
+
+            MainWindow mw = new MainWindow(companyManager, visitManager,parkingManager);
             mw.Show();
         }
     }

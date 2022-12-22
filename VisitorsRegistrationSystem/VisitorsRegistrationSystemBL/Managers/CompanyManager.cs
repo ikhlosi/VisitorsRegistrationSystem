@@ -22,9 +22,10 @@ namespace VisitorsRegistrationSystemBL.Managers {
         }
         public void RemoveCompany(Company company) {
             if (company == null) throw new CompanyException("CompanyManager - RemoveCompany - company is null.");
-            
+
             try {
                 if (!_repo.CompanyExistsInDB(company.ID)) throw new CompanyException("CompanyManager - RemoveCompany - company does not exist in DB.");
+                if (_repo.GetEmployeesFromCompanyIdDB(company.ID).Count > 0) throw new CompanyException("CompanyManager - RemoveCompany - company has employees.");
                 _repo.RemoveCompanyFromDB(company.ID);
             }
             catch (Exception ex) {
@@ -43,6 +44,17 @@ namespace VisitorsRegistrationSystemBL.Managers {
                 throw new CompanyException("CompanyManager - UpdateCompany", ex);
             }
         }
+
+        public Company GetCompanyById(int id) {
+        
+            try { 
+                return _repo.GetCompanyByIdFromDB(id);
+            } catch(Exception ex)
+            {
+                throw new CompanyException("CompanyManager - GetCompanyById", ex);
+            }
+        }
+
         public IReadOnlyList<Company> GetCompanies() {
             try {
                 return _repo.GetCompaniesFromDB();

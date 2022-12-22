@@ -10,8 +10,8 @@ DotNetEnv.Env.TraversePath().Load();
 string connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING_DB");
 Console.WriteLine(connectionString); // for debug
 CompanyRepositoryADO cRepo = new CompanyRepositoryADO(connectionString);
-Company company = CompanyFactory.MakeCompany(null,"Brightest","1234567890",new Address("Elsegem","9000","Kouterlos","2", null),"0479564641","arnovantieghem@gmail.com");
-Company companyFalse = CompanyFactory.MakeCompany(null, "Brightest", "2234567890", new Address("Elsegem", "9000", "Kouterlos", "2",null), "0479564641", "arnovantieghem@gmail.com");
+Company company = CompanyFactory.MakeCompany(null,"Brightest","1234567890",new Address("Elsegem", "9790", "Kouterlos","2", null),"0479564641","arnovantieghem@gmail.com");
+Company companyFalse = CompanyFactory.MakeCompany(null, "Brightest", "2234567890", new Address("Elsegem", "9790", "Kouterlos", "2",null), "0479564641", "arnovantieghem@gmail.com");
 
 Console.WriteLine("Company Exists: \n");
 
@@ -54,13 +54,13 @@ foreach (var i in cRepo.GetCompaniesByEmailFromDB("brightest@bright.com")) {
 }
 
 Console.WriteLine("\nGet all companies with Address: Street: Kouterlos HouseNr: 2a bus: NULL city: Elsegem : \n");
-Address address = new Address("Elsegem", "9000", "Kouterlos", "2A", null);
+Address address = new Address("Elsegem", "9790", "Kouterlos", "2A", null);
 foreach (var i in cRepo.GetCompaniesByAddressFromDB(address)) {
     Console.WriteLine("\t" + i.ToString());
 }
 
 Console.WriteLine("\nGet all companies with Address: Street: Kouterlos HouseNr: 2a bus: 1.001 city: Elsegem : \n");
-Address addressWithBus = new Address("Elsegem", "9000", "Kouterlos", "2A", "1.001");
+Address addressWithBus = new Address("Elsegem", "9790", "Kouterlos", "2A", "1.001");
 foreach (var i in cRepo.GetCompaniesByAddressFromDB(addressWithBus)) {
     Console.WriteLine("\t" + i.ToString());
 }
@@ -70,7 +70,7 @@ cRepo.RemoveCompanyFromDB(11);
 Console.WriteLine("Company 11 has been deleted!");
 
 Console.WriteLine("\nUpdating company with id: 5");
-Address address1 = new Address(1, "Elsegem","9000", "Kouterlos", "2a", null);
+Address address1 = new Address(1, "Elsegem", "9790", "Kouterlos", "2a", null);
 Company company1 = CompanyFactory.MakeCompany(5, "Updated", "1234567890", address1, "+32479564643", "updated@gmail.com");
 cRepo.UpdateCompanyInDB(company1);
 Console.WriteLine("Company 5 has been updated!");

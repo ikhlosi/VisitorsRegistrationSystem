@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -271,7 +271,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     IDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        parkings.Add(new ParkingDTO((int)reader["id"], (int)reader["totalSpaces"], (int)reader["occupiedSpaces"], Convert.ToBoolean(reader["full"])));
+                        parkings.Add(new ParkingDTO((int)reader["id"], (int)reader["totalSpaces"], (int)reader["occupiedSpaces"]));
                     }
                     reader.Close();
                     return parkings;
@@ -551,11 +551,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        public ParkingDetail WriteParkingDetailInDB(ParkingDetail parkingDetail)
-        {
-            throw new NotImplementedException();
-        }
-
         public ParkingDetail GetParkingDetailById(int iD)
         {
 
@@ -592,10 +587,128 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
             }
         }
-
         public IReadOnlyList<ParkingDetailDTO> GetParkingDetails()
         {
-            throw new NotImplementedException();
+            List<ParkingDetailDTO> parkingDetails = new List<ParkingDetailDTO>();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"select * from parkingDetails where visible = 1 order by id;";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    IDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        parkingDetails.Add(new ParkingDetailDTO((int)reader["id"], (DateTime)reader["startTime"], (DateTime)reader["endTime"], (string)reader["licensePlate"], (int)reader["visitedCompanyId"], (int)reader["parkingId"]));
+                    }
+                    reader.Close();
+                    return parkingDetails;
+                }
+                catch (Exception ex)
+                {
+                    throw new ParkingRepositoryADOException("GetParkingDetails");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+        
+        public ParkingDetail WriteParkingDetailInDB(ParkingDetail parkingDetail)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"insert into parkingdetails(startTime,endTime,licensePlate,visitedCompanyId,parkingId) values (@startTime,@endTime,@licensePlate,@visitedCompanyId,@parkingId);";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@startTime", parkingDetail.StartTime);
+                    cmd.Parameters.AddWithValue("@endTime", parkingDetail.EndTime);
+                    cmd.Parameters.AddWithValue("@licensePlate", parkingDetail.LicensePlate);
+                    cmd.Parameters.AddWithValue("@visitedCompanyId", parkingDetail.VisitedCompanyID);
+                    cmd.Parameters.AddWithValue("@parkingId", parkingDetail.ParkingId);
+                    cmd.ExecuteNonQuery();
+                    int insertedId = (int)cmd.LastInsertedId;
+                    parkingDetail.SetID(insertedId);
+                    return parkingDetail;
+                }
+                catch (Exception ex)
+                {
+                    throw new ParkingRepositoryADOException("WriteParkingDetailInDB", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        public IReadOnlyList<ParkingContractDTO> GetParkingContracts(int parkingId)
+        {
+            List<ParkingContractDTO> parkingContracts = new List<ParkingContractDTO>();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"select * from parkingContract where visible = 1 and parkingId=@parkingId order by id;";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@parkingId", parkingId);
+                    IDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        parkingContracts.Add(new ParkingContractDTO((int)reader["id"], (int)reader["companyId"], (int)reader["spaces"], (DateTime)reader["startDate"], (DateTime)reader["endDate"], (int)reader["parkingId"]));
+                    }
+                    reader.Close();
+                    return parkingContracts;
+                }
+                catch (Exception ex)
+                {
+                    throw new ParkingRepositoryADOException("GetParkings");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+
+        public IReadOnlyList<ParkingDetailDTO> GetParkingDetails(int parkingId)
+        {
+            List<ParkingDetailDTO> parkingDetails = new List<ParkingDetailDTO>();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"select * from parkingDetails where visible = 1 and parkingId=@parkingId order by id;";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@parkingId", parkingId);
+                    IDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        parkingDetails.Add(new ParkingDetailDTO((int)reader["id"], (DateTime)reader["startTime"], (DateTime)reader["endTime"], (string)reader["licensePlate"], (int)reader["visitedCompanyId"], (int)reader["parkingId"]));
+                    }
+                    reader.Close();
+                    return parkingDetails;
+                }
+                catch (Exception ex)
+                {
+                    throw new ParkingRepositoryADOException("GetParkingDetails");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
         #endregion
     }

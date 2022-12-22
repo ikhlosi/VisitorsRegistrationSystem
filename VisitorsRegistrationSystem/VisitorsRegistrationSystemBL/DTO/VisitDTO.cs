@@ -8,7 +8,7 @@ namespace VisitorsRegistrationSystemBL.DTO
 {
     public class VisitDTO
     {
-        public VisitDTO(int visitId, int visitorId, DateTime starTime, DateTime endTime, int companyId, int employeeId)
+        public VisitDTO(int visitId, int visitorId, DateTime starTime, DateTime? endTime, int companyId, int employeeId)
         {
             this.visitId = visitId;
             this.visitorId = visitorId;
@@ -21,7 +21,7 @@ namespace VisitorsRegistrationSystemBL.DTO
         public int visitId { get; set; }
         public int visitorId { get; set; }
         public DateTime startTime { get; set; }
-        public DateTime endTime { get; set; }
+        public DateTime? endTime { get; set; }
         public int companyId { get; set; }
         public int employeeId { get; set; }
 

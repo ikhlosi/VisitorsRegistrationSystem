@@ -24,7 +24,7 @@ namespace TestManagers
             this._validVisitor = VisitorFactory.MakeVisitor(null, "tony", "tonytonychopper@hotmail.com", "CompanyVisitor");
             this._vm = new VisitManager(this._mockRepo.Object);
             this._visitedCompany = CompanyFactory.MakeCompany(null, "companyA", "xxxxxx", new Address("Gent", "9000", "Sleepstraat", "2", null), "0471970495", "companyA@hotmail.com");
-            this._employee = EmployeeFactory.MakeEmployee(null, "Luffy", "Monkey D", "MonkeyDLuffy@hotmail.com", "CEO");
+            this._employee = EmployeeFactory.MakeEmployee(null, "Luffy", "Monkey D", "MonkeyDLuffy@hotmail.com", "CEO", null);
             this._visitor = VisitorFactory.MakeVisitor(null, "jos", "jos@hotmail.com", "CompanyV");
         }
 
@@ -42,7 +42,7 @@ namespace TestManagers
         public void AddVisit_Invalid_Visit_exists()
         {
             // voorbereiden
-            Visit v = VisitFactory.MakeVisit(null, this._validVisitor, this._visitedCompany, this._employee, DateTime.Now.AddHours(1));
+            Visit v = VisitFactory.MakeVisit(null, this._validVisitor, this._visitedCompany, this._employee);
             this._mockRepo.Setup(repoInterface => repoInterface.VisitExists(v)).Returns(true);
 
             // testen
@@ -63,7 +63,7 @@ namespace TestManagers
         public void DeleteVisist_Invalid_Visit_NotExist()
         {
             //voorbereiden
-            Visit visit = VisitFactory.MakeVisit(null,_validVisitor,_visitedCompany,_employee, DateTime.Now.AddHours(1));
+            Visit visit = VisitFactory.MakeVisit(null,_validVisitor,_visitedCompany,_employee);
             this._mockRepo.Setup(repoInterface => repoInterface.VisitExists(visit)).Returns(false);
             //testen
             var ex=Assert.Throws<VisitException>(() => this._vm.DeleteVisit(visit));
@@ -80,7 +80,7 @@ namespace TestManagers
         [Fact]
         public void UpdateVisit_Invalid_Visit_NotExist()
         {
-            Visit visit = VisitFactory.MakeVisit(null,_validVisitor,_visitedCompany,_employee,DateTime.Now.AddHours(1));
+            Visit visit = VisitFactory.MakeVisit(null,_validVisitor,_visitedCompany,_employee);
             this._mockRepo.Setup(repoInterface => repoInterface.VisitExists(visit)).Returns(false);
             //testen
             var ex = Assert.Throws<VisitException>(() => this._vm.UpdateVisit(visit));
@@ -90,7 +90,7 @@ namespace TestManagers
         public void UpdateVisit_Invalid_Visit_is_unchanged()
         {
             // id 1 moet meegegeven worden want je kan een visit niet updaten als je de id ervan niet weet
-            Visit visit = VisitFactory.MakeVisit(1, _validVisitor, _visitedCompany, _employee, DateTime.Now.AddHours(1));
+            Visit visit = VisitFactory.MakeVisit(1, _validVisitor, _visitedCompany, _employee);
             this._mockRepo.Setup(repoInterface => repoInterface.VisitExists(visit)).Returns(true);
             this._mockRepo.Setup(repoInterface => repoInterface.GetVisit(visit.Id)).Returns(visit);
             //testen

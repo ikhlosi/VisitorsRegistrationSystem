@@ -58,7 +58,7 @@ namespace TestDomain
         [InlineData("  ")]
         public void SetHouseNo_Invalid(string houseNo)
         {
-            Address address = new Address("Gent", "9000", "sleepstraat", "5", null);
+            Address address = new Address("Gent", "9000","sleepstraat", "5", null);
             Assert.Throws<AddressException>(() => address.SetHouseNo(houseNo));
 
 

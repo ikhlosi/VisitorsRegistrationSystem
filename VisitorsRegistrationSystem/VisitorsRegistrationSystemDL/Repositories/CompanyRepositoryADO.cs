@@ -1,4 +1,4 @@
-﻿//using System;
+//using System;
 //using System.Collections.Generic;
 //using System.Data.SqlClient;
 //using MySql.Data.MySqlClient;
@@ -86,96 +86,98 @@
 //        {
 //            List<Company> companies = new List<Company>();
 
-//            MySqlConnection connection = new MySqlConnection(connectionString);
-//            string query = @"select c.id,name,VAT,email,telNr, city,postalCode, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.visible = 1";
-//            using (MySqlCommand cmd = connection.CreateCommand())
-//            {
-//                try
-//                {
-//                    connection.Open();
-//                    cmd.CommandText = query;
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"select c.id,name,VAT,email,telNr, a.id as aId,city,postalCode, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.visible = 1";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
                     
-//                    MySqlDataReader reader = cmd.ExecuteReader();
-//                    while (reader.Read())
-//                    {
-//                        int id = (int)reader["id"];
-//                        string name = (string)reader["name"];
-//                        string VAT = (string)reader["VAT"];
-//                        string email = (string)reader["email"];
-//                        string telNr = (string)reader["telNr"];
-//                        string city = (string)reader["city"];
-//                        string postalCode = (string)reader["postalCode"];
-//                        string street = (string)reader["street"];
-//                        string houseNr = (string)reader["houseNr"];
-//                        string busNr = "";
-//                        if (reader["bus"] != DBNull.Value)
-//                        {
-//                            busNr = (string)reader["bus"];
-//                        }
-//                        Company company = CompanyFactory.MakeCompany(id,name,VAT,new Address(city,postalCode,street,houseNr,busNr),telNr,email);
-//                        companies.Add(company);
-//                    }
-//                    reader.Close();
-//                    return companies;
-//                }
-//                catch (Exception ex)
-//                {
-//                    throw new CompanyRepositoryADOException("GetCompaniesFromDB", ex);
-//                }
-//                finally
-//                {
-//                    connection.Close();
-//                }
-//            }
-//        }
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        int id = (int)reader["id"];
+                        string name = (string)reader["name"];
+                        string VAT = (string)reader["VAT"];
+                        string email = (string)reader["email"];
+                        string telNr = (string)reader["telNr"];
+                        int addressId = (int)reader["aId"];
+                        string city = (string)reader["city"];
+                        string postalCode = (string)reader["postalCode"];
+                        string street = (string)reader["street"];
+                        string houseNr = (string)reader["houseNr"];
+                        string busNr = "";
+                        if (reader["bus"] != DBNull.Value)
+                        {
+                            busNr = (string)reader["bus"];
+                        }
+                        Company company = CompanyFactory.MakeCompany(id,name,VAT,new Address(addressId,city,postalCode,street,houseNr,busNr),telNr,email);
+                        companies.Add(company);
+                    }
+                    reader.Close();
+                    return companies;
+                }
+                catch (Exception ex)
+                {
+                    throw new CompanyRepositoryADOException("GetCompaniesFromDB", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
         
-//        public Company GetCompanyByIdFromDB(int id)
-//        {
-//            MySqlConnection connection = new MySqlConnection(connectionString);
-//            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.id = @id where c.visible = 1";
-//            using (MySqlCommand cmd = connection.CreateCommand())
-//            {
-//                try
-//                {
-//                    connection.Open();
-//                    cmd.CommandText = query;
-//                    // Parameters adden
-//                    cmd.Parameters.AddWithValue("@id", id);
-//                    // Query executen
-//                    // Data lezen
-//                    Company company = null;
-//                    MySqlDataReader reader = cmd.ExecuteReader();
-//                    while (reader.Read())
-//                    {
-//                        int iD = (int)reader["id"];
-//                        string name = (string)reader["name"];
-//                        string VAT = (string)reader["VAT"];
-//                        string email = (string)reader["email"];
-//                        string telNr = (string)reader["telNr"];
-//                        string city = (string)reader["city"];
-//                        string postalCode = (string)reader["postalCode"];
-//                        string street = (string)reader["street"];
-//                        string houseNr = (string)reader["houseNr"];
-//                        string busNr = "";
-//                        if (reader["bus"] != DBNull.Value)
-//                        {
-//                            busNr = (string)reader["bus"];
-//                        }
-//                        company = CompanyFactory.MakeCompany(iD, name, VAT, new Address(city,postalCode, street, houseNr, busNr), telNr, email);
-//                    }
-//                    // Value returnen
-//                    return company;
-//                }
-//                catch (Exception ex)
-//                {
-//                    throw new CompanyRepositoryADOException("GetCompanyByIdFromDB", ex);
-//                }
-//                finally
-//                {
-//                    connection.Close();
-//                }
-//            }
-//        }
+        public Company GetCompanyByIdFromDB(int id)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.id = @id and c.visible = 1";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    // Parameters adden
+                    cmd.Parameters.AddWithValue("@id", id);
+                    // Query executen
+                    // Data lezen
+                    Company company = null;
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        int iD = (int)reader["id"];
+                        string name = (string)reader["name"];
+                        string VAT = (string)reader["VAT"];
+                        string email = (string)reader["email"];
+                        string telNr = (string)reader["telNr"];
+                        string city = (string)reader["city"];
+                        string postalCode = (string)reader["postalCode"];
+                        string street = (string)reader["street"];
+                        string houseNr = (string)reader["houseNr"];
+                        string busNr = "";
+                        if (reader["bus"] != DBNull.Value)
+                        {
+                            busNr = (string)reader["bus"];
+                        }
+                        company = CompanyFactory.MakeCompany(iD, name, VAT, new Address(city,postalCode, street, houseNr, busNr), telNr, email);
+                    }
+                    // Value returnen
+                    return company;
+                }
+                catch (Exception ex)
+                {
+                    throw new CompanyRepositoryADOException("GetCompanyByIdFromDB", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
 
 //        public IEnumerable<Company> GetCompaniesByNameFromDB(string name)
 //        {
@@ -460,31 +462,33 @@
 //            }
 //        }
 
-//        public void RemoveCompanyFromDB(int id)
-//        {
-//            MySqlConnection connection = new MySqlConnection(connectionString);
-//            string query = @"update company set visible=0 where id = @id and visible=1";
-//            using (MySqlCommand cmd = connection.CreateCommand())
-//            {
-//                try
-//                {
-//                    connection.Open();
-//                    cmd.CommandText = query;
-//                    // Parameters adden
-//                    cmd.Parameters.AddWithValue("@id", id);
-//                    // Query executen
-//                    cmd.ExecuteNonQuery();
-//                }
-//                catch (Exception ex)
-//                {
-//                    throw new CompanyRepositoryADOException("RemoveCompanyFromDB", ex);
-//                }
-//                finally
-//                {
-//                    connection.Close();
-//                }
-//            }
-//        }
+
+        public void RemoveCompanyFromDB(int id)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"update company c join address a on c.addressId = a.id set c.visible=0, a.visible=0 where c.id = @id and c.visible=1";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    // Parameters adden
+                    cmd.Parameters.AddWithValue("@id", id);
+                    // Query executen
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new CompanyRepositoryADOException("RemoveCompanyFromDB", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
 
 //        public void UpdateCompanyInDB(Company company)
 //        {
@@ -597,76 +601,80 @@
 //            }
 //        }
 
-//        public Employee GetEmployee(int iD)
-//        {
-//            MySqlConnection connection = new MySqlConnection(connectionString);
-//            string query = @"select * from Employee where id=@id AND visible = 1";
-//            using (MySqlCommand cmd = connection.CreateCommand())
-//            {
-//                try
-//                {
-//                    connection.Open();
-//                    cmd.CommandText = query;
-//                    cmd.Parameters.AddWithValue("@id", iD);
-//                    MySqlDataReader reader = cmd.ExecuteReader();
-//                    reader.Read();
-//                    int id = (int)reader["id"];
-//                    string fname = (string)reader["firstName"];
-//                    string lname = (string)reader["lastName"];
-//                    string email = null;
-//                    if (reader["email"] != DBNull.Value) email = (string)reader["email"];
-//                    string function = (string)reader["occupation"];
 
-//                    Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function);
-//                    return employee;
-//                }
-//                catch (Exception ex)
-//                {
-//                    throw new CompanyRepositoryADOException("GetEmployeeByIdFromDB", ex);
-//                }
-//                finally
-//                {
-//                    connection.Close();
-//                }
-//            }
-//        }
+        public Employee GetEmployee(int iD)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"select * from Employee where id=@id AND visible = 1";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    cmd.Parameters.AddWithValue("@id", iD);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    int id = (int)reader["id"];
+                    string fname = (string)reader["firstName"];
+                    string lname = (string)reader["lastName"];
+                    string email = null;
+                    if (reader["email"] != DBNull.Value) email = (string)reader["email"];
+                    string function = (string)reader["occupation"];
+                    int companyId = (int)reader["companyId"];
 
-//        public IReadOnlyList<Employee> GetEmployeesFromDB()
-//        {
-//            List<Employee> employees = new List<Employee>();
-//            MySqlConnection connection = new MySqlConnection(connectionString);
-//            string query = @"select * from Employee where visible = 1";
-//            using (MySqlCommand cmd = connection.CreateCommand())
-//            {
-//                try
-//                {
-//                    connection.Open();
-//                    cmd.CommandText = query;
-//                    MySqlDataReader reader = cmd.ExecuteReader();
-//                    while (reader.Read())
-//                    {
-//                        int id = (int)reader["id"];
-//                        string fname = (string)reader["firstName"];
-//                        string lname = (string)reader["lastName"];
-//                        string email = null;
-//                        if (reader["email"] != DBNull.Value) email = (string)reader["email"];
-//                        string function = (string)reader["occupation"];
+                    Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function,companyId);
+                    return employee;
+                }
+                catch (Exception ex)
+                {
+                    throw new CompanyRepositoryADOException("GetEmployeeByIdFromDB", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
 
-//                        Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function);
-//                        employees.Add(employee);
-//                    }
-//                    return employees.AsReadOnly();
-//                }
-//                catch (Exception ex)
-//                {
-//                    throw new CompanyRepositoryADOException("GetEmployeesFromDB", ex);
-//                }
-//                finally
-//                {
-//                    connection.Close();
-//                }
-//            }
-//        }
+        public IReadOnlyList<Employee> GetEmployeesFromDB()
+        {
+            List<Employee> employees = new List<Employee>();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"select * from Employee where visible = 1";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        int id = (int)reader["id"];
+                        string fname = (string)reader["firstName"];
+                        string lname = (string)reader["lastName"];
+                        int companyId = (int)reader["companyId"];
+                        string email = null;
+                        if (reader["email"] != DBNull.Value) email = (string)reader["email"];
+                        string function = (string)reader["occupation"];
+
+                        Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function,companyId);
+                        employees.Add(employee);
+                    }
+                    return employees.AsReadOnly();
+                }
+                catch (Exception ex)
+                {
+                    throw new CompanyRepositoryADOException("GetEmployeesFromDB", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
 
 //        public void RemoveEmployeeFromDB(int iD)
 //        {
@@ -771,20 +779,22 @@
 //                        if (reader["email"] != DBNull.Value) email = (string)reader["email"];
 //                        string function = (string)reader["occupation"];
 
-//                        Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function);
-//                        employees.Add(employee);
-//                    }
-//                    return employees.AsReadOnly();
-//                }
-//                catch (Exception ex)
-//                {
-//                    throw new CompanyRepositoryADOException("GetEmployeesFromCompanyIdDB", ex);
-//                }
-//                finally
-//                {
-//                    connection.Close();
-//                }
-//            }
-//        }
-//    }
-//}
+
+                        Employee employee = EmployeeFactory.MakeEmployee(id, fname, lname, email, function,companyId);
+                        employees.Add(employee);
+                    }
+                    return employees.AsReadOnly();
+                }
+                catch (Exception ex)
+                {
+                    throw new CompanyRepositoryADOException("GetEmployeesFromCompanyIdDB", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+    }
+}
+

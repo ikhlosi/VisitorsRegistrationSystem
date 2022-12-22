@@ -15,13 +15,23 @@ using System.Windows.Shapes;
 namespace VisitorsRegistrationSystemBeheerGUI.Windows
 {
     /// <summary>
-    /// Interaction logic for VisitorFormWindow.xaml
+    /// Interaction logic for ParkingDetailsFormWindow.xaml
     /// </summary>
-    public partial class VisitorFormWindow : Window
+    public partial class ParkingDetailsFormWindow : Window
     {
-        public VisitorFormWindow()
+        public ParkingDetailsFormWindow()
         {
             InitializeComponent();
+        }
+
+        private void btnOpslaan_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Not implemented yet :c");
+        }
+
+        private void btnAfsluiten_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

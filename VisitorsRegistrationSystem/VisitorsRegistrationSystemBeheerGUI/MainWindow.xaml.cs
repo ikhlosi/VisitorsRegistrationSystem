@@ -22,10 +22,10 @@ namespace VisitorsRegistrationSystemBeheerGUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow(CompanyManager cm, VisitManager vm)
+        public MainWindow(CompanyManager cm, VisitManager vm,ParkingManager pm)
         {
             InitializeComponent();
-            Application.Current.MainWindow.Content = new pageBeheer(cm, vm);
+            Application.Current.MainWindow.Content = new pageMain(cm, vm,pm);
         }
     }
 }

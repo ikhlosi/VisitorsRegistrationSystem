@@ -16,7 +16,7 @@ namespace VisitorsRegistrationSystemBL.Interfaces
         bool VisitExists(Visit visit);
         bool VisitExists(int id);
         Visit GetVisit(int id);
-        void EndVisit(string email);
+        int EndVisit(string email, DateTime endTime);
         IReadOnlyList<VisitDTO> GetVisits();
         Visitor AddVisitor(Visitor visitor);
         void RemoveVisitor(int id);
@@ -24,8 +24,9 @@ namespace VisitorsRegistrationSystemBL.Interfaces
         bool VisitorExists(Visitor visitor);
         bool VisitorExists(int id);
         Visitor GetVisitor(int id);
-        Visitor GetVisitor(string email);
         List<Visitor> GetAllVisitors();
-
+        bool VisitorExists(string email);
+        Visitor GetVisitor(string email);
+        IReadOnlyList<VisitDTO> GetVisitsByVisitorId(int visitordId);
     }
 }

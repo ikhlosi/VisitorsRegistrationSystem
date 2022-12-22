@@ -18,7 +18,7 @@ namespace TestDomain
         [Fact]
         public void EmployeeId_Valid()
         {
-            Employee employee = EmployeeFactory.MakeEmployee(1,"Arno","Vantieghem","arnovantieghem@gmail.com","tester");
+            Employee employee = EmployeeFactory.MakeEmployee(1,"Arno","Vantieghem","arnovantieghem@gmail.com","tester", null);
             Assert.Equal(1, employee.ID);
         }
         [Theory]
@@ -26,13 +26,13 @@ namespace TestDomain
         [InlineData(-1)]
         public void EmployeeId_Invalid(int id)
         {
-            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester");
+            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester", null);
             Assert.Throws<EmployeeException>(() => employee.SetId(id));
         }
         [Fact]
         public void EmployeeName_Valid()
         {
-            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester");
+            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester", null);
             Assert.Equal("Arno", employee.Name);
         }
         [Theory]
@@ -40,13 +40,13 @@ namespace TestDomain
         [InlineData(" ")]
         public void EmployeeName_Invalid(string name)
         {
-            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester");
+            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester", null);
             Assert.Throws<EmployeeException>(() => employee.SetName(name));
         }
         [Fact]
         public void EmployeeLastname_Valid()
         {
-            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester");
+            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester", null);
             Assert.Equal("Vantieghem", employee.LastName);
         }
         [Theory]
@@ -54,13 +54,13 @@ namespace TestDomain
         [InlineData(" ")]
         public void EmployeeLastName_Invalid(string lastName)
         {
-            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester");
+            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester", null);
             Assert.Throws<EmployeeException>(() => employee.SetLastName(lastName));
         }
         [Fact]
         public void EmployeeEmail_Valid()
         {
-            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester");
+            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester", null);
             Assert.Equal("arnovantieghem@gmail.com", employee.Email);
         }
         [Theory]
@@ -68,13 +68,13 @@ namespace TestDomain
         [InlineData(" ")]
         public void EmployeeEmail_Invalid(string email)
         {
-            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester");
+            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester", null);
             Assert.Throws<EmployeeException>(() => employee.SetEmail(email));
         }
         [Fact]
         public void EmployeeFunction_Valid()
         {
-            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester");
+            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester", null);
             Assert.Equal("tester", employee.Function);
         }
         [Theory]
@@ -82,7 +82,7 @@ namespace TestDomain
         [InlineData(" ")]
         public void EmployeeFunction_invalid(string function)
         {
-            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester");
+            Employee employee = EmployeeFactory.MakeEmployee(1, "Arno", "Vantieghem", "arnovantieghem@gmail.com", "tester", null);
             Assert.Throws<EmployeeException>(() => employee.SetFunction(function));
         }
     }

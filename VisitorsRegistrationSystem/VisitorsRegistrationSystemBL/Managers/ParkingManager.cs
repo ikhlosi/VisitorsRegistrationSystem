@@ -158,6 +158,19 @@ namespace VisitorsRegistrationSystemBL.Managers
                 throw new ParkingManagerException("ParkingManager - GetParkingContracts", ex);
             }
         }
+
+        public IReadOnlyList<ParkingContractDTO> GetParkingContracts(int parkingId)
+        {
+            try
+            {
+                // todo repomethode implementeren
+                return _repo.GetParkingContracts(parkingId);
+            }
+            catch (Exception ex)
+            {
+                throw new ParkingManagerException("ParkingManager - GetParkingContracts", ex);
+            }
+        }
         #endregion
 
         #region ParkingDetails
@@ -222,6 +235,19 @@ namespace VisitorsRegistrationSystemBL.Managers
             try
             {
                 return _repo.GetParkingDetails();
+            }
+            catch (Exception ex)
+            {
+                throw new ParkingManagerException("ParkingManager - GetParkingDetails", ex);
+            }
+        }
+
+        public IReadOnlyList<ParkingDetailDTO> GetParkingDetails(int parkingId)
+        {
+            try
+            {
+                // todo repomethode implementeren
+                return _repo.GetParkingDetails(parkingId);
             }
             catch (Exception ex)
             {

@@ -8,9 +8,9 @@ using VisitorsRegistrationSystemBL.Exceptions;
 
 namespace VisitorsRegistrationSystemBL.Factories {
     public static class VisitFactory {
-        public static Visit MakeVisit(int? id, Visitor visitor, Company visitedCompany, Employee visitedEmployee, DateTime startTime) {
+        public static Visit MakeVisit(int? id, Visitor visitor, Company visitedCompany, Employee visitedEmployee) {
 			try {
-				Visit v = new Visit(visitor, visitedCompany, visitedEmployee, startTime);
+				Visit v = new Visit(visitor, visitedCompany, visitedEmployee, DateTime.Now);
 				if (id.HasValue) v.SetId(id.Value);
 				return v;
 			}
@@ -20,7 +20,6 @@ namespace VisitorsRegistrationSystemBL.Factories {
 				ex.Data.Add("Visitor", visitor);
 				ex.Data.Add("VisitedCompany", visitedCompany);
 				ex.Data.Add("VisitedEmployee", visitedEmployee);
-				ex.Data.Add("StartTime", startTime);
 				throw ex;
 			}
         }
