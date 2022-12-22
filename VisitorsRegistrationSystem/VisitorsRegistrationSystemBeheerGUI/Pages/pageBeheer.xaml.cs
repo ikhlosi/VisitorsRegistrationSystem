@@ -144,6 +144,9 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             switch (CheckedRadioButton)
             {    
                 case "Bedrijven":
+                    SavedCompanyId = 0;
+                    SavedVisitorId = 0;
+                    SavedParkingId = 0;
                     IReadOnlyList<Company> companies = _cm.GetCompanies();
 
                     cmbSearchParameter.Items.Add("All");
@@ -164,6 +167,8 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     }
                     break;
                 case "Medewerkers":
+                    SavedVisitorId = 0;
+                    SavedParkingId = 0;
                     List<Employee> employees = new List<Employee>();
                     try
                     {  
@@ -191,6 +196,9 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     catch (Exception ex) { MessageBox.Show("Geen medewerkers terugevonden!"); }
                     break;
                 case "Bezoekers":
+                    SavedCompanyId = 0;
+                    SavedVisitorId = 0;
+                    SavedParkingId = 0;
                     IReadOnlyList<Visitor> visitors = _vm.GetVisitors();
 
                     cmbSearchParameter.Items.Add("All");
@@ -212,6 +220,8 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     }
                     break;
                 case "Bezoeken":
+                    SavedCompanyId = 0;
+                    SavedParkingId = 0;
                     List<VisitDTO> visits = new List<VisitDTO>();
                     try
                     {
@@ -239,6 +249,9 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     catch (Exception ex) { MessageBox.Show(ex.Message); }
                     break;
                 case "Parking":
+                    SavedCompanyId = 0;
+                    SavedVisitorId = 0;
+                    SavedParkingId = 0;
                     IReadOnlyList<ParkingDTO> parkings = _pm.GetParkings();
 
                     cmbSearchParameter.Items.Add("All");
@@ -259,6 +272,8 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     }
                     break;
                 case "ParkingDetails":
+                    SavedCompanyId = 0;
+                    SavedVisitorId = 0;
                     IReadOnlyList<ParkingDetailDTO> parkingdetails = new List<ParkingDetailDTO>();
                     try
                     {
@@ -285,6 +300,8 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     catch (Exception ex) { MessageBox.Show(ex.Message); }
                     break;
                 case "ParkingContracten":
+                    SavedCompanyId = 0;
+                    SavedVisitorId = 0;
                     IReadOnlyList<ParkingContractDTO> parkingcontracten = new List<ParkingContractDTO>();
                     try
                     {
@@ -314,9 +331,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     break;
             }
 
-            SavedCompanyId = 0;
-            SavedVisitorId = 0;
-            SavedParkingId = 0;
+            
             cmbSearchParameter.SelectedIndex = 0;
         }
 
