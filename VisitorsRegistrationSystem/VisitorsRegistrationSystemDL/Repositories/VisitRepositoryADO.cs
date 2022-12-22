@@ -218,9 +218,11 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         DateTime startTime = (DateTime)reader["vST"];
                         DateTime endTime = (DateTime)reader["vEN"];
 
+
                         Employee employee = EmployeeFactory.MakeEmployee(employeeId, employeeName, employeeLastName, employeeEmail, employeeFunction,companyId);
                         Address address = new Address(addressId, city,postalCode, street, houseNr, busNr);
                         Company company = CompanyFactory.MakeCompany(companyId, companyName, vatNo,address,telNo,companyEmail);
+
                         Visitor visitor = VisitorFactory.MakeVisitor(visitorId, visitorName, visitorEmail, visitorCompany);
                         visit = VisitFactory.MakeVisit(visitId, visitor, company, employee);
                     }
