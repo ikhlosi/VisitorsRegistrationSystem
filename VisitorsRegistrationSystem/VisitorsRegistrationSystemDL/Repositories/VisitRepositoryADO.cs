@@ -111,7 +111,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.AddWithValue("@visitorId",visit.Visitor.Id);
+                    cmd.Parameters.AddWithValue("@visitorId", visit.Visitor.Id);
                     cmd.Parameters.AddWithValue("@startTime", visit.StartTime);
                     Int64 n = (Int64)cmd.ExecuteScalar();
                     if (n > 0)
@@ -200,7 +200,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
                         Employee employee = EmployeeFactory.MakeEmployee(employeeId, employeeName, employeeLastName, employeeEmail, employeeFunction);
                         Address address = new Address(addressId, city, street, houseNr, busNr);
-                        Company company = CompanyFactory.MakeCompany(companyId, companyName, vatNo,address,telNo,companyEmail);
+                        Company company = CompanyFactory.MakeCompany(companyId, companyName, vatNo, address, telNo, companyEmail);
                         Visitor visitor = VisitorFactory.MakeVisitor(visitorId, visitorName, visitorEmail, visitorCompany);
                         visit = VisitFactory.MakeVisit(visitId, visitor, company, employee, startTime);
                     }
@@ -227,7 +227,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.AddWithValue("@email",email);
+                    cmd.Parameters.AddWithValue("@email", email);
                     cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -241,7 +241,8 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        public IReadOnlyList<VisitDTO> GetVisits() {
+        public IReadOnlyList<VisitDTO> GetVisits()
+        {
             List<VisitDTO> visits = new List<VisitDTO>();
             MySqlConnection connection = new MySqlConnection(connectionString);
             string query = @"SELECT * FROM Visit where visible = 1 order by visitId";
@@ -462,8 +463,34 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         }
 
-        public IReadOnlyList<Visit> GetVisits() {
-            throw new NotImplementedException();
+        public List<Visitor> GetAllVisitors()
+        {
+            List<Visitor> visitors = new List<Visitor>();
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string query = @"SELECT * FROM Visitor where visible = 1";
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = query;
+                    IDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        visitors.Add(VisitorFactory.MakeVisitor((int)reader["id"], (string)reader["name"], (string)reader["email"], (string)reader["visitorCompany"]));
+                    }
+                    reader.Close();
+                    return visitors;
+                }
+                catch (Exception ex)
+                {
+                    throw new VisitRepositoryADOException("GetVisitors");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
     }
 }
