@@ -200,7 +200,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         DateTime endTime = (DateTime)reader["vEN"];
 
                         Employee employee = EmployeeFactory.MakeEmployee(employeeId, employeeName, employeeLastName, employeeEmail, employeeFunction);
-                        Address address = new Address(addressId, city,postalCode, street, houseNr, busNr);
+                        Address address = new Address(addressId, city, postalCode, street, houseNr, busNr);
                         Company company = CompanyFactory.MakeCompany(companyId, companyName, vatNo, address, telNo, companyEmail);
                         Visitor visitor = VisitorFactory.MakeVisitor(visitorId, visitorName, visitorEmail, visitorCompany);
                         visit = VisitFactory.MakeVisit(visitId, visitor, company, employee, startTime);

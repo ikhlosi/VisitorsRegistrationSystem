@@ -24,6 +24,46 @@ namespace TestDomain
             Parking parking = ParkingFactory.MakeParking(1, 1, false, null, null, 1);
             Assert.Throws<ParkingException>(() => parking.SetID(id));
         }
+        [Fact]
+        public void SetID_Success()
+        {
+            Parking parkingA = ParkingFactory.MakeParking(1, 1, false, null, null, 1);
+
+            parkingA.SetID(2);
+
+            Assert.Equal(2, parkingA.ID);
+
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void SetID_ParkingException(int id)
+        {
+            Parking parkingA = ParkingFactory.MakeParking(1, 1, false, null, null, 1);
+
+            Assert.Throws<ParkingException>(() => parkingA.SetID(id));
+
+        }
+        [Fact]
+        public void SetTotalSpaces_Succes() 
+        {
+            Parking parking = ParkingFactory.MakeParking(1, 1, false, null, null, 1);
+            parking.SetTotalSpaces(1);
+            Assert.Equal(1, parking.TotalSpaces);
+        }
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void SetTotalSpaces_ParkingException(int id) 
+        {
+            Parking parking = ParkingFactory.MakeParking(1, 1, false, null, null, 1);
+            Assert.Throws<ParkingException>(() => parking.SetTotalSpaces(id));
+        }
+        
+
+
+
 
     }
 }

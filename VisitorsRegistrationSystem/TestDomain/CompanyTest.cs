@@ -19,7 +19,7 @@ namespace TestDomain
         public void SetID_Success()
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent","9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
             #endregion
             #region Act
             companyA.SetID(2);
@@ -73,7 +73,7 @@ namespace TestDomain
         public void SetVATNo_Success()
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent" , "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
             #endregion
             #region Act
             companyA.SetVATNo("BE1234567891");
@@ -110,7 +110,6 @@ namespace TestDomain
             Assert.Equal(expectedResult, companyA.Address);
             #endregion
         }
-
         [Theory]
         [InlineData(null)]
         public void SetAddress_CompanyException(Address address)

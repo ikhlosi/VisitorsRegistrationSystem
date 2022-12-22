@@ -36,7 +36,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     connection.Open();
                     cmd.CommandText = query;
                     cmd.Parameters.AddWithValue("@id", iD);
-                    
+
                     int parkingId = 0;
                     int totalSpaces = 0;
                     int occupiedSpaces = 0;
@@ -115,10 +115,10 @@ namespace VisitorsRegistrationSystemDL.Repositories
                                 busNo = (string)reader["aBu"];
                             }
 
-                            if (string.IsNullOrEmpty(busNo)) address = new Address(addressId, city,postalCode, street, houseNo, null);
-                            else address = new Address(addressId, city,postalCode, street, houseNo, busNo);
+                            if (string.IsNullOrEmpty(busNo)) address = new Address(addressId, city, postalCode, street, houseNo, null);
+                            else address = new Address(addressId, city, postalCode, street, houseNo, busNo);
                             company = CompanyFactory.MakeCompany(companyId, companyName, VAT, address, telNumber, email);
-                            parkingContract = new ParkingContract(parkingContractId, company, startDate, endDate, contractSpaces,parkingId);
+                            parkingContract = new ParkingContract(parkingContractId, company, startDate, endDate, contractSpaces, parkingId);
                             parkingContracts.Add(parkingContract);
                         }
 
@@ -130,13 +130,13 @@ namespace VisitorsRegistrationSystemDL.Repositories
                             endTime = (DateTime)reader["pdEt"];
                             licensePlate = (string)reader["pdLi"];
                             parkingDetailVisitedCompanyId = (int)reader["pdVi"];
-                            parkingDetail = new ParkingDetail(parkingDetailId, startTime, endTime, licensePlate, parkingDetailVisitedCompanyId,parkingId);
+                            parkingDetail = new ParkingDetail(parkingDetailId, startTime, endTime, licensePlate, parkingDetailVisitedCompanyId, parkingId);
                             parkingDetails.Add(parkingDetail);
                         }
 
                     }
                     // Value returnen
-                    parking = ParkingFactory.MakeParking(parkingId, occupiedSpaces, full, parkingContracts, parkingDetails,totalSpaces);
+                    parking = ParkingFactory.MakeParking(parkingId, occupiedSpaces, full, parkingContracts, parkingDetails, totalSpaces);
                     return parking;
                 }
                 catch (Exception ex)
@@ -341,8 +341,8 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         busNr = (string)reader["aBu"];
                     }
                     Address address = new Address((string)reader["aCi"], (string)reader["aPo"], (string)reader["aSt"], (string)reader["aHo"], busNr);
-                    Company company = CompanyFactory.MakeCompany((int)reader["pcCi"], (string)reader["cNa"], (string)reader["cVa"], address,(string)reader["cTe"], (string)reader["cEm"] );
-                    ParkingContract parkingContract = ParkingContractFactory.MakeParkingContract((int)reader["pcId"],company, (DateTime)reader["pcSt"], (DateTime)reader["pcEn"], (int)reader["pcSp"], (int)reader["pcPa"]);
+                    Company company = CompanyFactory.MakeCompany((int)reader["pcCi"], (string)reader["cNa"], (string)reader["cVa"], address, (string)reader["cTe"], (string)reader["cEm"]);
+                    ParkingContract parkingContract = ParkingContractFactory.MakeParkingContract((int)reader["pcId"], company, (DateTime)reader["pcSt"], (DateTime)reader["pcEn"], (int)reader["pcSp"], (int)reader["pcPa"]);
                     reader.Close();
                     return parkingContract;
                 }
@@ -468,7 +468,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         }
         #endregion
 
-        
+
         #region ParkingDetail
 
         public bool ParkingDetailExistsInDB(int id)
@@ -593,9 +593,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-            public IReadOnlyList<ParkingDetailDTO> GetParkingDetails()
-            {
-                throw new NotImplementedException();
+        public IReadOnlyList<ParkingDetailDTO> GetParkingDetails()
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }

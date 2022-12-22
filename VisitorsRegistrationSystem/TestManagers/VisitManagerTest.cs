@@ -111,7 +111,7 @@ namespace TestManagers
         {
             this._mockRepo.Setup(repoInterface => repoInterface.VisitorExists(this._visitor.Id)).Returns(true);
             var ex = Assert.Throws<VisitManagerException>(() => this._vm.AddVisitor(this._visitor));
-            Assert.Equal("VisitManager - Addvisitor - visitor has already been registered", ex.InnerException.Message);
+            Assert.Equal("VisitManager - Addvisitor - visitor has already been registered", ex.Message);
         }
 
         [Fact]
