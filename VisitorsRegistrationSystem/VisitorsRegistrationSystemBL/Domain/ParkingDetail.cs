@@ -32,11 +32,6 @@ namespace VisitorsRegistrationSystemBL.Domain
             SetVisitedCompanyID(visitedCompanyID);
             SetParkingId(parkingId);
         }
-        public int ID { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public string LicensePlate { get; set; }
-        public int VisitedCompanyID { get; set; }
 
         public void SetID(int id)
         {

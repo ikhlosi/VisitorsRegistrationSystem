@@ -5,15 +5,17 @@ namespace VisitorsRegistrationSystemBL.Domain
     public class Address
     {
         //todo POSTCODE
-        public Address(string city, string street, string houseNumber, string? busNumber) {
+        public Address(string city,string postalCode, string street, string houseNumber, string? busNumber) {
             SetCity(city);
+            SetPostalCode(postalCode);
             SetStreet(street);
             SetHouseNo(houseNumber);
             SetBusNo(busNumber);
         }
-         public Address(int id,string city, string street, string houseNumber, string? busNumber) {
+         public Address(int id,string city,string postalCode, string street, string houseNumber, string? busNumber) {
             setId(id);
             SetCity(city);
+            SetPostalCode(postalCode);
             SetStreet(street);
             SetHouseNo(houseNumber);
             SetBusNo(busNumber);
@@ -21,6 +23,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         public int Id { get; private set; }
         public string City { get; private set; }
+        public string PostalCode { get; private set; }
         public string Street { get; private set; }
         public string HouseNumber { get; private set; }
         public string BusNumber { get; private set; }
@@ -49,6 +52,11 @@ namespace VisitorsRegistrationSystemBL.Domain
             this.BusNumber = busNo;
         }
 
+        public void SetPostalCode(string postalCode)
+        {
+            if (string.IsNullOrWhiteSpace(postalCode)) throw new AddressException("Address - SetPostalCode - postal code is empty");
+            this.PostalCode = postalCode;
+        }
         public override bool Equals(object? obj) {
             return obj is Address address &&
                    City == address.City &&

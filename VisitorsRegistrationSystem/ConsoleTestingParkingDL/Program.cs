@@ -15,7 +15,7 @@ ParkingRepositoryADO pRepo = new ParkingRepositoryADO(connectionString);
 // done
 Parking parking = pRepo.GetParkingById(1);
 // done
-Parking parking1 = new Parking(0, false, null, null, 100);
+Parking parking1 = ParkingFactory.MakeParking(1,0, false, null, null, 100);
 parking1 = pRepo.WriteParkingInDB(parking1);
 Console.WriteLine(parking1);
 
@@ -40,7 +40,7 @@ foreach (ParkingDTO parkingDTO in parkingDTOs)
 }
 
 // done
-Address address = new Address(1, "Teststraat", "1", "1000", "Brussel");
+Address address = new Address(1, "Teststraat","9000", "1", "1000", "Brussel");
 Company company = CompanyFactory.MakeCompany(1, "TestCompany", "BE1234567890", address, "0479564643", "test@test.com");
 ParkingContract parkingContract = ParkingContractFactory.MakeParkingContract(null,company, DateTime.Now.AddYears(-1), DateTime.Now.AddYears(1), 10, 1);
 pRepo.WriteParkingContractInDB(parkingContract);

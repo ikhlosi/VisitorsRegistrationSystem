@@ -159,7 +159,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public Visit GetVisit(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select v.visitId as vVI, v.startTime as vST, v.endTime as vEN, vi.id as viI, vi.name as viN, vi.email as viE, vi.visitorCompany as viV, e.id as eId, e.firstName as eFN, e.lastName as eLA , e.email as eEM, e.occupation eOC, c.id cId, c.name as cNA, c.VAT as cVA, c.email as cEM, c.telNr AS cTE,a.id as aId, a.street as aST, a.houseNr as aHO, a.bus as aBU, a.city as aCI from Visit v join Visitor vi on v.visitorId = vi.id join Employee e on v.employeeId = e.id join Company c on v.companyId = c.id join Address a on c.addressId = a.id where v.visitId = @visitId and v.visible = 1";
+            string query = @"select v.visitId as vVI, v.startTime as vST, v.endTime as vEN, vi.id as viI, vi.name as viN, vi.email as viE, vi.visitorCompany as viV, e.id as eId, e.firstName as eFN, e.lastName as eLA , e.email as eEM, e.occupation eOC, c.id cId, c.name as cNA, c.VAT as cVA, c.email as cEM, c.telNr AS cTE,a.id as aId,a.postalCode as aPo, a.street as aST, a.houseNr as aHO, a.bus as aBU, a.city as aCI from Visit v join Visitor vi on v.visitorId = vi.id join Employee e on v.employeeId = e.id join Company c on v.companyId = c.id join Address a on c.addressId = a.id where v.visitId = @visitId and v.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -178,6 +178,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         string employeeFunction = (string)reader["eOC"];
                         int addressId = (int)reader["aID"];
                         string city = (string)reader["aCI"];
+                        string postalCode = (string)reader["aPO"];
                         string street = (string)reader["aST"];
                         string houseNr = (string)reader["aHO"];
                         string busNr = "";
@@ -199,7 +200,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         DateTime endTime = (DateTime)reader["vEN"];
 
                         Employee employee = EmployeeFactory.MakeEmployee(employeeId, employeeName, employeeLastName, employeeEmail, employeeFunction);
-                        Address address = new Address(addressId, city, street, houseNr, busNr);
+                        Address address = new Address(addressId, city,postalCode, street, houseNr, busNr);
                         Company company = CompanyFactory.MakeCompany(companyId, companyName, vatNo, address, telNo, companyEmail);
                         Visitor visitor = VisitorFactory.MakeVisitor(visitorId, visitorName, visitorEmail, visitorCompany);
                         visit = VisitFactory.MakeVisit(visitId, visitor, company, employee, startTime);

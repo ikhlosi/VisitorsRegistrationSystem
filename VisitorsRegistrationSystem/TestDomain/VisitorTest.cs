@@ -24,16 +24,8 @@ namespace TestDomain
         [InlineData(" ")]
         public void VisitorName_Invalid(string name)
         {
-            #region Arrange
-            Visitor v;
-            string email = "john@outlook.com";
-            #endregion
-            #region Act - Assert
-            var ex = Assert.Throws<VisitorException>(() => v = new Visitor(name, email));
-
-            Assert.Equal("Visitor - Name is null or whitespace", ex.Message);
-            //Assert.Null(v);
-            #endregion
+            Visitor visitor = VisitorFactory.MakeVisitor(1, "Tobias", "tobiaswille@hotmail.com", "CompanyTest");
+            Assert.Throws<VisitorException>(() => visitor.SetName(name));
         }
         [Fact]
         public void VisitorEmail_Valid()
