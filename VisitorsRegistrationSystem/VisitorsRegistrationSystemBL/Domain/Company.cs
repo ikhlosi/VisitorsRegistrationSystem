@@ -38,7 +38,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         internal void SetVATNo(string vatNum) {
             if (string.IsNullOrWhiteSpace(vatNum)) throw new CompanyException("Company - SetVATNo - VAT number is empty");
-            // TODO: Checker class  - VAT number check
+            if (!VATChecker.IsValid(vatNum)) throw new CompanyException("Company - SetVATNo - invalid VAT number");
             this.VATNumber = vatNum;
         }
 
