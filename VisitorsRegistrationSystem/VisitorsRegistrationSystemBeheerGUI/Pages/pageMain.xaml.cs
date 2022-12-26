@@ -23,38 +23,40 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
     {
         private readonly CompanyManager _cm;
         private readonly VisitManager _vm;
+        private readonly ParkingManager _pm;
 
-        public pageMain(CompanyManager cm, VisitManager vm)
+        public pageMain(CompanyManager cm, VisitManager vm, ParkingManager pm)
         {
             _cm = cm;
             _vm = vm;
+            _pm = pm;
             InitializeComponent();
         }
 
         private void btnBedrijven_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Content = new pageBeheer(_cm, _vm, 0);
+            Application.Current.MainWindow.Content = new pageBeheer(_cm, _vm,_pm, 0);
         }
 
         private void btnWerknemers_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Content = new pageBeheer(_cm, _vm, 1);
+            Application.Current.MainWindow.Content = new pageBeheer(_cm, _vm, _pm, 1);
         }
 
         private void btnBezoekers_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Content = new pageBeheer(_cm, _vm, 2);
+            Application.Current.MainWindow.Content = new pageBeheer(_cm, _vm, _pm, 2);
         }
 
         private void btnBezoeken_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Content = new pageBeheer(_cm, _vm, 3);
+            Application.Current.MainWindow.Content = new pageBeheer(_cm, _vm, _pm, 3);
         }
 
         private void btnParking_Click(object sender, RoutedEventArgs e)
         {
             //posible background for button: #A73A17
-            //Application.Current.MainWindow.Content = new pageBeheer(_cm, _vm, 4);
+            Application.Current.MainWindow.Content = new pageBeheer(_cm, _vm, _pm, 4);
         }
     }
 }

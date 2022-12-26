@@ -11,9 +11,6 @@ namespace VisitorsRegistrationSystemBL.Managers {
         public void AddCompany(Company company) {
             if (company == null) {
                 throw new CompanyException("CompanyManager - AddCompany - company is null.");
-                //CompanyException ex = new CompanyException("CompanyManager - AddCompany - company is null.");
-                //ex.Data.Add("Company", company);
-                //throw ex;
             }
             try {
                 if (_repo.CompanyExistsInDB(company)) throw new CompanyException("CompanyManager - AddCompany - company already exists in DB.");

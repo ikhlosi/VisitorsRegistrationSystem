@@ -15,7 +15,7 @@ namespace TestDomain
         [Fact]
         public void SetCity_valid()
         {
-            Address address = new Address("Gent", "9000", "sleepstraat","5",null);
+            Address address = new Address("Gent", "9000", "sleepstraat", "5", null);
             address.SetCity("Gent");
             Assert.Equal("Gent", address.City);
         }
@@ -29,7 +29,7 @@ namespace TestDomain
 
 
         }
-            [Fact]
+        [Fact]
         public void SetStreet_valid()
         {
             Address address = new Address("Gent", "9000", "sleepstraat", "5", null);
@@ -70,8 +70,8 @@ namespace TestDomain
             address.SetBusNo("505");
             Assert.Equal("505", address.BusNumber);
         }
-       
-       
+
+
 
     }
 }

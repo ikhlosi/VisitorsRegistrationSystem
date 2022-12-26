@@ -21,6 +21,10 @@
             <RadioButton x:Name="rbMedewerkers" Content="Medewerkers" Style="{StaticResource FilterButtonTheme}"/>
             <RadioButton x:Name="rbBezoekers" Content="Bezoekers" Style="{StaticResource FilterButtonTheme}"/>
             <RadioButton x:Name="rbBezoeken" Content="Bezoeken" Style="{StaticResource FilterButtonTheme}"/>
+            <RadioButton x:Name="rbParking" Content="Parking" Style="{StaticResource FilterButtonTheme}"/>
+            <RadioButton x:Name="rbParkingDetails" Content="ParkingDetails" Style="{StaticResource FilterButtonTheme}"/>
+            <RadioButton x:Name="rbParkingContracten" Content="ParkingContracten" Style="{StaticResource FilterButtonTheme}"/>
+
         </StackPanel>
 
         <Grid Grid.Row="2" >
