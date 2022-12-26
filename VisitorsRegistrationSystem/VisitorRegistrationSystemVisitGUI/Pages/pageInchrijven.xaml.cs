@@ -62,7 +62,9 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
                 _vm.AddVisit(visit);
                 Application.Current.MainWindow.Content = new PageInschrijvenSucces(_cm, _vm);
             } catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+                var cmb = new CustomMessageBox("Error Bericht",ex.Message);
+                cmb.ShowDialog();
+                //MessageBox.Show(ex.Message);
             }
 
             // todo: btnInschrijven enkel klikbaar wanneer alles (correct) ingevuld

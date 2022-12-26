@@ -133,7 +133,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public Company GetCompanyByIdFromDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select c.id,name,VAT,email,telNr, city, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.id = @id and c.visible = 1";
+            string query = @"select c.id,name,VAT,email,telNr, city, postalCode, street, houseNr, bus from Company c join Address a on c.addressId = a.id where c.id = @id and c.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -464,7 +464,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void RemoveCompanyFromDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update company c join address a on c.addressId = a.id set c.visible=0, a.visible=0 where c.id = @id and c.visible=1";
+            string query = @"UPDATE company c JOIN address a ON c.addressId = a.id SET c.visible=0, a.visible=0 WHERE c.id = @id AND c.visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -490,7 +490,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void UpdateCompanyInDB(Company company)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"UPDATE Company set name = @name, VAT = @VAT, email = @email, telNr = @telNr ,addressId = @addressId where id = @id;";
+            string query = @"UPDATE company c JOIN address a ON c.addressId = a.id SET c.name = @name, c.VAT = @VAT, c.email = @email, c.telNr = @telNr, a.street = @street, a.houseNr = @houseNr, a.bus = @bus, a.postalCode = @postCode, a.city = @city WHERE c.id = @id;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -502,8 +502,13 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     cmd.Parameters.AddWithValue("@VAT",company.VATNumber);
                     cmd.Parameters.AddWithValue("@email", company.Email);
                     cmd.Parameters.AddWithValue("@telNr", company.TelephoneNumber);
-                    cmd.Parameters.AddWithValue("@addressId", company.Address.Id);
+                    cmd.Parameters.AddWithValue("@street", company.Address.Street);
+                    cmd.Parameters.AddWithValue("@houseNr", company.Address.HouseNumber);
+                    cmd.Parameters.AddWithValue("@bus", company.Address.BusNumber);
+                    cmd.Parameters.AddWithValue("@postCode", company.Address.Postcode);
+                    cmd.Parameters.AddWithValue("@city", company.Address.City);
                     cmd.Parameters.AddWithValue("@id", company.ID);
+
                     // Query executen
                     cmd.ExecuteNonQuery();
                 }

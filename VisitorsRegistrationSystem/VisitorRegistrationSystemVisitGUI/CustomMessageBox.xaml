@@ -9,18 +9,53 @@
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"  WindowStartupLocation="CenterScreen">
     <Grid>
         <Border CornerRadius="5" BorderThickness="1" Background="GhostWhite" BorderBrush="LightGray">
-            <Grid Margin="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="30"/>
-                </Grid.RowDefinitions>
-                
-                <GroupBox Grid.Row="0" x:Name="gbGroupBox" Header="Title: Leeg">
-                    <TextBlock x:Name="tbTextContent" Text="Text: Leeg"/>
+            <Grid Margin="5,0,5,6">
+                <GroupBox Grid.Row="0" x:Name="gbGroupBox" BorderThickness="0.8" BorderBrush="Red" Header="Error Boodschap" Foreground="Red">
+                    <StackPanel>
+                        <TextBlock x:Name="tbTextContent" Text="Dit is mijn Text" Foreground="Black" FontSize="10" Margin="5,5,0,0" Height="44"/>
+                        <StackPanel x:Name="stButtonStackPanel" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button x:Name="btnOK" Content="OK" Width="50" Foreground="DarkGreen" Background="White" Click="btnOK_Click">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="10"></Setter>
+                                    </Style>
+                                </Button.Resources>
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="BorderBrush" Value="LightGray" />
+                                        <Setter Property="BorderThickness" Value="1" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                                                        <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsDefaulted" Value="true">
+                                                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsMouseOver" Value="true">
+                                                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="White"/>
+                                                            <Setter Property="Background" TargetName="border" Value="DarkGreen"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="true">
+                                                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="White"/>
+                                                            <Setter Property="Background" TargetName="border" Value="DarkGreen"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsEnabled" Value="false">
+                                                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="White"/>
+                                                            <Setter Property="Background" TargetName="border" Value="DarkGreen"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
                 </GroupBox>
-
-                <StackPanel x:Name="stButtonStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1">
-                </StackPanel>
             </Grid>
         </Border>
     </Grid>

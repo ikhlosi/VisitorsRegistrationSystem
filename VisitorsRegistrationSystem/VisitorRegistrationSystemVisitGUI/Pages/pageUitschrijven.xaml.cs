@@ -41,8 +41,10 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
                 _vm.EndVisit(visitorEmail, endTime);
                 Application.Current.MainWindow.Content = new pageUitschrijvenSucces(_cm, _vm);
             }
-            catch (Exception ve) {
-                MessageBox.Show(ve.InnerException.Message);
+            catch (Exception ex) {
+                var cmb = new CustomMessageBox("Error Bericht", ex.Message);
+                cmb.ShowDialog();
+                //MessageBox.Show(ve.InnerException.Message);
             }
         }
 

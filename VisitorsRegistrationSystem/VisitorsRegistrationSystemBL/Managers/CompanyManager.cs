@@ -40,7 +40,7 @@ namespace VisitorsRegistrationSystemBL.Managers {
             try {
                 if (!_repo.CompanyExistsInDB(company.ID)) throw new CompanyException("CompanyManager - UpdateCompany - company does not exist in DB.");
                 Company companyDb = _repo.GetCompanyByIdFromDB(company.ID);
-                if (companyDb.IsSame(company)) throw new CompanyException("CompanyManager - UpdateCompany - fields are the same, nothing to update.");
+                if (companyDb.IsSame(company) && companyDb.Address.Equals(company.Address)) throw new CompanyException("CompanyManager - UpdateCompany - fields are the same, nothing to update.");
                 _repo.UpdateCompanyInDB(company);
             }
             catch (Exception ex) {

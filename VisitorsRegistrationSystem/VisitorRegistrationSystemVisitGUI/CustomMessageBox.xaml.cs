@@ -19,14 +19,23 @@ namespace VisitorRegistrationSystemVisitGUI
     /// </summary>
     public partial class CustomMessageBox : Window
     {
-        public new string Title { get; set; }
-        public string Message { get; set; }
 
         public CustomMessageBox(string title, string message)
         {
             InitializeComponent();
-            Title = title;
-            Message = message;
+            gbGroupBox.Header = title;
+            tbTextContent.Text = message;
+        }
+
+        private void btnOK_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            this.DragMove();
         }
     }
 }
