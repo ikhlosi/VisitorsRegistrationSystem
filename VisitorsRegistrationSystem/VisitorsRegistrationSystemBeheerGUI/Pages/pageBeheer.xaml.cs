@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using Castle.Components.DictionaryAdapter.Xml;
+using Microsoft.VisualBasic;
 using Sprache;
 using System;
 using System.CodeDom;
@@ -147,25 +148,29 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     SavedCompanyId = 0;
                     SavedVisitorId = 0;
                     SavedParkingId = 0;
-                    IReadOnlyList<Company> companies = _cm.GetCompanies();
-
-                    cmbSearchParameter.Items.Add("All");
-                    foreach (string param in companies[0].GetType().GetProperties().Select(x => x.Name).ToList())
+                    try
                     {
-                        cmbSearchParameter.Items.Add(CompanyParameterDictionary[param]);
+                        IReadOnlyList<Company> companies = _cm.GetCompanies();
 
-                        DataGridTextColumn textColumn = new DataGridTextColumn();
-                        textColumn.Header = CompanyParameterDictionary[param];
-                        textColumn.Binding = new Binding(param);
-                        dgDataTable.Columns.Add(textColumn);
-                    }
-                    AddActionButtonsColumn(true, false,false,false);
+                        cmbSearchParameter.Items.Add("All");
+                        foreach (string param in companies[0].GetType().GetProperties().Select(x => x.Name).ToList())
+                        {
+                            cmbSearchParameter.Items.Add(CompanyParameterDictionary[param]);
 
-                    foreach (object item in companies)
-                    {
-                        dgDataTable.Items.Add(item);
+                            DataGridTextColumn textColumn = new DataGridTextColumn();
+                            textColumn.Header = CompanyParameterDictionary[param];
+                            textColumn.Binding = new Binding(param);
+                            dgDataTable.Columns.Add(textColumn);
+                        }
+                        AddActionButtonsColumn(true, false, false, false);
+
+                        foreach (object item in companies)
+                        {
+                            dgDataTable.Items.Add(item);
+                        }
                     }
-                    break;
+                    catch (Exception ex) { MessageBox.Show("Geen bedrijven teruggevonden!"); }
+                        break;
                 case "Medewerkers":
                     SavedVisitorId = 0;
                     SavedParkingId = 0;
@@ -199,25 +204,29 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     SavedCompanyId = 0;
                     SavedVisitorId = 0;
                     SavedParkingId = 0;
-                    IReadOnlyList<Visitor> visitors = _vm.GetVisitors();
-
-                    cmbSearchParameter.Items.Add("All");
-                    foreach (string param in visitors[0].GetType().GetProperties().Select(x => x.Name).ToList())
+                    try
                     {
-                        cmbSearchParameter.Items.Add(VisitorParameterDictionary[param]);
+                        IReadOnlyList<Visitor> visitors = _vm.GetVisitors();
 
-                        DataGridTextColumn textColumn = new DataGridTextColumn();
-                        textColumn.Header = VisitorParameterDictionary[param];
-                        textColumn.Binding = new Binding(param);
-                        dgDataTable.Columns.Add(textColumn);
+                        cmbSearchParameter.Items.Add("All");
+                        foreach (string param in visitors[0].GetType().GetProperties().Select(x => x.Name).ToList())
+                        {
+                            cmbSearchParameter.Items.Add(VisitorParameterDictionary[param]);
+
+                            DataGridTextColumn textColumn = new DataGridTextColumn();
+                            textColumn.Header = VisitorParameterDictionary[param];
+                            textColumn.Binding = new Binding(param);
+                            dgDataTable.Columns.Add(textColumn);
+                        }
+
+                        AddActionButtonsColumn(false, true, false, false);
+
+                        foreach (object item in visitors)
+                        {
+                            dgDataTable.Items.Add(item);
+                        }
                     }
-
-                    AddActionButtonsColumn(false, true, false, false);
-
-                    foreach (object item in visitors)
-                    {
-                        dgDataTable.Items.Add(item);
-                    }
+                    catch (Exception ex) { MessageBox.Show("Geen bezoekers terugevonden!"); }
                     break;
                 case "Bezoeken":
                     SavedCompanyId = 0;
@@ -246,30 +255,33 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                             dgDataTable.Items.Add(item);
                         }
                     }
-                    catch (Exception ex) { MessageBox.Show(ex.Message); }
+                    catch (Exception ex) { MessageBox.Show("Geen bezoeken teruggevonden!"); }
                     break;
                 case "Parking":
                     SavedCompanyId = 0;
                     SavedVisitorId = 0;
                     SavedParkingId = 0;
-                    IReadOnlyList<ParkingDTO> parkings = _pm.GetParkings();
-
-                    cmbSearchParameter.Items.Add("All");
-                    foreach (string param in parkings[0].GetType().GetProperties().Select(x => x.Name).ToList())
+                    try
                     {
-                        cmbSearchParameter.Items.Add(ParkingParameterDictionary[param]);
+                        IReadOnlyList<ParkingDTO> parkings = _pm.GetParkings();
 
-                        DataGridTextColumn textColumn = new DataGridTextColumn();
-                        textColumn.Header = ParkingParameterDictionary[param];
-                        textColumn.Binding = new Binding(param);
-                        dgDataTable.Columns.Add(textColumn);
-                    }
-                    AddActionButtonsColumn(false, false,true,true);
+                        cmbSearchParameter.Items.Add("All");
+                        foreach (string param in parkings[0].GetType().GetProperties().Select(x => x.Name).ToList())
+                        {
+                            cmbSearchParameter.Items.Add(ParkingParameterDictionary[param]);
 
-                    foreach (object item in parkings)
-                    {
-                        dgDataTable.Items.Add(item);
-                    }
+                            DataGridTextColumn textColumn = new DataGridTextColumn();
+                            textColumn.Header = ParkingParameterDictionary[param];
+                            textColumn.Binding = new Binding(param);
+                            dgDataTable.Columns.Add(textColumn);
+                        }
+                        AddActionButtonsColumn(false, false, true, true);
+
+                        foreach (object item in parkings)
+                        {
+                            dgDataTable.Items.Add(item);
+                        }
+                    } catch (Exception ex){ MessageBox.Show("Geen parkings terugevonden!"); }
                     break;
                 case "ParkingDetails":
                     SavedCompanyId = 0;
@@ -297,7 +309,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                             dgDataTable.Items.Add(item);
                         }
                     }
-                    catch (Exception ex) { MessageBox.Show(ex.Message); }
+                    catch (Exception ex) { MessageBox.Show("Geen parkingdetails teruggevonden!"); }
                     break;
                 case "ParkingContracten":
                     SavedCompanyId = 0;
@@ -325,7 +337,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                             dgDataTable.Items.Add(item);
                         }
                     }
-                    catch (Exception ex) { MessageBox.Show(ex.Message); }
+                    catch (Exception ex) { MessageBox.Show("Geen parkingcontracten teruggevonden!"); }
                     break;
                 default:
                     break;
@@ -369,18 +381,18 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     rbParking.IsChecked = false;
                     rbParking.IsChecked = true;
                     break;
-                //case "ParkingDetails":
-                //    ParkingDetailsFormWindow pdfw = new ParkingDetailsFormWindow(_pm);
-                //    pdfw.ShowDialog();
-                //    rbParkingDetails.IsChecked = false;
-                //    rbParkingDetails.IsChecked = true;
-                //    break;
-                //case "ParkingContracten":
-                //    ParkingContractenFormWindow pcfw = new ParkingContractenFormWindow(_pm);
-                //    pcfw.ShowDialog();
-                //    rbParkingContracten.IsChecked = false;
-                //    rbParkingContracten.IsChecked = true;
-                //    break;
+                case "ParkingDetails":
+                    ParkingDetailsFormWindow pdfw = new ParkingDetailsFormWindow(_pm);
+                    pdfw.ShowDialog();
+                    rbParkingDetails.IsChecked = false;
+                    rbParkingDetails.IsChecked = true;
+                    break;
+                case "ParkingContracten":
+                    ParkingContractenFormWindow pcfw = new ParkingContractenFormWindow(_pm,_cm);
+                    pcfw.ShowDialog();
+                    rbParkingContracten.IsChecked = false;
+                    rbParkingContracten.IsChecked = true;
+                    break;
                 default:
                     break;
             }
@@ -421,6 +433,18 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     rbParking.IsChecked = false;
                     rbParking.IsChecked = true;
                     break;
+                case nameof(ParkingContractDTO):
+                    ParkingContractenFormWindow pkcfw = new ParkingContractenFormWindow(_pm,_cm, (ParkingContractDTO)dgDataTable.SelectedValue);
+                    pkcfw.ShowDialog();
+                    rbParkingContracten.IsChecked = false;
+                    rbParkingContracten.IsChecked = true;
+                    break;
+                case nameof(ParkingDetailDTO):
+                    ParkingDetailsFormWindow pkdfw = new ParkingDetailsFormWindow(_pm, (ParkingDetailDTO)dgDataTable.SelectedValue);
+                    pkdfw.ShowDialog();
+                    rbParkingDetails.IsChecked = false;
+                    rbParkingDetails.IsChecked = true;
+                    break;
                 default:
                     break;
             }
@@ -454,6 +478,24 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                         rbBezoeken.IsChecked = false;
                         rbBezoeken.IsChecked = true;
                         break;
+                    case nameof(ParkingDTO):
+                        ParkingDTO pDTO = ((ParkingDTO)dgDataTable.SelectedValue);
+                        _pm.RemoveParking(pDTO.ID);
+                        rbParking.IsChecked = false;
+                        rbParking.IsChecked = true;
+                        break;
+                    case nameof(ParkingDetailDTO):
+                        ParkingDetailDTO pdDTO = ((ParkingDetailDTO)dgDataTable.SelectedValue);
+                        _pm.RemoveParkingDetail(pdDTO.Id);
+                        rbParkingDetails.IsChecked = false;
+                        rbParkingDetails.IsChecked = true;
+                        break;
+                    case nameof(ParkingContractDTO):
+                        ParkingContractDTO pcDTO = ((ParkingContractDTO)dgDataTable.SelectedValue);
+                        _pm.RemoveParkingContract(pcDTO.Id);
+                        rbParkingContracten.IsChecked = false;
+                        rbParkingContracten.IsChecked = true;
+                        break;
                     default:
                         break;
                 }
@@ -470,6 +512,18 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
         {
             SavedVisitorId = ((Visitor)dgDataTable.SelectedValue).Id;
             ((RadioButton)stpFilterRadioButtons.Children[3]).IsChecked = true;
+        }
+
+        private void ParkingDetailButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            SavedParkingId = ((ParkingDTO)dgDataTable.SelectedValue).ID;
+            ((RadioButton)stpFilterRadioButtons.Children[6]).IsChecked = true;
+        }
+        
+        private void ParkingContractButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            SavedParkingId = ((ParkingDTO)dgDataTable.SelectedValue).ID;
+            ((RadioButton)stpFilterRadioButtons.Children[5]).IsChecked = true;
         }
 
         private void cmbSearchParameter_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -526,6 +580,14 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                 case "VISIT_ACTION":
                     btn.SetValue(Button.BackgroundProperty, new SolidColorBrush(Colors.LightSalmon));
                     btn.AddHandler(Button.ClickEvent, new RoutedEventHandler(VisitButton_OnClick));
+                    break;
+                case "DETAIL_ACTION":
+                    btn.SetValue(Button.BackgroundProperty, new SolidColorBrush(Colors.LightBlue));
+                    btn.AddHandler(Button.ClickEvent, new RoutedEventHandler(ParkingDetailButton_OnClick));
+                    break;
+                case "CONTRACT_ACTION":
+                    btn.SetValue(Button.BackgroundProperty, new SolidColorBrush(Colors.LightSalmon));
+                    btn.AddHandler(Button.ClickEvent, new RoutedEventHandler(ParkingContractButton_OnClick));
                     break;
                 default:
                     break;
