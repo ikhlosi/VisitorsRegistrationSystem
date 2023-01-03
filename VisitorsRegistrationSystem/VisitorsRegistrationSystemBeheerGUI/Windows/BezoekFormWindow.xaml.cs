@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.DTO;
+using VisitorsRegistrationSystemBL.Factories;
 using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorsRegistrationSystemBeheerGUI.Windows
@@ -24,6 +25,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
     {
         CompanyManager _cm;
         VisitManager _vm;
+        private VisitDTO _visit;
 
         public BezoekFormWindow(CompanyManager cm, VisitManager vm)
         {
@@ -33,12 +35,14 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
 
             cmbBezoeker.ItemsSource = _vm.GetVisitors();
             cmbBedrijf.ItemsSource = _cm.GetCompanies();
+            
         }
 
         public BezoekFormWindow(CompanyManager cm, VisitManager vm, VisitDTO visit)
         {
             _cm= cm;
             _vm= vm;
+            _visit = visit;
             InitializeComponent();
 
             cmbBezoeker.ItemsSource = _vm.GetVisitors();
@@ -60,7 +64,22 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
 
         private void btnOpslaan_Click(object sender, RoutedEventArgs e)
         {
+            Visitor visitor = (Visitor)cmbBezoeker.SelectedItem;
+            Company company = (Company)cmbBedrijf.SelectedItem;
+            Employee employee = (Employee)cmbMedewerker.SelectedItem;
 
+            if (_visit != null)
+            {
+                Visit visit = VisitFactory.MakeVisit(_visit.visitId, visitor, company, employee);
+                _vm.UpdateVisit(visit);
+                MessageBox.Show("Bezoek is Bijgewerkt!");
+            }
+            else
+            {
+                _vm.AddVisit(VisitFactory.MakeVisit(null, visitor, company, employee));
+                MessageBox.Show("Bezoek is Toegevoegd!");
+            }
+            this.Close();
         }
 
         private void btnAfsluiten_Click(object sender, RoutedEventArgs e)

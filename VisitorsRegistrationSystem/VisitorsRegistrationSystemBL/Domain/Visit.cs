@@ -21,7 +21,7 @@ namespace VisitorsRegistrationSystemBL.Domain
         public Visitor Visitor { get; private set; }
         public Company VisitedCompany { get; private set; }
         public Employee VisitedEmployee { get; private set; }
-        public DateTime StartTime { get; private set; }
+        public DateTime StartTime { get; set; }
        
         internal void SetVisitor(Visitor visitor)
         {
