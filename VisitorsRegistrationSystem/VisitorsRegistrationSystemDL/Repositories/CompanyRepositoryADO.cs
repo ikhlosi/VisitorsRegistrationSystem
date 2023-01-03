@@ -502,7 +502,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     cmd.Parameters.AddWithValue("@street", company.Address.Street);
                     cmd.Parameters.AddWithValue("@houseNr", company.Address.HouseNumber);
                     cmd.Parameters.AddWithValue("@bus", company.Address.BusNumber);
-                    cmd.Parameters.AddWithValue("@postCode", company.Address.Postcode);
+                    cmd.Parameters.AddWithValue("@postCode", company.Address.PostalCode);
                     cmd.Parameters.AddWithValue("@city", company.Address.City);
                     cmd.Parameters.AddWithValue("@id", company.ID);
 
@@ -702,7 +702,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void UpdateEmployeeInDB(Employee employee, Company company)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update Employee set firstName=@name, lastName=@lastname, email=@email, occupation=@function,companyId = @companyId, where id=@id;";
+            string query = @"update Employee set firstName=@name, lastName=@lastname, email=@email, occupation=@function,companyId = @companyId where id=@id;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try

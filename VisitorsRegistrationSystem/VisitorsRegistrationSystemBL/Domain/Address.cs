@@ -27,8 +27,6 @@ namespace VisitorsRegistrationSystemBL.Domain
         public string Street { get; private set; }
         public string HouseNumber { get; private set; }
         public string BusNumber { get; private set; }
-        public string Postcode { get; private set; }
-
         public void SetCity(string city) {
             if (string.IsNullOrWhiteSpace(city)) throw new AddressException("Address - SetCity - city is empty");
             this.City = city;
@@ -72,8 +70,8 @@ namespace VisitorsRegistrationSystemBL.Domain
         {
             if (string.IsNullOrWhiteSpace(BusNumber))
             {
-                return $"{Street} {HouseNumber}, 9000 {City}";
-            } else return $"{Street} {HouseNumber}/{BusNumber}, 9000 {City}";
+                return $"{Street} {HouseNumber} {PostalCode} {City}";
+            } else return $"{Street} {HouseNumber}/{BusNumber} {PostalCode} {City}";
         }
     }
 }

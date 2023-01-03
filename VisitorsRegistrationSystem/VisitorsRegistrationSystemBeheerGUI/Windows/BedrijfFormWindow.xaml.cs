@@ -48,7 +48,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
             txtbStraat.Text = c.Address.Street;
             txtbHuisnummer.Text = c.Address.HouseNumber;
             txtbBusnummer.Text = c.Address.BusNumber;
-            txtbPostcode.Text = c.Address.Postcode;
+            txtbPostcode.Text = c.Address.PostalCode;
             txtbGemeente.Text = c.Address.City;
         }
 
