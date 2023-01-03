@@ -45,6 +45,8 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
 
         public void InitializeData(Employee e)
         {
+            cmbBedrijf.SelectedValuePath = "ID";
+            cmbBedrijf.SelectedValue = e.CompanyId;
             txtbVoornaam.Text = e.Name;
             txtbAchternaam.Text = e.LastName;
             txtbEmail.Text = e.Email;

@@ -62,7 +62,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
             else
             {
                 _cm.AddCompany(CompanyFactory.MakeCompany(null, txtbNaam.Text, txtbVAT.Text, new Address(txtbGemeente.Text,txtbPostcode.Text, txtbStraat.Text, txtbHuisnummer.Text, txtbBusnummer.Text), txtbTelNr.Text, txtbEmail.Text));
-                MessageBox.Show("Bedrijf is Toegevoegd!");
+                MessageBox.Show("Bedrijf is Toegevoegd!"); 
             }
 
             this.Close();
