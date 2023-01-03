@@ -52,7 +52,7 @@ namespace VisitorsRegistrationSystemBL.Domain {
         public bool IsSame(Employee otherEmployee) 
         {
             if (otherEmployee == null) throw new EmployeeException("Employee - IsSame - argument is null");
-            return (this.ID == otherEmployee.ID) && (this.Name == otherEmployee.Name) && (this.LastName == otherEmployee.LastName) && (this.Email == otherEmployee.Email) && (this.Function == otherEmployee.Function);
+            return (this.ID == otherEmployee.ID) && (this.Name == otherEmployee.Name) && (this.LastName == otherEmployee.LastName) && (this.Email == otherEmployee.Email) && (this.Function == otherEmployee.Function) && (this.CompanyId == otherEmployee.CompanyId);
         }
         
         public override bool Equals(object? obj)
