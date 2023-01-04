@@ -47,7 +47,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
         private Dictionary<string, string> CompanyParameterDictionary = new Dictionary<string, string> { { "ID", "Id" }, { "Name", "Naam" }, { "VATNumber", "Ondernemingsnummer" }, { "Address", "Adres" }, { "TelephoneNumber", "Telefoonnummer" }, { "Email", "Email" } };
         private Dictionary<string, string> EmployeeParameterDictionary = new Dictionary<string, string> { { "ID", "Id" }, { "Name", "Voornaam" }, { "LastName", "Achternaam" }, { "Email", "Email" }, { "Function", "Functie" }, { "CompanyId", "Bedrijf" } };
         private Dictionary<string, string> VisitorParameterDictionary = new Dictionary<string, string> { { "Id", "Id" }, { "Name", "Naam" }, { "Email", "Email" }, { "VisitorCompany", "Bedrijf" } };
-        private Dictionary<string, string> VisitParameterDictionary = new Dictionary<string, string> { { "visitId", "Id" }, { "visitorId", "Bezoeker" }, { "companyId", "Bezochte Bedrijf" }, { "employeeId", "Bezochte Werknemer" }, { "startTime", "Start Bezoek" }, { "endTime", "Eind Bezoek" } };
+        private Dictionary<string, string> VisitParameterDictionary = new Dictionary<string, string> { { "visitId", "Id" }, { "visitor", "Bezoeker" }, { "company", "Bezochte Bedrijf" }, { "employee", "Bezochte Werknemer" }, { "startTime", "Start Bezoek" }, { "endTime", "Eind Bezoek" } };
         private Dictionary<string, string> ParkingParameterDictionary = new Dictionary<string, string> { { "ID", "Id" }, { "totalSpaces", "Aantal Plaatsen" }, { "occupiedSpaces", "Bezette Plaatsen" } };
         private Dictionary<string, string> ParkingDetailParameterDictionary = new Dictionary<string, string> { { "Id", "Id" }, { "StartTime", "Start Parking" }, { "EndTime", "Einde Parking" }, { "LicensePlate", "Nummerplaat" }, { "VisitedCompanyId", "Bezocht bedrijf" }, { "ParkingId", "Parking" } };
         private Dictionary<string, string> ParkingContractParameterDictionary = new Dictionary<string, string> { { "Id", "Id" }, { "CompanyId", "Bedrijf" }, { "Spaces", "Gereserveerde Plaatsen" }, { "StartDate", "Start Datum" }, { "EndDate", "Eind Datum" }, { "ParkingId", "Parking" } };
@@ -142,6 +142,8 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             dgDataTable.Items.Clear();
 
             CheckedRadioButton = ((RadioButton)sender).Content.ToString();
+            btnToevoegen.IsEnabled = true;
+
             switch (CheckedRadioButton)
             {    
                 case "Bedrijven":
@@ -162,7 +164,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                             textColumn.Binding = new Binding(param);
                             dgDataTable.Columns.Add(textColumn);
                         }
-                        AddActionButtonsColumn(true, false, false, false);
+                        AddActionButtonsColumn(true, false, false, false, true);
 
                         foreach (object item in companies)
                         {
@@ -191,7 +193,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                             dgDataTable.Columns.Add(textColumn);
                         }
 
-                        AddActionButtonsColumn(false, false, false, false);
+                        AddActionButtonsColumn(false, false, false, false, true);
 
                         foreach (object item in employees)
                         {
@@ -219,7 +221,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                             dgDataTable.Columns.Add(textColumn);
                         }
 
-                        AddActionButtonsColumn(false, true, false, false);
+                        AddActionButtonsColumn(false, true, false, false, true);
 
                         foreach (object item in visitors)
                         {
@@ -248,8 +250,9 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                             dgDataTable.Columns.Add(textColumn);
                         }
 
-                        AddActionButtonsColumn(false, false, false, false);
-                         
+                        AddActionButtonsColumn(false, false, false, false, false);
+                        btnToevoegen.IsEnabled = false;
+
                         foreach (object item in visits)
                         {
                             dgDataTable.Items.Add(item);
@@ -275,7 +278,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                             textColumn.Binding = new Binding(param);
                             dgDataTable.Columns.Add(textColumn);
                         }
-                        AddActionButtonsColumn(false, false, true, true);
+                        AddActionButtonsColumn(false, false, true, true, true);
 
                         foreach (object item in parkings)
                         {
@@ -302,7 +305,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                             textColumn.Binding = new Binding(param);
                             dgDataTable.Columns.Add(textColumn);
                         }
-                        AddActionButtonsColumn(false, false, false, false);
+                        AddActionButtonsColumn(false, false, false, false, true);
 
                         foreach (object item in parkingdetails)
                         {
@@ -330,7 +333,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                             textColumn.Binding = new Binding(param);
                             dgDataTable.Columns.Add(textColumn);
                         }
-                        AddActionButtonsColumn(false, false, false, false);
+                        AddActionButtonsColumn(false, false, false, false, true);
 
                         foreach (object item in parkingcontracten)
                         {
@@ -459,9 +462,12 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                 switch (typeName)
                 {
                     case nameof(Company):
-                        _cm.RemoveCompany((Company)dgDataTable.SelectedValue);
-                        rbBedrijven.IsChecked = false;
-                        rbBedrijven.IsChecked = true;
+                        try
+                        {
+                            _cm.RemoveCompany((Company)dgDataTable.SelectedValue);
+                            rbBedrijven.IsChecked = false;
+                            rbBedrijven.IsChecked = true;
+                        } catch (Exception ex){ MessageBox.Show("Het bedrijf bevat medewerkers!", "Error"); }
                         break;
                     case nameof(Employee):
                         _cm.RemoveEmployee((Employee)dgDataTable.SelectedValue);
@@ -469,12 +475,12 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                         rbMedewerkers.IsChecked = true;
                         break;
                     case nameof(Visitor):
-                        //_vm.DeleteVisitor((Visitor)dgDataTable.SelectedValue);
+                        _vm.DeleteVisitor((Visitor)dgDataTable.SelectedValue);
                         rbBezoekers.IsChecked = false;
                         rbBezoekers.IsChecked = true;
                         break;
                     case nameof(VisitDTO):
-                        //_vm.DeleteVisit((VisitDTO)dgDataTable.SelectedValue);
+                        _vm.DeleteVisit((VisitDTO)dgDataTable.SelectedValue);
                         rbBezoeken.IsChecked = false;
                         rbBezoeken.IsChecked = true;
                         break;
@@ -537,7 +543,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             dgDataTable.Items.Filter = ResultsFilter;
         }
 
-        private void AddActionButtonsColumn(bool showEmployeeButton, bool showVisitButton, bool showContractButton, bool showDetailButton)
+        private void AddActionButtonsColumn(bool showEmployeeButton, bool showVisitButton, bool showContractButton, bool showDetailButton, bool showEditButton)
         {
             DataGridTemplateColumn col = new DataGridTemplateColumn();
             col.Header = "Acties";
@@ -550,7 +556,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             if (showVisitButton) { sp.AppendChild(AddButton("📒", "VISIT_ACTION")); }
             if (showContractButton) { sp.AppendChild(AddButton("📜", "CONTRACT_ACTION")); }
             if (showDetailButton) { sp.AppendChild(AddButton("📒", "DETAIL_ACTION")); }
-            sp.AppendChild(AddButton("🖉", "EDIT_ACTION"));
+            if (showEditButton) { sp.AppendChild(AddButton("🖉", "EDIT_ACTION")); }
             sp.AppendChild(AddButton("🗑", "DELETE_ACTION"));
 
             dt.VisualTree = sp;

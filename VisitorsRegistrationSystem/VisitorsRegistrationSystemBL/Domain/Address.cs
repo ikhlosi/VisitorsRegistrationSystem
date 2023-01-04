@@ -59,7 +59,8 @@ namespace VisitorsRegistrationSystemBL.Domain
             return obj is Address address &&
                    City == address.City &&
                    Street == address.Street &&
-                   HouseNumber == address.HouseNumber;
+                   HouseNumber == address.HouseNumber &&
+                   BusNumber == address.BusNumber;
         }
 
         public override int GetHashCode() {

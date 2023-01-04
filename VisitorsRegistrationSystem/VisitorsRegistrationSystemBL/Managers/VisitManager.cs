@@ -25,7 +25,7 @@ namespace VisitorsRegistrationSystemBL.Managers
 
         public IReadOnlyList<VisitDTO> GetVisits()
         {
-            return _repo.GetVisits();
+             return _repo.GetVisits();
         }
         public void AddVisit(Visit visit)
         {
@@ -34,11 +34,11 @@ namespace VisitorsRegistrationSystemBL.Managers
             if (_repo.VisitExists(visit)) throw new VisitManagerException("VisitManager - AddVisit - Visit does exist");
             _repo.AddVisit(visit);
         }
-        public void DeleteVisit(Visit visit)
+        public void DeleteVisit(VisitDTO visitDTO)
         {
-            if (visit == null) throw new VisitManagerException("VisitManager(Deletevisit) - visit is null");
-            if (!_repo.VisitExists(visit)) throw new VisitManagerException("VisitManager - Deletevisit - visit does not exist");
-            _repo.RemoveVisit(visit.Id);
+            if (visitDTO == null) throw new VisitManagerException("VisitManager(Deletevisit) - visit is null");
+            if (!_repo.VisitExists(visitDTO.visitor.Id, visitDTO.startTime)) throw new VisitManagerException("VisitManager - Deletevisit - visit does not exist");
+            _repo.RemoveVisit(visitDTO.visitId);
         }
         public void UpdateVisit(Visit visit)
         {
