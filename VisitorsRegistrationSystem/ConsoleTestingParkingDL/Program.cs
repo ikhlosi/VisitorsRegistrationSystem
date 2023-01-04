@@ -50,10 +50,10 @@ parkingContract = pRepo.GetParkingContractById(1);
 Console.WriteLine(parkingContract);
 
 // done
-IReadOnlyList<ParkingContractDTO> parkingContracts = pRepo.GetParkingContracts();
-foreach (ParkingContractDTO parkingContractDTO in parkingContracts)
+IReadOnlyList<ParkingContract> parkingContracts = pRepo.GetParkingContracts();
+foreach (ParkingContract parkingContract1 in parkingContracts)
 {
-    Console.WriteLine(parkingContractDTO);
+    Console.WriteLine(parkingContract1);
 }
 
 // done

@@ -11,7 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.DTO;
+using VisitorsRegistrationSystemBL.Factories;
 using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorsRegistrationSystemBeheerGUI.Windows
@@ -21,8 +23,9 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
     /// </summary>
     public partial class ParkingContractenFormWindow : Window
     {
-        ParkingManager _pm;
-        CompanyManager _cm;
+        private readonly ParkingManager _pm;
+        private readonly CompanyManager _cm;
+        private ParkingContract? _parkingContract;
 
         public ParkingContractenFormWindow(ParkingManager pm, CompanyManager cm)
         {
@@ -36,6 +39,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
         {
             _pm = pm;
             _cm = cm;
+            _parkingContract = ParkingContractFactory.MakeParkingContract(p.Id, CompanyFactory.MakeCompany(p.CompanyId, null, null, null, null, null), p.StartDate, p.EndDate, p.Spaces, p.ParkingId);
             InitializeComponent();
             cmbBedrijf.ItemsSource = cm.GetCompanies();
             InitializeData(p);
@@ -50,7 +54,24 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
 
         private void btnOpslaan_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not implemented yet :c");
+            try
+            {
+                //if (_parkingContract != null)
+                //{
+                //    _pm.UpdateParkingContract(ParkingContractFactory.MakeParkingContract(_parkingContract.ID,_parkingContract.Company,p));
+                //    MessageBox.Show("Parking is Bijgewerkt!");
+                //}
+                //else
+                //{
+                //    _pm.AddParking(ParkingFactory.MakeParking(null, int.Parse(txtbBezettePlaatsen.Text), false, null, null, int.Parse(txtbAantalPlaatsen.Text)));
+                //    MessageBox.Show("Parking is Toegevoegd!");
+                //}
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gelieve alle velden juist in te vullen", "Error");
+            }
         }
 
         private void btnAfsluiten_Click(object sender, RoutedEventArgs e)

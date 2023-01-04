@@ -13,23 +13,23 @@ namespace VisitorsRegistrationSystemBL.Domain
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string LicensePlate { get; set; }
-        public int VisitedCompanyID { get; set; }
+        public Company VisitedCompany { get; set; }
         public int ParkingId { get; set; }
-        public ParkingDetail(int id, DateTime startTime, DateTime endTime, string licensePlate, int visitedCompanyID,int parkingId)
+        public ParkingDetail(int id, DateTime startTime, DateTime endTime, string licensePlate, Company visitedCompany,int parkingId)
         {
             SetID(id);
             SetStartTime(startTime);
             SetEndTime(endTime);
             SetLicensePlate(licensePlate);
-            SetVisitedCompanyID(visitedCompanyID);
+            SetVisitedCompany(visitedCompany);
             SetParkingId(parkingId);
         }
-        public ParkingDetail(DateTime startTime, DateTime endTime, string licensePlate, int visitedCompanyID,int parkingId)
+        public ParkingDetail(DateTime startTime, DateTime endTime, string licensePlate, Company visitedCompany,int parkingId)
         {
             SetStartTime(startTime);
             SetEndTime(endTime);
             SetLicensePlate(licensePlate);
-            SetVisitedCompanyID(visitedCompanyID);
+            SetVisitedCompany(visitedCompany);
             SetParkingId(parkingId);
         }
 
@@ -55,10 +55,10 @@ namespace VisitorsRegistrationSystemBL.Domain
             if (string.IsNullOrEmpty(licensePlate)) throw new ParkingException("ParkingDetail - SetLicensePlate - License plate is null");
             LicensePlate = licensePlate;
         }
-        public void SetVisitedCompanyID(int visitedCompanyID)
+        public void SetVisitedCompany(Company visitedCompany)
         {
-            if (visitedCompanyID < 1) throw new ParkingException("ParkingDetail - SetVisitedCompanyID - Visited company ID is null");
-            VisitedCompanyID = visitedCompanyID;
+            if (visitedCompany == null ) throw new ParkingException("ParkingDetail - SetVisitedCompany - Visited company is null");
+            VisitedCompany = visitedCompany;
         }
 
         public void SetParkingId(int parkingId)
@@ -74,13 +74,13 @@ namespace VisitorsRegistrationSystemBL.Domain
                    StartTime == detail.StartTime &&
                    EndTime == detail.EndTime &&
                    LicensePlate == detail.LicensePlate &&
-                   VisitedCompanyID == detail.VisitedCompanyID &&
+                   VisitedCompany == detail.VisitedCompany &&
                    ParkingId == detail.ParkingId;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(ID, StartTime, EndTime, LicensePlate, VisitedCompanyID);
+            return HashCode.Combine(ID, StartTime, EndTime, LicensePlate, VisitedCompany);
         }
     }
 }

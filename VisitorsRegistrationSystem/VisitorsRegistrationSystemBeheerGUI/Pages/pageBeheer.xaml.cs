@@ -49,8 +49,8 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
         private Dictionary<string, string> VisitorParameterDictionary = new Dictionary<string, string> { { "Id", "Id" }, { "Name", "Naam" }, { "Email", "Email" }, { "VisitorCompany", "Bedrijf" } };
         private Dictionary<string, string> VisitParameterDictionary = new Dictionary<string, string> { { "visitId", "Id" }, { "visitor", "Bezoeker" }, { "company", "Bezochte Bedrijf" }, { "employee", "Bezochte Werknemer" }, { "startTime", "Start Bezoek" }, { "endTime", "Eind Bezoek" } };
         private Dictionary<string, string> ParkingParameterDictionary = new Dictionary<string, string> { { "ID", "Id" }, { "totalSpaces", "Aantal Plaatsen" }, { "occupiedSpaces", "Bezette Plaatsen" } };
-        private Dictionary<string, string> ParkingDetailParameterDictionary = new Dictionary<string, string> { { "Id", "Id" }, { "StartTime", "Start Parking" }, { "EndTime", "Einde Parking" }, { "LicensePlate", "Nummerplaat" }, { "VisitedCompanyId", "Bezocht bedrijf" }, { "ParkingId", "Parking" } };
-        private Dictionary<string, string> ParkingContractParameterDictionary = new Dictionary<string, string> { { "Id", "Id" }, { "CompanyId", "Bedrijf" }, { "Spaces", "Gereserveerde Plaatsen" }, { "StartDate", "Start Datum" }, { "EndDate", "Eind Datum" }, { "ParkingId", "Parking" } };
+        private Dictionary<string, string> ParkingDetailParameterDictionary = new Dictionary<string, string> { { "ID", "Id" }, { "StartTime", "Start Parking" }, { "EndTime", "Einde Parking" }, { "LicensePlate", "Nummerplaat" }, { "VisitedCompany", "Bezocht bedrijf" }, { "ParkingId", "ParkingId" } };
+        private Dictionary<string, string> ParkingContractParameterDictionary = new Dictionary<string, string> { { "ID", "Id" }, { "Company", "Bedrijf" }, { "ReservedSpace", "Gereserveerde Plaatsen" }, { "StartDate", "Start Datum" }, { "EndDate", "Eind Datum" }, { "parkingId", "ParkingId" } };
 
         public pageBeheer(CompanyManager cm, VisitManager vm,ParkingManager pm, int tabIndex)
         {
@@ -86,9 +86,9 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     return VisitParameterDictionary;
                 case nameof(ParkingDTO):
                     return ParkingParameterDictionary;
-                case nameof(ParkingDetailDTO):
+                case nameof(ParkingDetail):
                     return ParkingDetailParameterDictionary;
-                case nameof(ParkingContractDTO):
+                case nameof(ParkingContract):
                     return ParkingContractParameterDictionary;
                 default:
                     return null;
@@ -289,7 +289,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                 case "ParkingDetails":
                     SavedCompanyId = 0;
                     SavedVisitorId = 0;
-                    IReadOnlyList<ParkingDetailDTO> parkingdetails = new List<ParkingDetailDTO>();
+                    IReadOnlyList<ParkingDetail> parkingdetails = new List<ParkingDetail>();
                     try
                     {
                         if (SavedParkingId > 0) { parkingdetails = _pm.GetParkingDetails(SavedParkingId).ToList(); }
@@ -317,11 +317,11 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                 case "ParkingContracten":
                     SavedCompanyId = 0;
                     SavedVisitorId = 0;
-                    IReadOnlyList<ParkingContractDTO> parkingcontracten = new List<ParkingContractDTO>();
+                    IReadOnlyList<ParkingContract> parkingcontracten = new List<ParkingContract>();
                     try
                     {
                         if (SavedParkingId > 0) { parkingcontracten = _pm.GetParkingContracts(SavedParkingId).ToList(); }
-                        else { parkingcontracten = _pm.GetParkingContracts().ToList(); }
+                        else { parkingcontracten = _pm.GetParkingContracts(); }
 
                         cmbSearchParameter.Items.Add("All");
                         foreach (string param in parkingcontracten[0].GetType().GetProperties().Select(x => x.Name).ToList())

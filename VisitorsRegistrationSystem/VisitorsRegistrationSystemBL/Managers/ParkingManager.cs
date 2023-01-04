@@ -147,7 +147,7 @@ namespace VisitorsRegistrationSystemBL.Managers
             }
         }
         
-        public IReadOnlyList<ParkingContractDTO> GetParkingContracts()
+        public IReadOnlyList<ParkingContract> GetParkingContracts()
         {
             try
             {
@@ -159,11 +159,10 @@ namespace VisitorsRegistrationSystemBL.Managers
             }
         }
 
-        public IReadOnlyList<ParkingContractDTO> GetParkingContracts(int parkingId)
+        public IReadOnlyList<ParkingContract> GetParkingContracts(int parkingId)
         {
             try
             {
-                // todo repomethode implementeren
                 return _repo.GetParkingContracts(parkingId);
             }
             catch (Exception ex)
@@ -230,7 +229,7 @@ namespace VisitorsRegistrationSystemBL.Managers
             }
         }
 
-        public IReadOnlyList<ParkingDetailDTO> GetParkingDetails()
+        public IReadOnlyList<ParkingDetail> GetParkingDetails()
         {
             try
             {
@@ -242,11 +241,10 @@ namespace VisitorsRegistrationSystemBL.Managers
             }
         }
 
-        public IReadOnlyList<ParkingDetailDTO> GetParkingDetails(int parkingId)
+        public IReadOnlyList<ParkingDetail> GetParkingDetails(int parkingId)
         {
             try
             {
-                // todo repomethode implementeren
                 return _repo.GetParkingDetails(parkingId);
             }
             catch (Exception ex)
