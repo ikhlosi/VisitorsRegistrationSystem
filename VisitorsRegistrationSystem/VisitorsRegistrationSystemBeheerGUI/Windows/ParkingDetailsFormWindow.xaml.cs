@@ -23,24 +23,31 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
     /// </summary>
     public partial class ParkingDetailsFormWindow : Window
     {
-        ParkingManager _pm;
-
-        public ParkingDetailsFormWindow(ParkingManager pm)
+        private readonly ParkingManager _pm;
+        private readonly CompanyManager _cm;
+        private ParkingDetail? _parkingdetail;
+        public ParkingDetailsFormWindow(ParkingManager pm, CompanyManager cm)
         {
             _pm = pm;
+            _cm = cm;
             InitializeComponent();
+            cmbBedrijf.ItemsSource = cm.GetCompanies();
         }
-        public ParkingDetailsFormWindow(ParkingManager pm, ParkingDetailDTO p)
+        public ParkingDetailsFormWindow(ParkingManager pm, CompanyManager cm, ParkingDetail p)
         {
             _pm = pm;
+            _cm = cm;
+            _parkingdetail = ParkingDetailFactory.MakeParkingDetail(p.ID, p.StartTime, p.EndTime, p.LicensePlate, p.VisitedCompany, p.ParkingId);
             InitializeComponent();
+            cmbBedrijf.ItemsSource = cm.GetCompanies();
             InitializeData(p);
         }
-        public void InitializeData(ParkingDetailDTO p)
+        public void InitializeData(ParkingDetail p)
         {
+            cmbBedrijf.SelectedValuePath = "ID";
+            cmbBedrijf.SelectedValue = p.VisitedCompany.ID;
             dtpStartParking.Value = p.StartTime;
             dtpEindParking.Value = p.EndTime;
-            txtbBezochtBedrijf.Text = p.VisitedCompanyId.ToString();
             txtbNummerplaat.Text = p.LicensePlate.ToString();
             txtbParking.Text = p.ParkingId.ToString();
         }
@@ -49,16 +56,17 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
         {
             try
             {
-                //if (_parking != null)
-                //{
-                //    _pm.UpdateParking(ParkingFactory.MakeParking(_parking.ID, int.Parse(txtbBezettePlaatsen.Text), false, null, null, int.Parse(txtbAantalPlaatsen.Text)));
-                //    MessageBox.Show("Parking is Bijgewerkt!");
-                //}
-                //else
-                //{
-                //    _pm.AddParking(ParkingFactory.MakeParking(null, int.Parse(txtbBezettePlaatsen.Text), false, null, null, int.Parse(txtbAantalPlaatsen.Text)));
-                //    MessageBox.Show("Parking is Toegevoegd!");
-                //}
+                Company company = (Company)cmbBedrijf.SelectedItem;
+                if (_parkingdetail != null)
+                {
+                    _pm.UpdateParkingDetail(ParkingDetailFactory.MakeParkingDetail(_parkingdetail.ID, (DateTime)dtpStartParking.Value, (DateTime)dtpEindParking.Value, txtbNummerplaat.Text, company, int.Parse(txtbParking.Text)));
+                    MessageBox.Show("Parking is Bijgewerkt!");
+                }
+                else
+                {
+                    _pm.AddParkingDetail(ParkingDetailFactory.MakeParkingDetail(null, (DateTime)dtpStartParking.Value, (DateTime)dtpEindParking.Value, txtbNummerplaat.Text, company, int.Parse(txtbParking.Text)));
+                    MessageBox.Show("Parking is Toegevoegd!");
+                }
                 this.Close();
             }
             catch (Exception ex)

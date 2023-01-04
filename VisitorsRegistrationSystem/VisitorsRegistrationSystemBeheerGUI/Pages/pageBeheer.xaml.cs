@@ -385,7 +385,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     rbParking.IsChecked = true;
                     break;
                 case "ParkingDetails":
-                    ParkingDetailsFormWindow pdfw = new ParkingDetailsFormWindow(_pm);
+                    ParkingDetailsFormWindow pdfw = new ParkingDetailsFormWindow(_pm,_cm);
                     pdfw.ShowDialog();
                     rbParkingDetails.IsChecked = false;
                     rbParkingDetails.IsChecked = true;
@@ -436,14 +436,14 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                     rbParking.IsChecked = false;
                     rbParking.IsChecked = true;
                     break;
-                case nameof(ParkingContractDTO):
-                    ParkingContractenFormWindow pkcfw = new ParkingContractenFormWindow(_pm,_cm, (ParkingContractDTO)dgDataTable.SelectedValue);
+                case nameof(ParkingContract):
+                    ParkingContractenFormWindow pkcfw = new ParkingContractenFormWindow(_pm,_cm, (ParkingContract)dgDataTable.SelectedValue);
                     pkcfw.ShowDialog();
                     rbParkingContracten.IsChecked = false;
                     rbParkingContracten.IsChecked = true;
                     break;
-                case nameof(ParkingDetailDTO):
-                    ParkingDetailsFormWindow pkdfw = new ParkingDetailsFormWindow(_pm, (ParkingDetailDTO)dgDataTable.SelectedValue);
+                case nameof(ParkingDetail):
+                    ParkingDetailsFormWindow pkdfw = new ParkingDetailsFormWindow(_pm,_cm, (ParkingDetail)dgDataTable.SelectedValue);
                     pkdfw.ShowDialog();
                     rbParkingDetails.IsChecked = false;
                     rbParkingDetails.IsChecked = true;

@@ -563,7 +563,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         {
 
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"SELECT *, pd.id as pdId, c.id as cId FROM parkingdetails pd join company c on pd.visitedCompanyId = c.id join address a on c.addressId = a.id WHERE pdId=@id and pd.visible = 1 and c.visible = 1 and a.visible = 1";
+            string query = @"SELECT *, pd.id as pdId, c.id as cId FROM parkingdetails pd join company c on pd.visitedCompanyId = c.id join address a on c.addressId = a.id having pdId = @id and pd.visible = 1 and c.visible = 1 and a.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -672,7 +672,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         {
             List<ParkingContract> parkingContracts = new List<ParkingContract>();
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select * from parkingContract where visible = 1 and parkingId=@parkingId order by id;";
+            string query = @"select *, pc.id as pcId, c.id as cId from parkingContract pc join company c on pc.companyId = c.id join address a on c.addressId = a.id where pc.parkingId=@parkingId and pc.visible = 1 and c.visible = 1 order by pc.id;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try

@@ -35,19 +35,21 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
             cmbBedrijf.ItemsSource = cm.GetCompanies();
         }
 
-        public ParkingContractenFormWindow(ParkingManager pm,CompanyManager cm, ParkingContractDTO p)
+        public ParkingContractenFormWindow(ParkingManager pm,CompanyManager cm, ParkingContract p)
         {
             _pm = pm;
             _cm = cm;
-            _parkingContract = ParkingContractFactory.MakeParkingContract(p.Id, CompanyFactory.MakeCompany(p.CompanyId, null, null, null, null, null), p.StartDate, p.EndDate, p.Spaces, p.ParkingId);
+            _parkingContract = ParkingContractFactory.MakeParkingContract(p.ID, CompanyFactory.MakeCompany(p.Company.ID,p.Company.Name,p.Company.VATNumber,null,p.Company.TelephoneNumber,p.Company.Email), p.StartDate, p.EndDate, p.ReservedSpace, p.parkingId);
             InitializeComponent();
             cmbBedrijf.ItemsSource = cm.GetCompanies();
             InitializeData(p);
         }
-        public void InitializeData(ParkingContractDTO p)
+        public void InitializeData(ParkingContract p)
         {
-            txtbParking.Text = p.ParkingId.ToString();
-            txtbPlaatsen.Text = p.Spaces.ToString();
+            cmbBedrijf.SelectedValuePath = "ID";
+            cmbBedrijf.SelectedValue = p.Company.ID;
+            txtbParking.Text = p.parkingId.ToString();
+            txtbPlaatsen.Text = p.ReservedSpace.ToString();
             dtpStartContract.Value = p.StartDate;
             dtpEindContract.Value = p.EndDate;
         }
@@ -56,16 +58,19 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
         {
             try
             {
-                //if (_parkingContract != null)
-                //{
-                //    _pm.UpdateParkingContract(ParkingContractFactory.MakeParkingContract(_parkingContract.ID,_parkingContract.Company,p));
-                //    MessageBox.Show("Parking is Bijgewerkt!");
-                //}
-                //else
-                //{
-                //    _pm.AddParking(ParkingFactory.MakeParking(null, int.Parse(txtbBezettePlaatsen.Text), false, null, null, int.Parse(txtbAantalPlaatsen.Text)));
-                //    MessageBox.Show("Parking is Toegevoegd!");
-                //}
+                Company company = (Company)cmbBedrijf.SelectedItem;
+                int plaatsen = Int32.Parse(txtbPlaatsen.Text);
+                int parkingId = Int32.Parse(txtbParking.Text);
+                if (_parkingContract != null)
+                {
+                    _pm.UpdateParkingContract(ParkingContractFactory.MakeParkingContract(_parkingContract.ID, company,(DateTime)dtpStartContract.Value,(DateTime)dtpEindContract.Value,plaatsen,parkingId));
+                    MessageBox.Show("Parking is Bijgewerkt!");
+                }
+                else
+                {
+                    _pm.AddParkingContract(ParkingContractFactory.MakeParkingContract(null, company, (DateTime)dtpStartContract.Value, (DateTime)dtpEindContract.Value, plaatsen, parkingId));
+                    MessageBox.Show("Parking is Toegevoegd!");
+                }
                 this.Close();
             }
             catch (Exception ex)
