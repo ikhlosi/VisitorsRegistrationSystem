@@ -55,18 +55,29 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
 
         private void btnOpslaan_Click(object sender, RoutedEventArgs e)
         {
-            Company company = (Company)cmbBedrijf.SelectedItem;
-            if (_employee != null)
+            try
             {
-                _cm.UpdateEmployee(EmployeeFactory.MakeEmployee(_employee.ID, txtbVoornaam.Text, txtbAchternaam.Text, txtbEmail.Text, txtbFunctie.Text, company.ID), company);
-                MessageBox.Show("Medewerker is Bijgewerkt!");
+
+                Company company = (Company)cmbBedrijf.SelectedItem;
+                if (_employee != null)
+                {
+                    _cm.UpdateEmployee(EmployeeFactory.MakeEmployee(_employee.ID, txtbVoornaam.Text, txtbAchternaam.Text, txtbEmail.Text, txtbFunctie.Text, company.ID), company);
+                    MessageBox.Show("Medewerker is Bijgewerkt!");
+                }
+                else
+                {
+                    _cm.AddEmployee(EmployeeFactory.MakeEmployee(null, txtbVoornaam.Text, txtbAchternaam.Text, txtbEmail.Text, txtbFunctie.Text, company.ID), company);
+                    MessageBox.Show("Medewerker is Toegevoegd!");
+                }
+                this.Close();
             }
-            else
+            catch (Exception ex)
             {
-                _cm.AddEmployee(EmployeeFactory.MakeEmployee(null, txtbVoornaam.Text, txtbAchternaam.Text, txtbEmail.Text, txtbFunctie.Text, company.ID), company);
-                MessageBox.Show("Medewerker is Toegevoegd!");
+                if (ex.Message == "CompanyManager - UpdateEmployee")
+                {
+                    this.Close();
+                } else { MessageBox.Show("Gelieve alle velden juist in te vullen", "Error"); }
             }
-            this.Close();
         }
 
         private void btnAfsluiten_Click(object sender, RoutedEventArgs e)

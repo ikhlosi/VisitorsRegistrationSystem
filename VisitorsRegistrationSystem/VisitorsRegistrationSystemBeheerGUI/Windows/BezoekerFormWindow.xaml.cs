@@ -48,17 +48,27 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
 
         private void btnOpslaan_Click(object sender, RoutedEventArgs e)
         {
-            if (_visitor != null)
+            try
             {
-                _vm.UpdateVisitor(VisitorFactory.MakeVisitor(_visitor.Id, txtbNaam.Text, txtbEmail.Text, txtbBedrijf.Text));
-                MessageBox.Show("Bezoeker is Bijgewerkt!");
-            }
-            else
+                if (_visitor != null)
+                {
+                    _vm.UpdateVisitor(VisitorFactory.MakeVisitor(_visitor.Id, txtbNaam.Text, txtbEmail.Text, txtbBedrijf.Text));
+                    MessageBox.Show("Bezoeker is Bijgewerkt!");
+                }
+                else
+                {
+                    _vm.AddVisitor(VisitorFactory.MakeVisitor(null, txtbNaam.Text, txtbEmail.Text, txtbBedrijf.Text));
+                    MessageBox.Show("Bezoeker is Toegevoegd!");
+                }
+                this.Close();
+            } 
+            catch (Exception ex)
             {
-                _vm.AddVisitor(VisitorFactory.MakeVisitor(null, txtbNaam.Text, txtbEmail.Text, txtbBedrijf.Text));
-                MessageBox.Show("Bezoeker is Toegevoegd!");
-            }
-            this.Close();
+                if (ex.Message == "VisitManager - UpdateVisitor")
+                {
+                    this.Close();
+                } else { MessageBox.Show("Gelieve alle velden juist in te vullen", "Error"); }
+        }
         }
 
         private void btnAfsluiten_Click(object sender, RoutedEventArgs e)

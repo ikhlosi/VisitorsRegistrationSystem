@@ -54,18 +54,28 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
 
         private void btnOpslaan_Click(object sender, RoutedEventArgs e)
         {
-            if (_company != null)
+            try
             {
-                _cm.UpdateCompany(CompanyFactory.MakeCompany(_company.ID, txtbNaam.Text, txtbVAT.Text, new Address(_company.Address.Id,txtbGemeente.Text,txtbPostcode.Text, txtbStraat.Text, txtbHuisnummer.Text, txtbBusnummer.Text), txtbTelNr.Text, txtbEmail.Text));
-                MessageBox.Show("Bedrijf is Bijgewerkt!");
-            }
-            else
-            {
-                _cm.AddCompany(CompanyFactory.MakeCompany(null, txtbNaam.Text, txtbVAT.Text, new Address(txtbGemeente.Text,txtbPostcode.Text, txtbStraat.Text, txtbHuisnummer.Text, txtbBusnummer.Text), txtbTelNr.Text, txtbEmail.Text));
-                MessageBox.Show("Bedrijf is Toegevoegd!"); 
-            }
+                if (_company != null)
+                {
+                    _cm.UpdateCompany(CompanyFactory.MakeCompany(_company.ID, txtbNaam.Text, txtbVAT.Text, new Address(_company.Address.Id, txtbGemeente.Text, txtbPostcode.Text, txtbStraat.Text, txtbHuisnummer.Text, txtbBusnummer.Text), txtbTelNr.Text, txtbEmail.Text));
+                    MessageBox.Show("Bedrijf is Bijgewerkt!");
+                }
+                else
+                {
+                    _cm.AddCompany(CompanyFactory.MakeCompany(null, txtbNaam.Text, txtbVAT.Text, new Address(txtbGemeente.Text, txtbPostcode.Text, txtbStraat.Text, txtbHuisnummer.Text, txtbBusnummer.Text), txtbTelNr.Text, txtbEmail.Text));
+                    MessageBox.Show("Bedrijf is Toegevoegd!");
+                }
 
-            this.Close();
+                this.Close();
+            } 
+            catch (Exception ex) 
+            {
+                if (ex.Message == "CompanyManager - UpdateCompany")
+                {
+                    this.Close();
+                } else { MessageBox.Show("Gelieve alle velden juist in te vullen", "Error"); }
+            }
         }
 
         private void btnAfsluiten_Click(object sender, RoutedEventArgs e)

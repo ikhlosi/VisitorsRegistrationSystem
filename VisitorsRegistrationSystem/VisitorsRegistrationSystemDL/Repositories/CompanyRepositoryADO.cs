@@ -523,21 +523,34 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void WriteCompanyInDB(Company company)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"INSERT into Company (name,vat,email,telNr,addressId) values (@name,@VAT,@email,@telNr,@addressId)";
+            string query1 = @"INSERT into Address (street, houseNr, bus, postalCode, city) values (@street, @houseNr, @bus, @postalCode, @city)";
+            string query2 = @"INSERT into Company (name,vat,email,telNr,addressId) values (@name,@VAT,@email,@telNr,@addressId)";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
-                    cmd.CommandText = query;
-                    // Parameters adden
+                    MySqlTransaction transaction = connection.BeginTransaction();
+                    cmd.Connection = connection; cmd.Transaction = transaction;
+
+                    cmd.CommandText = query1;
+                    cmd.Parameters.AddWithValue("@street", company.Address.Street);
+                    cmd.Parameters.AddWithValue("@houseNr", company.Address.HouseNumber);
+                    cmd.Parameters.AddWithValue("@bus", company.Address.BusNumber);
+                    cmd.Parameters.AddWithValue("@postalCode", company.Address.PostalCode);
+                    cmd.Parameters.AddWithValue("@city", company.Address.City);
+                    cmd.ExecuteNonQuery();
+                    long addressId = cmd.LastInsertedId;
+
+                    cmd.CommandText = query2;
                     cmd.Parameters.AddWithValue("@name", company.Name);
                     cmd.Parameters.AddWithValue("@VAT", company.VATNumber);
                     cmd.Parameters.AddWithValue("@email", company.Email);
                     cmd.Parameters.AddWithValue("@telNr", company.TelephoneNumber);
-                    cmd.Parameters.AddWithValue("@addressId", company.Address.Id);
-                    // Query executen
+                    cmd.Parameters.AddWithValue("@addressId", addressId);
                     cmd.ExecuteNonQuery();
+
+                    transaction.Commit();
                 }
                 catch (Exception ex)
                 {
