@@ -38,7 +38,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         internal void SetVATNo(string vatNum) {
             if (string.IsNullOrWhiteSpace(vatNum)) throw new CompanyException("Company - SetVATNo - VAT number is empty");
-            if (!VATChecker.IsValid(vatNum)) throw new CompanyException("Company - SetVATNo - invalid VAT number");
+            // if (!VATChecker.IsValid(vatNum)) throw new CompanyException("Company - SetVATNo - invalid VAT number");
             this.VATNumber = vatNum;
         }
 
@@ -54,7 +54,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         internal void SetEmail (string email) {
             if (string.IsNullOrWhiteSpace(email)) throw new CompanyException("Company - SetEmail - email is empty");
-            if (!EmailChecker.IsValid(email)) throw new CompanyException("Company - SetEmail - invalid format");
+            // if (!EmailChecker.IsValid(email)) throw new CompanyException("Company - SetEmail - invalid format");
             this.Email = email;
         }
 

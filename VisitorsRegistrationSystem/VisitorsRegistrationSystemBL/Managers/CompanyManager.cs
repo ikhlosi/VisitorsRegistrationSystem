@@ -1,4 +1,5 @@
-﻿using VisitorsRegistrationSystemBL.Domain;
+﻿using VisitorsRegistrationSystemBL.Checkers;
+using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.Exceptions;
 using VisitorsRegistrationSystemBL.Interfaces;
 
@@ -11,6 +12,12 @@ namespace VisitorsRegistrationSystemBL.Managers {
         public void AddCompany(Company company) {
             if (company == null) {
                 throw new CompanyException("CompanyManager - AddCompany - company is null.");
+            }
+            if (!VATChecker.IsValid(company.VATNumber)) {
+                throw new CompanyException("CompanyManager - AddCompany - invalid VAT");
+            }
+            if (!EmailChecker.IsValid(company.Email)) {
+                throw new CompanyException("CompanyManager - AddCompany - invalid e-mail");
             }
             try {
                 if (_repo.CompanyExistsInDB(company)) throw new CompanyException("CompanyManager - AddCompany - company already exists in DB.");
