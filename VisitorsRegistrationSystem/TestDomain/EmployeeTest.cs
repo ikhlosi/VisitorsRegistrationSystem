@@ -18,7 +18,7 @@ namespace TestDomain
         [Fact]
         public void EmployeeId_Valid()
         {
-            Employee employee = EmployeeFactory.MakeEmployee(1,"Arno","Vantieghem","arnovantieghem@gmail.com","tester", null);
+            Employee employee = EmployeeFactory.MakeEmployee(1,"Arno","Vantieghem","arnovantieghem@gmail.com","tester",null);
             Assert.Equal(1, employee.ID);
         }
         [Theory]

@@ -15,7 +15,7 @@ namespace TestManagers
         private Company _validCompany;
 
         public CompanyManagerTest() {
-            this._validEmployee = EmployeeFactory.MakeEmployee(1, "John", "Doe", null, "Senior Software Developer", null);
+            this._validEmployee = EmployeeFactory.MakeEmployee(1, "John", "Doe", null, "Senior Software Developer",null);
             this._validCompany = CompanyFactory.MakeCompany(null, "CompanyA", "XXXXXXXXX", null, null, "companya@outlook.com");
             this._companyRepoMock = new Mock<ICompanyRepository>();
             this._cm = new CompanyManager(_companyRepoMock.Object);
@@ -183,7 +183,7 @@ namespace TestManagers
         [Fact]
         public void Test_UpdateEmployee_invalid_catch()
         {
-            Employee differentValidEmployee = EmployeeFactory.MakeEmployee(null, "James", "Jackson", null, "Project Manager", null);
+            Employee differentValidEmployee = EmployeeFactory.MakeEmployee(null, "James", "Jackson", null, "Project Manager",null);
             this._companyRepoMock.Setup(x => x.EmployeeExistsInDB(this._validEmployee.ID)).Returns(true);
             this._companyRepoMock.Setup(x => x.GetEmployee(this._validEmployee.ID)).Returns(differentValidEmployee);
             this._companyRepoMock.Setup(x => x.UpdateEmployeeInDB(this._validEmployee, this._validCompany)).Throws(new CompanyException());

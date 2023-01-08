@@ -13,13 +13,15 @@ namespace TestDomain
 {
     public class CompanyTest
     {
+        
+        
         #region Company Domain Setters
 
         [Fact]
         public void SetID_Success()
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent","9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE0400378485", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
 
             #endregion
             #region Act
@@ -36,7 +38,7 @@ namespace TestDomain
         public void SetID_CompanyException(int id)
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE0400378485", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
             #endregion
             #region Act & Assert
             Assert.Throws<CompanyException>(() => companyA.SetID(id));
@@ -47,7 +49,7 @@ namespace TestDomain
         public void SetName_Success()
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent","9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE0400378485", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
             #endregion
             #region Act
             companyA.SetName("Company B");
@@ -63,7 +65,7 @@ namespace TestDomain
         public void SetName_CompanyException(string name)
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE0400378485", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
             #endregion
             #region Act & Assert
             Assert.Throws<CompanyException>(() => companyA.SetName(name));
@@ -74,13 +76,13 @@ namespace TestDomain
         public void SetVATNo_Success()
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent" , "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE0400378485", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
             #endregion
             #region Act
-            companyA.SetVATNo("BE1234567891");
+            companyA.SetVATNo("BE0400378485");
             #endregion
             #region Assert
-            Assert.Equal("BE1234567891", companyA.VATNumber);
+            Assert.Equal("BE0400378485", companyA.VATNumber);
             #endregion
         }
 
@@ -90,7 +92,7 @@ namespace TestDomain
         public void SetVATNo_CompanyException(string vATNumber)
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE0400378485", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
             #endregion
             #region Act & Assert
             Assert.Throws<CompanyException>(() => companyA.SetVATNo(vATNumber));
@@ -101,7 +103,7 @@ namespace TestDomain
         public void SetAddress_Success()
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE0400378485", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
             Address expectedResult = new Address("Gent", "9000", "Straatlaan", "11", null);
             #endregion
             #region Act
@@ -116,7 +118,7 @@ namespace TestDomain
         public void SetAddress_CompanyException(Address address)
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE0400378485", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
             #endregion
             #region Act & Assert
             Assert.Throws<CompanyException>(() => companyA.SetAddress(address));
@@ -127,7 +129,7 @@ namespace TestDomain
         public void SetTelNo_Success()
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE0400378485", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
             #endregion
             #region Act
             companyA.SetTelNo("+32482455643");
@@ -143,7 +145,7 @@ namespace TestDomain
         public void SetTelNo_CompanyException(string telNo)
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE0400378485", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
             #endregion
             #region Act & Assert
             Assert.Throws<CompanyException>(() => companyA.SetTelNo(telNo));
@@ -154,7 +156,7 @@ namespace TestDomain
         public void SetEmail_Success()
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE0400378485", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
             #endregion
             #region Act
             companyA.SetEmail("company2@company.be");
@@ -170,7 +172,7 @@ namespace TestDomain
         public void SetEmail_CompanyException(string email)
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE0400378485", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
             #endregion
             #region Act & Assert
             Assert.Throws<CompanyException>(() => companyA.SetEmail(email));
@@ -185,8 +187,8 @@ namespace TestDomain
         public void AddEmployee_Success()
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
-            Employee expectedResult = EmployeeFactory.MakeEmployee(1, "Bart", "Jan", "bart@company.be", "admin", null);
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE0400378485", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Employee expectedResult = EmployeeFactory.MakeEmployee(1, "Bart", "Jan", "bart@company.be", "admin",null);
             #endregion
             #region Act
             companyA.AddEmployee(expectedResult);
@@ -195,18 +197,18 @@ namespace TestDomain
             Assert.Equal(expectedResult, companyA.GetEmployees()[0]);
             #endregion
         }
-
+        
         [Theory]
         [InlineData(null)]
         public void AddEmployee_CompanyException(Employee employee)
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE0400378485", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
             Employee expectedResult = EmployeeFactory.MakeEmployee(1, "Bart", "Jan", "bart@company.be", "admin",null);
             #endregion
             #region Act & Assert
             Assert.Throws<CompanyException>(() => companyA.AddEmployee(employee));
-
+            
             companyA.AddEmployee(expectedResult);
             Assert.Throws<CompanyException>(() => companyA.AddEmployee(expectedResult));
             #endregion
@@ -216,8 +218,8 @@ namespace TestDomain
         public void RemoveEmployee_Success()
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
-            Employee expectedResult = EmployeeFactory.MakeEmployee(1, "Bart", "Jan", "bart@company.be", "admin", null);
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE0400378485", new Address("Gent","9000", "Straatlaan", "10","A10"), "+32482455642", "company@company.be");
+            Employee expectedResult = EmployeeFactory.MakeEmployee(1, "Bart", "Jan", "bart@company.be", "admin",null);
             companyA.AddEmployee(expectedResult);
             #endregion
             #region Act
@@ -231,9 +233,10 @@ namespace TestDomain
         [Theory]
         [InlineData(null)]
         public void RemoveEmployee_CompanyException(Employee employee)
+            
         {
             #region Arrange
-            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE1234567890", new Address("Gent", "9000", "Straatlaan", "10", null), "+32482455642", "company@company.be");
+            Company companyA = CompanyFactory.MakeCompany(1, "Company A", "BE0400378485", new Address("Gent", "9000", "Straatlaan", "10","A10"), "+32482455642", "company@company.be");
             #endregion
             #region Act & Assert
             Assert.Throws<CompanyException>(() => companyA.RemoveEmployee(employee));
@@ -242,6 +245,7 @@ namespace TestDomain
 
         #endregion
 
+       
 
     }
 }

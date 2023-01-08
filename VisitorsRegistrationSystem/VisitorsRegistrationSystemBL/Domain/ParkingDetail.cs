@@ -35,7 +35,7 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         public void SetID(int id)
         {
-            if (id == 0) throw new ParkingException("ParkingDetail - SetID - ID is null");
+            if (id == 0 || id < 0) throw new ParkingException("ParkingDetail - SetID - ID is null");
             ID = id;
         }
         public void SetStartTime(DateTime startTime)
@@ -49,6 +49,7 @@ namespace VisitorsRegistrationSystemBL.Domain
             if (endTime < StartTime) throw new ParkingException("ParkingDetail - SetEndTime - End time is smaller than start time");
             EndTime = endTime;
         }
+        
         public void SetLicensePlate(string licensePlate)
         {
             // todo: check if license plate format is good?
