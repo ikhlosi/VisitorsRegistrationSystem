@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.Factories;
 using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorsRegistrationSystemBeheerGUI.Windows
@@ -22,6 +23,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
     public partial class MedewerkerFormWindow : Window
     {
         CompanyManager _cm;
+        private Employee _employee;
 
         public MedewerkerFormWindow(CompanyManager cm)
         {
@@ -34,6 +36,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
         public MedewerkerFormWindow(CompanyManager cm, Employee e)
         {
             _cm = cm;
+            _employee = e;
             InitializeComponent();
 
             cmbBedrijf.ItemsSource = _cm.GetCompanies();
@@ -42,6 +45,8 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
 
         public void InitializeData(Employee e)
         {
+            cmbBedrijf.SelectedValuePath = "ID";
+            cmbBedrijf.SelectedValue = e.CompanyId;
             txtbVoornaam.Text = e.Name;
             txtbAchternaam.Text = e.LastName;
             txtbEmail.Text = e.Email;
@@ -50,7 +55,29 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
 
         private void btnOpslaan_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
 
+                Company company = (Company)cmbBedrijf.SelectedItem;
+                if (_employee != null)
+                {
+                    _cm.UpdateEmployee(EmployeeFactory.MakeEmployee(_employee.ID, txtbVoornaam.Text, txtbAchternaam.Text, txtbEmail.Text, txtbFunctie.Text, company.ID), company);
+                    MessageBox.Show("Medewerker is Bijgewerkt!");
+                }
+                else
+                {
+                    _cm.AddEmployee(EmployeeFactory.MakeEmployee(null, txtbVoornaam.Text, txtbAchternaam.Text, txtbEmail.Text, txtbFunctie.Text, company.ID), company);
+                    MessageBox.Show("Medewerker is Toegevoegd!");
+                }
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "CompanyManager - UpdateEmployee")
+                {
+                    this.Close();
+                } else { MessageBox.Show("Gelieve alle velden juist in te vullen", "Error"); }
+            }
         }
 
         private void btnAfsluiten_Click(object sender, RoutedEventArgs e)

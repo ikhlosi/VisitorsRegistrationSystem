@@ -3,31 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VisitorsRegistrationSystemBL.Domain;
 
 namespace VisitorsRegistrationSystemBL.DTO
 {
     public class VisitDTO
     {
-        public VisitDTO(int visitId, int visitorId, DateTime starTime, DateTime? endTime, int companyId, int employeeId)
+        public VisitDTO(int visitId, Visitor visitor, DateTime starTime, DateTime? endTime, string company, string employee)
         {
             this.visitId = visitId;
-            this.visitorId = visitorId;
+            this.visitor = visitor;
             this.startTime = starTime;
             this.endTime = endTime;
-            this.companyId = companyId;
-            this.employeeId = employeeId;
+            this.company = company;
+            this.employee = employee;
         }
 
         public int visitId { get; set; }
-        public int visitorId { get; set; }
+        public Visitor visitor { get; set; }
         public DateTime startTime { get; set; }
         public DateTime? endTime { get; set; }
-        public int companyId { get; set; }
-        public int employeeId { get; set; }
+        public string company { get; set; }
+        public string employee { get; set; }
 
         public override string ToString()
         {
-            return $"{visitId} {visitorId} {startTime} {endTime} {companyId} {employeeId}";
+            return $"{visitId} {visitor} {startTime} {endTime} {company} {employee}";
         }
     }
 }

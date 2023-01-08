@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.DTO;
+using VisitorsRegistrationSystemBL.Factories;
 using VisitorsRegistrationSystemBL.Managers;
 
 namespace VisitorsRegistrationSystemBeheerGUI.Windows
@@ -22,8 +23,8 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
     /// </summary>
     public partial class ParkingFormWindow : Window
     {
-        ParkingManager _pm;
-
+        private readonly ParkingManager _pm;
+        private Parking? _parking;
         public ParkingFormWindow(ParkingManager pm)
         {
             _pm = pm;
@@ -33,6 +34,7 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
         public ParkingFormWindow(ParkingManager pm, ParkingDTO p)
         {
             _pm = pm;
+            _parking = ParkingFactory.MakeParking(p.ID, p.occupiedSpaces, false, null, null,p.totalSpaces);
             InitializeComponent();
             InitializeData(p);
         }
@@ -46,7 +48,25 @@ namespace VisitorsRegistrationSystemBeheerGUI.Windows
 
         private void btnOpslaan_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not implemented yet :c");
+            try
+            {
+                if (_parking != null)
+                {
+                    _pm.UpdateParking(ParkingFactory.MakeParking(_parking.ID, int.Parse(txtbBezettePlaatsen.Text), false, null, null, int.Parse(txtbAantalPlaatsen.Text)));
+                    MessageBox.Show("Parking is Bijgewerkt!");
+                }
+                else
+                {
+                    _pm.AddParking(ParkingFactory.MakeParking(null, int.Parse(txtbBezettePlaatsen.Text), false, null, null, int.Parse(txtbAantalPlaatsen.Text)));
+                    MessageBox.Show("Parking is Toegevoegd!");
+                }
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gelieve alle velden juist in te vullen","Error");
+            }
+
         }
 
         private void btnAfsluiten_Click(object sender, RoutedEventArgs e)

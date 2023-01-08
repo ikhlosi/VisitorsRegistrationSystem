@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -71,7 +72,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void RemoveVisit(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update visit set visible=0 where visitId = @id and visible=1";
+            string query = @"update Visit set visible=0 where visitId = @id and visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -123,7 +124,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public bool VisitExists(Visit visit)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select count(*) from Visit where visitorId= @visitorId AND startTime = @startTime and visible = 1";
+            string query = @"select count(*) from Visit where visitorId= @visitorId AND startTime = @startTime AND visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -148,17 +149,18 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        public bool VisitExists(int iD)
+        public bool VisitExists(int visitorId, DateTime startTime)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select count(*) from Visit where visitId= @id and visible = 1;";
+            string query = @"select count(*) from Visit where visitorId= @visitorId AND startTime = @startTime AND visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    cmd.Parameters.AddWithValue("@id", iD);
+                    cmd.Parameters.AddWithValue("@visitorId", visitorId);
+                    cmd.Parameters.AddWithValue("@startTime", startTime);
                     Int64 n = (Int64)cmd.ExecuteScalar();
                     if (n > 0)
                         return true;
@@ -272,7 +274,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         {
             List<VisitDTO> visits = new List<VisitDTO>();
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"SELECT * FROM Visit where visible = 1 order by visitId";
+            string query = @"select v.visitId as vVI, v.startTime as vST, v.endTime as vEN, vi.id as viI, vi.name as viN, vi.email as viE, vi.visitorCompany as viV, e.firstName as eFN, e.lastName as eLA, c.name as cNA from Visit v join Visitor vi on v.visitorId = vi.id join Employee e on v.employeeId = e.id join Company c on v.companyId = c.id join Address a on c.addressId = a.id where v.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -282,12 +284,29 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     IDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
+                        string employeeName = (string)reader["eFN"];
+                        string employeeLastName = (string)reader["eLA"];
+                        string companyName = (string)reader["cNA"];
+
+                        int visitorId = (int)reader["viI"];
+                        string visitorName = (string)reader["viN"];
+                        string visitorEmail = (string)reader["viE"];
+                        string visitorCompany = (string)reader["viV"];
+
+                        int visitId = (int)reader["vVi"];
+                        DateTime startTime = (DateTime)reader["vST"];
                         DateTime? endTime = null;
-                        if (reader["endTime"] != DBNull.Value)
+                        if (reader["vEN"] != DBNull.Value)
                         {
-                            endTime = (DateTime)reader["endTime"];
+                            endTime = (DateTime)reader["vEN"];
                         }
-                        visits.Add(new VisitDTO((int)reader["visitId"], (int)reader["visitorId"], (DateTime)reader["startTime"], endTime, (int)reader["companyId"], (int)reader["employeeId"]));
+                        string employee = employeeName + " " + employeeLastName;
+                        string company = companyName;
+
+                        Visitor visitor = VisitorFactory.MakeVisitor(visitorId, visitorName, visitorEmail, visitorCompany);
+                        VisitDTO visit = new VisitDTO(visitId, visitor, startTime, endTime, company, employee);
+
+                        visits.Add(visit);
                     }
                     reader.Close();
                     return visits;
@@ -335,7 +354,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void RemoveVisitor(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update visitor t1 join visit t2 on t1.id = t2.visitorId set t1.visible = 0, t2.visible = 0 where t1.id = @id;";
+            string query = @"update Visitor t1 join Visit t2 on t1.id = t2.visitorId set t1.visible = 0, t2.visible = 0 where t1.id = @id;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -359,7 +378,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void UpdateVisitor(Visitor visitor)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"UPDATE visitor SET name = @name, email = @email, visitorCompany = @visitorCompany WHERE id = @id";
+            string query = @"UPDATE Visitor SET name = @name, email = @email, visitorCompany = @visitorCompany WHERE id = @id";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -554,7 +573,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         {
             List<VisitDTO> visits = new List<VisitDTO>();
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"SELECT * FROM Visit where visible = 1 and visitorId = @id order by visitId";
+            string query = @"select v.visitId as vVI, v.startTime as vST, v.endTime as vEN, vi.id as viI, vi.name as viN, vi.email as viE, vi.visitorCompany as viV, e.firstName as eFN, e.lastName as eLA, c.name as cNA from Visit v join Visitor vi on v.visitorId = vi.id join Employee e on v.employeeId = e.id join Company c on v.companyId = c.id join Address a on c.addressId = a.id where v.visible = 1 and visitorId = @id order by visitId";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -565,7 +584,29 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     IDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        visits.Add(new VisitDTO((int)reader["visitId"], (int)reader["visitorId"], (DateTime)reader["startTime"], (DateTime)reader["endTime"], (int)reader["companyId"], (int)reader["employeeId"]));
+                        string employeeName = (string)reader["eFN"];
+                        string employeeLastName = (string)reader["eLA"];
+                        string companyName = (string)reader["cNA"];
+
+                        int visitorId = (int)reader["viI"];
+                        string visitorName = (string)reader["viN"];
+                        string visitorEmail = (string)reader["viE"];
+                        string visitorCompany = (string)reader["viV"];
+
+                        int visitId = (int)reader["vVi"];
+                        DateTime startTime = (DateTime)reader["vST"];
+                        DateTime? endTime = null;
+                        if (reader["vEN"] != DBNull.Value)
+                        {
+                            endTime = (DateTime)reader["vEN"];
+                        }
+                        string employee = employeeName + " " + employeeLastName;
+                        string company = companyName;
+
+                        Visitor visitor = VisitorFactory.MakeVisitor(visitorId, visitorName, visitorEmail, visitorCompany);
+                        VisitDTO visit = new VisitDTO(visitId, visitor, startTime, endTime, company, employee);
+
+                        visits.Add(visit);
                     }
                     reader.Close();
                     return visits;

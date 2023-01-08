@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using VisitorsRegistrationSystemBL.Domain;
@@ -28,7 +29,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public Parking GetParkingById(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select p.id as pId, p.totalSpaces as pTs, p.occupiedSpaces as pOs, p.full as pFu, pc.id as pcId, pc.companyId as pcCo, pc.spaces as pcSp, pc.startDate as pcSd, pc.endDate as pcEd, pd.id as pdId, pd.startTime as pdSt, pd.endTime as pdEt, pd.licensePlate as pdLi, pd.visitedCompanyId as pdVi, c.id as cId, c.name as cNa, c.vat as cVa, c.email as cEm, c.telNr as cTe, a.id as aId, a.street as aSt, a.city as aCi,a.postalCode as aPo, a.houseNr as aHo, a.bus as aBu from parking p inner join parkingcontract pc on p.id = pc.parkingId inner join parkingdetails pd on pd.parkingId = p.id join company c on pc.companyId = c.id join address a on c.addressId = a.id where p.id= 1 and p.visible=1 and pc.visible = 1 and pd.visible = 1 and c.visible = 1 and a.visible = 1;";
+            string query = @"select p.id as pId, p.totalSpaces as pTs, p.occupiedSpaces as pOs, p.full as pFu, pc.id as pcId, pc.companyId as pcCo, pc.spaces as pcSp, pc.startDate as pcSd, pc.endDate as pcEd, pd.id as pdId, pd.startTime as pdSt, pd.endTime as pdEt, pd.licensePlate as pdLi, pd.visitedCompanyId as pdVi, c.id as cId, c.name as cNa, c.vat as cVa, c.email as cEm, c.telNr as cTe, a.id as aId, a.street as aSt, a.city as aCi,a.postalCode as aPo, a.houseNr as aHo, a.bus as aBu from Parking p inner join Parkingcontract pc on p.id = pc.parkingId inner join Parkingdetails pd on pd.parkingId = p.id join Company c on pc.companyId = c.id join Address a on c.addressId = a.id where p.id= 1 and p.visible=1 and pc.visible = 1 and pd.visible = 1 and c.visible = 1 and a.visible = 1;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -52,7 +53,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     DateTime startTime = DateTime.Now;
                     DateTime endTime = DateTime.Now;
                     string licensePlate = "";
-                    int parkingDetailVisitedCompanyId = 0;
+                    // int parkingDetailVisitedCompanyId = 0;
 
                     int companyId = 0;
                     string companyName = "";
@@ -129,8 +130,8 @@ namespace VisitorsRegistrationSystemDL.Repositories
                             startTime = (DateTime)reader["pdSt"];
                             endTime = (DateTime)reader["pdEt"];
                             licensePlate = (string)reader["pdLi"];
-                            parkingDetailVisitedCompanyId = (int)reader["pdVi"];
-                            parkingDetail = new ParkingDetail(parkingDetailId, startTime, endTime, licensePlate, parkingDetailVisitedCompanyId, parkingId);
+                            // parkingDetailVisitedCompanyId = (int)reader["pdVi"];
+                            parkingDetail = new ParkingDetail(parkingDetailId, startTime, endTime, licensePlate, company, parkingId);
                             parkingDetails.Add(parkingDetail);
                         }
 
@@ -153,7 +154,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public Parking WriteParkingInDB(Parking parking)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"insert into parking (totalSpaces,occupiedSpaces,full) values(@totalSpaces,@occupiedSpaces,@full)";
+            string query = @"insert into Parking (totalSpaces,occupiedSpaces,full) values(@totalSpaces,@occupiedSpaces,@full)";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -209,7 +210,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void RemoveParkingFromDB(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update parking set visible=0 where id = @id and visible=1";
+            string query = @"update Parking set visible=0 where id = @id and visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -233,7 +234,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void UpdateParking(Parking parking)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update parking set totalSpaces = @totalSpaces, occupiedSpaces = @occupiedSpaces, full = @full where id = @id;";
+            string query = @"update Parking set totalSpaces = @totalSpaces, occupiedSpaces = @occupiedSpaces, full = @full where id = @id;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -261,7 +262,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         {
             List<ParkingDTO> parkings = new List<ParkingDTO>();
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select * from parking where visible = 1 order by id;";
+            string query = @"select * from Parking where visible = 1 order by id;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -294,7 +295,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public ParkingContract WriteParkingContractInDB(ParkingContract parkingContract)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"insert into parkingcontract(companyId, spaces,startDate,endDate,parkingId) values(@companyId,@spaces,@startDate,@endDate,@parkingId)";
+            string query = @"insert into Parkingcontract(companyId, spaces,startDate,endDate,parkingId) values(@companyId,@spaces,@startDate,@endDate,@parkingId)";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -325,7 +326,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public ParkingContract GetParkingContractById(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select pc.id as pcId, pc.companyId as pcCi, pc.spaces as pcSp, pc.startDate as pcSt, pc.endDate as pcEn, pc.parkingId as pcPa, c.name as cNa, c.VAT as cVa, c.email as cEm, c.telNr as cTe, c.addressId as cAd, a.street as aSt, a.city as aCi,a.postalCode as aPo, a.houseNr as aHo, a.bus as aBu from parkingcontract pc join company c on pc.companyId = c.id join address a on c.addressId = a.id where pc.id= @id and pc.visible = 1;";
+            string query = @"select pc.id as pcId, pc.companyId as pcCi, pc.spaces as pcSp, pc.startDate as pcSt, pc.endDate as pcEn, pc.parkingId as pcPa, c.name as cNa, c.VAT as cVa, c.email as cEm, c.telNr as cTe, c.addressId as cAd, a.street as aSt, a.city as aCi,a.postalCode as aPo, a.houseNr as aHo, a.bus as aBu from Parkingcontract pc join Company c on pc.companyId = c.id join Address a on c.addressId = a.id where pc.id= @id and pc.visible = 1;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -357,11 +358,11 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        public IReadOnlyList<ParkingContractDTO> GetParkingContracts()
+        public IReadOnlyList<ParkingContract> GetParkingContracts()
         {
-            List<ParkingContractDTO> parkingContracts = new List<ParkingContractDTO>();
+            List<ParkingContract> parkingContracts = new List<ParkingContract>();
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select * from parkingContract where visible = 1 order by id;";
+            string query = @"select *, pc.id as pcId, c.id as cId from Parkingcontract pc join Company c on pc.companyId = c.id join Address a on c.addressId = a.id where pc.visible = 1 and c.visible = 1 order by pc.id;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -371,7 +372,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     IDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        parkingContracts.Add(new ParkingContractDTO((int)reader["id"], (int)reader["companyId"], (int)reader["spaces"], (DateTime)reader["startDate"], (DateTime)reader["endDate"], (int)reader["parkingId"]));
+                        string busnummer = null;
+                        if (reader["bus"] != DBNull.Value)
+                        {
+                            busnummer = (string)reader["bus"];
+                        }
+                        Address address = new Address((int)reader["addressid"],(string)reader["city"], (string)reader["postalcode"], (string)reader["street"], (string)reader["houseNr"], busnummer);
+                        Company company = CompanyFactory.MakeCompany((int)reader["cId"], (string)reader["name"], (string)reader["VAT"], address, (string)reader["telNr"], (string)reader["email"]);
+                        parkingContracts.Add(ParkingContractFactory.MakeParkingContract((int)reader["id"], company, (DateTime)reader["startDate"], (DateTime)reader["endDate"], (int)reader["spaces"], (int)reader["parkingId"]));
                     }
                     reader.Close();
                     return parkingContracts;
@@ -390,7 +398,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public bool ParkingContractExistsInDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"SELECT COUNT(*) FROM parkingContract WHERE id=@id and visible = 1";
+            string query = @"SELECT COUNT(*) FROM Parkingcontract WHERE id=@id and visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -417,7 +425,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void RemoveParkingContractFromDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update parkingContract set visible=0 where id = @id and visible=1";
+            string query = @"update Parkingcontract set visible=0 where id = @id and visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -441,7 +449,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void UpdateParkingContract(ParkingContract parkingContract)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update parkingcontract set companyId = @companyId, spaces=@spaces,startDate = @startDate,endDate = @endDate, parkingId=@parkingId where id=@id;";
+            string query = @"update Parkingcontract set companyId = @companyId, spaces=@spaces,startDate = @startDate,endDate = @endDate, parkingId=@parkingId where id=@id;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -474,7 +482,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public bool ParkingDetailExistsInDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"SELECT COUNT(*) FROM parkingdetails WHERE id=@id and visible = 1";
+            string query = @"SELECT COUNT(*) FROM Parkingdetails WHERE id=@id and visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -501,7 +509,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void RemoveParkingDetailFromDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update parkingDetails set visible=0 where id = @id and visible=1";
+            string query = @"update Parkingdetails set visible=0 where id = @id and visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -525,7 +533,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void UpdateParkingDetail(ParkingDetail parkingDetail)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update parkingdetails set startTime = @startTime, endTime= @endTime, licensePlate= @licensePlate,visitedCompanyId= @visitedCompanyId,parkingId= @parkingId where id=@id;";
+            string query = @"update Parkingdetails set startTime = @startTime, endTime= @endTime, licensePlate= @licensePlate,visitedCompanyId= @visitedCompanyId,parkingId= @parkingId where id=@id;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -534,7 +542,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     cmd.Parameters.AddWithValue("@startTime", parkingDetail.StartTime);
                     cmd.Parameters.AddWithValue("@endTime", parkingDetail.EndTime);
                     cmd.Parameters.AddWithValue("@licensePlate", parkingDetail.LicensePlate);
-                    cmd.Parameters.AddWithValue("@visitedCompanyId", parkingDetail.VisitedCompanyID);
+                    cmd.Parameters.AddWithValue("@visitedCompanyId", parkingDetail.VisitedCompany.ID);
                     cmd.Parameters.AddWithValue("@parkingId", parkingDetail.ParkingId);
                     cmd.Parameters.AddWithValue("@id", parkingDetail.ID);
                     cmd.CommandText = query;
@@ -555,7 +563,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         {
 
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"SELECT * FROM parkingdetails WHERE id=@id and visible = 1";
+            string query = @"SELECT *, pd.id as pdId, c.id as cId FROM Parkingdetails pd join Company c on pd.visitedCompanyId = c.id join Address a on c.addressId = a.id having pdId = @id and pd.visible = 1 and c.visible = 1 and a.visible = 1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -567,13 +575,18 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     ParkingDetail parkingDetail = null;
                     while (reader.Read())
                     {
-                        int ID = reader.GetInt32("id");
+                        int ID = reader.GetInt32("pdId");
                         DateTime StartTime = reader.GetDateTime("startTime");
                         DateTime EndTime = reader.GetDateTime("endTime");
                         string LicensePlate = reader.GetString("licensePlate");
-                        int VisitedCompanyID = reader.GetInt32("visitedCompanyId");
-                        int ParkingId = reader.GetInt32("parkingId");
-                        parkingDetail = new ParkingDetail(ID, StartTime, EndTime, LicensePlate, VisitedCompanyID, ParkingId);
+                        string busnummer = null;
+                        if (reader["bus"] != DBNull.Value)
+                        {
+                            busnummer = (string)reader["bus"];
+                        }
+                        Address address = new Address((int)reader["addressid"], (string)reader["city"], (string)reader["postalcode"], (string)reader["street"], (string)reader["houseNr"], busnummer);
+                        Company company = CompanyFactory.MakeCompany((int)reader["cId"], (string)reader["name"], (string)reader["VAT"], address, (string)reader["telNr"], (string)reader["email"]); int ParkingId = reader.GetInt32("parkingId");
+                        parkingDetail = new ParkingDetail(ID, StartTime, EndTime, LicensePlate, company, ParkingId);
                     }
                     return parkingDetail;
                 }
@@ -587,11 +600,11 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
             }
         }
-        public IReadOnlyList<ParkingDetailDTO> GetParkingDetails()
+        public IReadOnlyList<ParkingDetail> GetParkingDetails()
         {
-            List<ParkingDetailDTO> parkingDetails = new List<ParkingDetailDTO>();
+            List<ParkingDetail> parkingDetails = new List<ParkingDetail>();
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select * from parkingDetails where visible = 1 order by id;";
+            string query = @"select *,c.id as cId, pd.id as pdId from Parkingdetails pd join Company c on pd.visitedCompanyId = c.id join Address a on a.id = c.addressid where pd.visible = 1 and c.visible = 1 and a.visible = 1 order by pd.id";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -601,7 +614,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     IDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        parkingDetails.Add(new ParkingDetailDTO((int)reader["id"], (DateTime)reader["startTime"], (DateTime)reader["endTime"], (string)reader["licensePlate"], (int)reader["visitedCompanyId"], (int)reader["parkingId"]));
+                        string busnummer = null;
+                        if (reader["bus"] != DBNull.Value)
+                        {
+                            busnummer = (string)reader["bus"];
+                        }
+                        Address address = new Address((int)reader["addressid"], (string)reader["city"], (string)reader["postalcode"], (string)reader["street"], (string)reader["houseNr"], busnummer);
+                        Company company = CompanyFactory.MakeCompany((int)reader["cId"], (string)reader["name"], (string)reader["VAT"], address, (string)reader["telNr"], (string)reader["email"]);
+                        parkingDetails.Add(ParkingDetailFactory.MakeParkingDetail((int)reader["pdId"], (DateTime)reader["startTime"], (DateTime)reader["endTime"], (string)reader["licensePlate"], company, (int)reader["parkingId"]));
                     }
                     reader.Close();
                     return parkingDetails;
@@ -620,7 +640,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public ParkingDetail WriteParkingDetailInDB(ParkingDetail parkingDetail)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"insert into parkingdetails(startTime,endTime,licensePlate,visitedCompanyId,parkingId) values (@startTime,@endTime,@licensePlate,@visitedCompanyId,@parkingId);";
+            string query = @"insert into Parkingdetails(startTime,endTime,licensePlate,visitedCompanyId,parkingId) values (@startTime,@endTime,@licensePlate,@visitedCompanyId,@parkingId);";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -630,7 +650,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     cmd.Parameters.AddWithValue("@startTime", parkingDetail.StartTime);
                     cmd.Parameters.AddWithValue("@endTime", parkingDetail.EndTime);
                     cmd.Parameters.AddWithValue("@licensePlate", parkingDetail.LicensePlate);
-                    cmd.Parameters.AddWithValue("@visitedCompanyId", parkingDetail.VisitedCompanyID);
+                    cmd.Parameters.AddWithValue("@visitedCompanyId", parkingDetail.VisitedCompany.ID);
                     cmd.Parameters.AddWithValue("@parkingId", parkingDetail.ParkingId);
                     cmd.ExecuteNonQuery();
                     int insertedId = (int)cmd.LastInsertedId;
@@ -648,11 +668,11 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-        public IReadOnlyList<ParkingContractDTO> GetParkingContracts(int parkingId)
+        public IReadOnlyList<ParkingContract> GetParkingContracts(int parkingId)
         {
-            List<ParkingContractDTO> parkingContracts = new List<ParkingContractDTO>();
+            List<ParkingContract> parkingContracts = new List<ParkingContract>();
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select * from parkingContract where visible = 1 and parkingId=@parkingId order by id;";
+            string query = @"select *, pc.id as pcId, c.id as cId from Parkingcontract pc join Company c on pc.companyId = c.id join Address a on c.addressId = a.id where pc.parkingId=@parkingId and pc.visible = 1 and c.visible = 1 order by pc.id;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -663,7 +683,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     IDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        parkingContracts.Add(new ParkingContractDTO((int)reader["id"], (int)reader["companyId"], (int)reader["spaces"], (DateTime)reader["startDate"], (DateTime)reader["endDate"], (int)reader["parkingId"]));
+                        string busnummer = null;
+                        if (reader["bus"] != DBNull.Value)
+                        {
+                            busnummer = (string)reader["bus"];
+                        }
+                        Address address = new Address((int)reader["addressid"], (string)reader["city"], (string)reader["postalcode"], (string)reader["street"], (string)reader["houseNr"], busnummer);
+                        Company company = CompanyFactory.MakeCompany((int)reader["cId"], (string)reader["name"], (string)reader["VAT"], address, (string)reader["telNr"], (string)reader["email"]);
+                        parkingContracts.Add(ParkingContractFactory.MakeParkingContract((int)reader["id"], company, (DateTime)reader["startDate"], (DateTime)reader["endDate"], (int)reader["spaces"], (int)reader["parkingId"]));
                     }
                     reader.Close();
                     return parkingContracts;
@@ -680,11 +707,11 @@ namespace VisitorsRegistrationSystemDL.Repositories
         }
 
 
-        public IReadOnlyList<ParkingDetailDTO> GetParkingDetails(int parkingId)
+        public IReadOnlyList<ParkingDetail> GetParkingDetails(int parkingId)
         {
-            List<ParkingDetailDTO> parkingDetails = new List<ParkingDetailDTO>();
+            List<ParkingDetail> parkingDetails = new List<ParkingDetail>();
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"select * from parkingDetails where visible = 1 and parkingId=@parkingId order by id;";
+            string query = @"select *,c.id as cId, pd.id as pdId from Parkingdetails pd join Company c on pd.visitedCompanyId = c.id join Address a on a.id = c.addressid where pd.visible = 1 and c.visible = 1 and a.visible = 1 and pd.parkingId = @parkingId order by pd.id";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -695,7 +722,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     IDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        parkingDetails.Add(new ParkingDetailDTO((int)reader["id"], (DateTime)reader["startTime"], (DateTime)reader["endTime"], (string)reader["licensePlate"], (int)reader["visitedCompanyId"], (int)reader["parkingId"]));
+                        string busnummer = null;
+                        if (reader["bus"] != DBNull.Value)
+                        {
+                            busnummer = (string)reader["bus"];
+                        }
+                        Address address = new Address((int)reader["addressid"], (string)reader["city"], (string)reader["postalcode"], (string)reader["street"], (string)reader["houseNr"], busnummer);
+                        Company company = CompanyFactory.MakeCompany((int)reader["cId"], (string)reader["name"], (string)reader["VAT"], address, (string)reader["telNr"], (string)reader["email"]);
+                        parkingDetails.Add(ParkingDetailFactory.MakeParkingDetail((int)reader["pdId"], (DateTime)reader["startTime"], (DateTime)reader["endTime"], (string)reader["licensePlate"], company, (int)reader["parkingId"]));
                     }
                     reader.Close();
                     return parkingDetails;

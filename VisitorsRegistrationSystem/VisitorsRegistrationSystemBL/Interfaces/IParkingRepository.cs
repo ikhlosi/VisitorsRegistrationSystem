@@ -22,11 +22,11 @@ namespace VisitorsRegistrationSystemBL.Interfaces
         #region ParkingContract
         ParkingContract WriteParkingContractInDB(ParkingContract parkingContract);
         ParkingContract GetParkingContractById(int iD);
-        IReadOnlyList<ParkingContractDTO> GetParkingContracts();
+        IReadOnlyList<ParkingContract> GetParkingContracts();
         bool ParkingContractExistsInDB(int id);
         void RemoveParkingContractFromDB(int id);
         void UpdateParkingContract(ParkingContract parkingContract);
-        IReadOnlyList<ParkingContractDTO> GetParkingContracts(int parkingId);
+        IReadOnlyList<ParkingContract> GetParkingContracts(int parkingId);
 
         #endregion
 
@@ -36,8 +36,8 @@ namespace VisitorsRegistrationSystemBL.Interfaces
         void UpdateParkingDetail(ParkingDetail parkingDetail);
         ParkingDetail WriteParkingDetailInDB(ParkingDetail parkingDetail);
         ParkingDetail GetParkingDetailById(int iD);
-        IReadOnlyList<ParkingDetailDTO> GetParkingDetails();
-        IReadOnlyList<ParkingDetailDTO> GetParkingDetails(int parkingId);
+        IReadOnlyList<ParkingDetail> GetParkingDetails();
+        IReadOnlyList<ParkingDetail> GetParkingDetails(int parkingId);
         #endregion
     }
 }

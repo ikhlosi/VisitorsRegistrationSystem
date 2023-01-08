@@ -462,7 +462,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void RemoveCompanyFromDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"UPDATE company c JOIN address a ON c.addressId = a.id SET c.visible=0, a.visible=0 WHERE c.id = @id AND c.visible=1";
+            string query = @"UPDATE Company c JOIN Address a ON c.addressId = a.id SET c.visible=0, a.visible=0 WHERE c.id = @id AND c.visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -487,7 +487,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void UpdateCompanyInDB(Company company)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"UPDATE company c JOIN address a ON c.addressId = a.id SET c.name = @name, c.VAT = @VAT, c.email = @email, c.telNr = @telNr, a.street = @street, a.houseNr = @houseNr, a.bus = @bus, a.postalCode = @postCode, a.city = @city WHERE c.id = @id;";
+            string query = @"UPDATE Company c JOIN Address a ON c.addressId = a.id SET c.name = @name, c.VAT = @VAT, c.email = @email, c.telNr = @telNr, a.street = @street, a.houseNr = @houseNr, a.bus = @bus, a.postalCode = @postCode, a.city = @city WHERE c.id = @id;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -502,7 +502,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     cmd.Parameters.AddWithValue("@street", company.Address.Street);
                     cmd.Parameters.AddWithValue("@houseNr", company.Address.HouseNumber);
                     cmd.Parameters.AddWithValue("@bus", company.Address.BusNumber);
-                    cmd.Parameters.AddWithValue("@postCode", company.Address.Postcode);
+                    cmd.Parameters.AddWithValue("@postCode", company.Address.PostalCode);
                     cmd.Parameters.AddWithValue("@city", company.Address.City);
                     cmd.Parameters.AddWithValue("@id", company.ID);
 
@@ -523,21 +523,34 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void WriteCompanyInDB(Company company)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"INSERT into Company (name,vat,email,telNr,addressId) values (@name,@VAT,@email,@telNr,@addressId)";
+            string query1 = @"INSERT into Address (street, houseNr, bus, postalCode, city) values (@street, @houseNr, @bus, @postalCode, @city)";
+            string query2 = @"INSERT into Company (name,vat,email,telNr,addressId) values (@name,@VAT,@email,@telNr,@addressId)";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
-                    cmd.CommandText = query;
-                    // Parameters adden
+                    MySqlTransaction transaction = connection.BeginTransaction();
+                    cmd.Connection = connection; cmd.Transaction = transaction;
+
+                    cmd.CommandText = query1;
+                    cmd.Parameters.AddWithValue("@street", company.Address.Street);
+                    cmd.Parameters.AddWithValue("@houseNr", company.Address.HouseNumber);
+                    cmd.Parameters.AddWithValue("@bus", company.Address.BusNumber);
+                    cmd.Parameters.AddWithValue("@postalCode", company.Address.PostalCode);
+                    cmd.Parameters.AddWithValue("@city", company.Address.City);
+                    cmd.ExecuteNonQuery();
+                    long addressId = cmd.LastInsertedId;
+
+                    cmd.CommandText = query2;
                     cmd.Parameters.AddWithValue("@name", company.Name);
                     cmd.Parameters.AddWithValue("@VAT", company.VATNumber);
                     cmd.Parameters.AddWithValue("@email", company.Email);
                     cmd.Parameters.AddWithValue("@telNr", company.TelephoneNumber);
-                    cmd.Parameters.AddWithValue("@addressId", company.Address.Id);
-                    // Query executen
+                    cmd.Parameters.AddWithValue("@addressId", addressId);
                     cmd.ExecuteNonQuery();
+
+                    transaction.Commit();
                 }
                 catch (Exception ex)
                 {
@@ -678,7 +691,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void RemoveEmployeeFromDB(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update employee set visible=0 where id = @id and visible=1";
+            string query = @"update Employee set visible=0 where id = @id and visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -702,7 +715,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void UpdateEmployeeInDB(Employee employee, Company company)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update Employee set firstName=@name, lastName=@lastname, email=@email, occupation=@function,companyId = @companyId, where id=@id;";
+            string query = @"update Employee set firstName=@name, lastName=@lastname, email=@email, occupation=@function,companyId = @companyId where id=@id;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
