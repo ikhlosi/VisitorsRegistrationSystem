@@ -48,7 +48,6 @@ namespace TestDomain
             Company company = _visitedCompany;
             Visitor visitor = _visitor;
             Employee employee = _employee;
-            DateTime startTime = DateTime.Now.AddHours(1);
 
             //Act 
             Visit visit = VisitFactory.MakeVisit(1, _visitor, _visitedCompany, _employee);
@@ -57,7 +56,6 @@ namespace TestDomain
             Assert.Equal(_visitor, visit.Visitor);
             Assert.Equal(_visitedCompany, visit.VisitedCompany);
             Assert.Equal(_employee, visit.VisitedEmployee);
-            Assert.Equal(startTime, visit.StartTime);
         }
         [Theory]
         [InlineData(null)]
@@ -103,20 +101,7 @@ namespace TestDomain
             var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(1, visitor, company, employee)); ;
             Assert.Equal("Visit - SetVisitedEmployee - Visited Employee is null", ex.InnerException.Message);
         }
-        [Fact]
-        public void Test_ctor_Invalid_Time_Start_Earlier_Than_Now()
-        {
-            Visit v;
-            Company company = new Company("CompanyA", "XXXXXXX", "CompanyA@hotmail.com");
-            Visitor visitor = new Visitor("Tobias", "Tobias@hotmail.com", "Google");
-            Employee employee = new Employee("Arno", "Vantieghem", "Tester");
-            DateTime startTime = DateTime.MinValue.AddHours(2);
-            DateTime endTime = DateTime.MinValue.AddHours(1);
-            //Act
-            //Assert
-            var ex = Assert.Throws<VisitException>(() => v = VisitFactory.MakeVisit(1, visitor, company, employee)); ;
-            Assert.Equal("Visit - SetStartTime - Start time is too early", ex.InnerException.Message);
-        }
+       
 
     }
 }

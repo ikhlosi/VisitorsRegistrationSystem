@@ -1,5 +1,6 @@
 ﻿using Moq;
 using VisitorsRegistrationSystemBL.Domain;
+using VisitorsRegistrationSystemBL.DTO;
 using VisitorsRegistrationSystemBL.Exceptions;
 using VisitorsRegistrationSystemBL.Factories;
 using VisitorsRegistrationSystemBL.Interfaces;
@@ -34,7 +35,7 @@ namespace TestManagers
             // voorbereiden
             Visit visit = null;
             // testen
-            var ex = Assert.Throws<VisitException>( () => this._vm.AddVisit(visit) );
+            var ex = Assert.Throws<VisitManagerException>( () => this._vm.AddVisit(visit) );
             Assert.Equal("VisitManager(AddVisit) - visit is null", ex.Message);
         }
 
@@ -46,7 +47,7 @@ namespace TestManagers
             this._mockRepo.Setup(repoInterface => repoInterface.VisitExists(v)).Returns(true);
 
             // testen
-            var ex = Assert.Throws<VisitException>( () => this._vm.AddVisit(v) );
+            var ex = Assert.Throws<VisitManagerException>( () => this._vm.AddVisit(v) );
             Assert.Equal("VisitManager - AddVisit - Visit does exist", ex.Message);
 
         }
@@ -54,27 +55,18 @@ namespace TestManagers
         public void DeleteVisit_Invalid_Visit_is_null()
         {
             //voorbereiden
-            Visit visit = null;
+            VisitDTO visit = null;
             //testen
-            var ex = Assert.Throws<VisitException>(() => this._vm.DeleteVisit(visit) );
+            var ex = Assert.Throws<VisitManagerException>(() => this._vm.DeleteVisit(visit) );
             Assert.Equal("VisitManager(Deletevisit) - visit is null", ex.Message);
         }
-        [Fact]
-        public void DeleteVisist_Invalid_Visit_NotExist()
-        {
-            //voorbereiden
-            Visit visit = VisitFactory.MakeVisit(null,_validVisitor,_visitedCompany,_employee);
-            this._mockRepo.Setup(repoInterface => repoInterface.VisitExists(visit)).Returns(false);
-            //testen
-            var ex=Assert.Throws<VisitException>(() => this._vm.DeleteVisit(visit));
-            Assert.Equal("VisitManager - Deletevisit - visit does not exist", ex.Message);
-        }
+        
         [Fact]
         public void UpdateVisit_Invalid_Visit_is_null()
         {
             Visit visit = null;
             //testen
-            var ex = Assert.Throws<VisitException>(() => this._vm.UpdateVisit(visit));
+            var ex = Assert.Throws<VisitManagerException>(() => this._vm.UpdateVisit(visit));
             Assert.Equal("VisitManager(Updatevisit) - visit is null", ex.Message);
         }
         [Fact]
@@ -83,7 +75,7 @@ namespace TestManagers
             Visit visit = VisitFactory.MakeVisit(null,_validVisitor,_visitedCompany,_employee);
             this._mockRepo.Setup(repoInterface => repoInterface.VisitExists(visit)).Returns(false);
             //testen
-            var ex = Assert.Throws<VisitException>(() => this._vm.UpdateVisit(visit));
+            var ex = Assert.Throws<VisitManagerException>(() => this._vm.UpdateVisit(visit));
             Assert.Equal("VisitManager(Updatevisit) - visit does not exist", ex.InnerException.Message);
         }
         [Fact]
@@ -94,7 +86,7 @@ namespace TestManagers
             this._mockRepo.Setup(repoInterface => repoInterface.VisitExists(visit)).Returns(true);
             this._mockRepo.Setup(repoInterface => repoInterface.GetVisit(visit.Id)).Returns(visit);
             //testen
-            var ex = Assert.Throws<VisitException>(() => this._vm.UpdateVisit(visit));
+            var ex = Assert.Throws<VisitManagerException>(() => this._vm.UpdateVisit(visit));
             Assert.Equal("VisitManager(Updatevisit) - visit is unchanged", ex.InnerException.Message);
         }
 

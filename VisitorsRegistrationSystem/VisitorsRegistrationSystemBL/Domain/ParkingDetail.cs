@@ -40,7 +40,7 @@ namespace VisitorsRegistrationSystemBL.Domain
         }
         public void SetStartTime(DateTime startTime)
         {
-            if (startTime == null) throw new ParkingException("ParkingDetail - SetStartTime - Start time is null");
+           // if (startTime == null) throw new ParkingException("ParkingDetail - SetStartTime - Start time is null");
             StartTime = startTime;
         }
         public void SetEndTime(DateTime endTime)

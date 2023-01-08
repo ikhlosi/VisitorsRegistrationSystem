@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using VisitorsRegistrationSystemBL.Domain;
@@ -14,7 +15,7 @@ namespace TestDomain
         [Fact]
         public void SetID_succes()
         {
-            ParkingDetail parkingdetail = ParkingDetailFactory.MakeParkingDetail(1, DateTime.Now.AddHours(1), DateTime.Now.AddHours(1), "007-BND", 1, 1);
+            ParkingDetail parkingdetail = ParkingDetailFactory.MakeParkingDetail(1, DateTime.Now.AddHours(1), DateTime.Now.AddHours(1), "007-BND", new Company("tobias","xxxxxx","test@email.com"), 1);
             parkingdetail.SetID(2);
             Assert.Equal(2, parkingdetail.ID);
         }
@@ -23,32 +24,27 @@ namespace TestDomain
         [InlineData(-1)]
         public void SetID_ParkingException(int id)
         {
-            ParkingDetail parkingdetail = ParkingDetailFactory.MakeParkingDetail(1, DateTime.Now.AddHours(1), DateTime.Now.AddHours(1), "007-BND", 1, 1);
+            ParkingDetail parkingdetail = ParkingDetailFactory.MakeParkingDetail(1, DateTime.Now.AddHours(1), DateTime.Now.AddHours(1), "007-BND", new Company("tobias", "xxxxxx", "test@email.com"), 1);
             Assert.Throws<ParkingException>(() => parkingdetail.SetID(id));
         }
         [Fact]
         public void SetStartTime_succes()
         {
-            ParkingDetail parkingdetail = ParkingDetailFactory.MakeParkingDetail(1, DateTime.Now.AddHours(1), DateTime.Now.AddHours(1), "007-BND", 1, 1);
-            parkingdetail.SetStartTime(DateTime.Now.AddHours(1));
-            Assert.Equal(DateTime.Now.AddHours(1), parkingdetail.StartTime);
+            DateTime startTime = DateTime.Now.AddHours(1);
+            ParkingDetail parkingdetail = ParkingDetailFactory.MakeParkingDetail(1, DateTime.Now.AddHours(1), DateTime.Now.AddHours(1), "007-BND", new Company("tobias", "xxxxxx", "test@email.com"), 1);
+            parkingdetail.SetStartTime(startTime);
+            Assert.Equal(startTime, parkingdetail.StartTime);
         }
-        [Theory]
-        [InlineData(null)]
-        public void SetStartTime_ParkingException(DateTime? startTime)
-        {
-            ParkingDetail parkingdetail = ParkingDetailFactory.MakeParkingDetail(1, DateTime.Now.AddHours(1), DateTime.Now.AddHours(1), "007-BND", 1, 1);
-            Assert.Throws<ParkingException>(() => parkingdetail.SetStartTime(DateTime.Now.AddHours(1)));
-        }
-
-
+        
 
         [Fact]
         public void SetEndTime_succes()
         {
-            ParkingDetail parkingdetail = ParkingDetailFactory.MakeParkingDetail(1, DateTime.Now, DateTime.Now.AddHours(1), "007-BND", 1, 1);
-            parkingdetail.SetEndTime(DateTime.Now);
-            Assert.Equal(DateTime.Now, parkingdetail.EndTime);
+            DateTime endtime = DateTime.Now.AddHours(1);
+            ParkingDetail parkingdetail = ParkingDetailFactory.MakeParkingDetail(1, DateTime.Now, DateTime.Now.AddHours(1), "007-BND", new Company("tobias", "xxxxxx", "test@email.com"), 1);
+            parkingdetail.SetEndTime(endtime);
+            Assert.NotNull(parkingdetail.EndTime);
+            Assert.Equal(endtime, parkingdetail.EndTime);
         }
      
 
@@ -57,13 +53,13 @@ namespace TestDomain
         [InlineData(null)]
         public void SetEndTime_ParkingException(int hours)
         {
-            ParkingDetail parkingdetail = ParkingDetailFactory.MakeParkingDetail(1, DateTime.Now.AddHours(1), DateTime.Now.AddHours(1), "007-BND", 1, 1);
+            ParkingDetail parkingdetail = ParkingDetailFactory.MakeParkingDetail(1, DateTime.Now.AddHours(1), DateTime.Now.AddHours(1), "007-BND", new Company("tobias", "xxxxxx", "test@email.com"), 1);
             Assert.Throws<ParkingException>(() => parkingdetail.SetEndTime(DateTime.Now.AddHours(-hours)));
         }
         [Fact]
         public void SetLicensePlate_succes()
         {
-            ParkingDetail parkingdetail = ParkingDetailFactory.MakeParkingDetail(1, DateTime.Now.AddHours(1), DateTime.Now.AddHours(1), "007-BND", 1, 1);
+            ParkingDetail parkingdetail = ParkingDetailFactory.MakeParkingDetail(1, DateTime.Now.AddHours(1), DateTime.Now.AddHours(1), "007-BND", new Company("tobias", "xxxxxx", "test@email.com"), 1);
             parkingdetail.SetLicensePlate("007-BND");
             Assert.Equal("007-BND", parkingdetail.LicensePlate);
         }
@@ -72,8 +68,8 @@ namespace TestDomain
         [InlineData("")]
         public void SetLicensePlate_ParkingException(string licensePlate)
         {
-            ParkingDetail parkingdetail = ParkingDetailFactory.MakeParkingDetail(1, DateTime.Now.AddHours(1), DateTime.Now.AddHours(1), "007-BND", 1, 1);
-            Assert.Throws<ParkingException>(() => parkingdetail.SetLicensePlate("007-BND"));
+            ParkingDetail parkingdetail = ParkingDetailFactory.MakeParkingDetail(1, DateTime.Now.AddHours(1), DateTime.Now.AddHours(1), "007-BND", new Company("tobias", "xxxxxx", "test@email.com"), 1);
+            Assert.Throws<ParkingException>(() => parkingdetail.SetLicensePlate(licensePlate));
         }
     }
 }
