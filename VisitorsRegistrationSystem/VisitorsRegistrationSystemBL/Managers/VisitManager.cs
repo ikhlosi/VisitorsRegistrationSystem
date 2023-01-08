@@ -56,6 +56,12 @@ namespace VisitorsRegistrationSystemBL.Managers
                 throw new VisitManagerException("VisitManager - UpdateVisit", ex);
             }
         }
+        /// <summary>
+        /// chekt op null chekt dan of visitor in de databank zit als hij er niet in zit voeg hij en toe en returnt hem
+        /// </summary>
+        /// <param name="visitor"></param>
+        /// <returns>de toegevoegde visitor of de visitor die al in de databank zit </returns>
+        /// <exception cref="VisitManagerException"></exception>
         public Visitor AddVisitor(Visitor visitor)
         {
             if (visitor == null) throw new VisitManagerException("VisitManager - Addvisitor - visitor is null");
