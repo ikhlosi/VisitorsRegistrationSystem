@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VisitorRegistrationSystemVisitGUI.ValidationRules;
 using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.Factories;
 using VisitorsRegistrationSystemBL.Managers;
@@ -89,8 +90,40 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
                 {
                     cbAfspraakMet.Items.Add(em);
                 }
-            }
+            } 
             cbAfspraakMet.SelectedIndex = 0;
+            EnableButton();
+        }
+
+        private void TextBoxes_TextChanged(object sender, EventArgs e) {
+            EnableButton();
+        }
+
+        private void EnableButton() {
+            NameValidationRule rule = new NameValidationRule();
+            ValidationResult resFirstName = rule.Validate(txtbVoornaam.Text, System.Globalization.CultureInfo.InvariantCulture);
+            ValidationResult resLastName = rule.Validate(txtbAchternaam.Text, System.Globalization.CultureInfo.InvariantCulture);
+            ValidationResult resCompanyVisitor = rule.Validate(txtbBedrijfBezoeker.Text, System.Globalization.CultureInfo.InvariantCulture);
+
+            EmailValidationRule emailRule = new EmailValidationRule();
+            ValidationResult resEmail = emailRule.Validate(txtbEmail.Text, System.Globalization.CultureInfo.InvariantCulture);
+
+            if (resFirstName.IsValid && resLastName.IsValid && resCompanyVisitor.IsValid && resEmail.IsValid && (cbBedrijfAfspraak.SelectedIndex != 0) && (cbAfspraakMet.SelectedIndex != 0)) {
+                btnInschrijven.IsEnabled = true;
+            } else {
+                btnInschrijven.IsEnabled = false;
+            }
+            //if (!string.IsNullOrWhiteSpace(txtbVoornaam.Text) && (!string.IsNullOrWhiteSpace)) {
+            //    btnInschrijven.IsEnabled = true;
+            //}
+        }
+
+        private void TextBoxes_TextChanged(object sender, TextChangedEventArgs e) {
+            EnableButton();
+        }
+
+        private void cbAfspraakMet_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            EnableButton();
         }
     }
 }
