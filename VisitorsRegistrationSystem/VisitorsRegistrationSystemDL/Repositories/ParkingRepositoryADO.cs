@@ -24,8 +24,16 @@ namespace VisitorsRegistrationSystemDL.Repositories
             this.connectionString = connectionString;
         }
 
-        // parking methodes DONE + checked
         #region Parking
+        /// <summary>
+        /// This method retrieves a parking object given its ID.
+        /// </summary>
+        /// <param name="iD">The ID of the parking to retrieve.</param>
+        /// <returns>A parking object matching the given ID.</returns>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public Parking GetParkingById(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -151,6 +159,16 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method inserts a parking object in the MySQL database
+        /// and then sets the ID property of the inserted parking object.
+        /// </summary>
+        /// <param name="parking">The parking object to insert.</param>
+        /// <returns>The inserted parking object with its ID property assigned.</returns>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public Parking WriteParkingInDB(Parking parking)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -180,6 +198,15 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method checks whether a certain parking object exists in the database.
+        /// </summary>
+        /// <param name="parkingID">The ID of the parking to check.</param>
+        /// <returns>A bool indicitating whether the parking exists in the database or not.</returns>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public bool ParkingExistsInDB(int parkingID)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -207,6 +234,15 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method removes a parking from the database by setting
+        /// its visible column to 0.
+        /// </summary>
+        /// <param name="iD">The ID of the parking to remove.</param>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public void RemoveParkingFromDB(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -231,6 +267,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method updates a company in the MySQL database.
+        /// </summary>
+        /// <param name="parking">The parking object with its updated properties.</param>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public void UpdateParking(Parking parking)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -258,6 +302,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method retrieves all parkings from the database.
+        /// </summary>
+        /// <returns>A readonly list of all the parkings in the database.</returns>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public IReadOnlyList<ParkingDTO> GetParkings()
         {
             List<ParkingDTO> parkings = new List<ParkingDTO>();
@@ -290,8 +342,17 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         #endregion
 
-        // parkingContract methodes DONE + checked
         #region ParkingContract
+        /// <summary>
+        /// This method inserts a parkingcontract object in the MySQL database
+        /// and then sets its ID property from the ID which the database assigns.
+        /// </summary>
+        /// <param name="parkingContract">The parkingcontract object to insert.</param>
+        /// <returns>The inserted parkingcontract object with its assigned ID.</returns>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public ParkingContract WriteParkingContractInDB(ParkingContract parkingContract)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -323,6 +384,15 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method retrieves a parkingcontract object from the database.
+        /// </summary>
+        /// <param name="iD">The ID of the parkingcontract object to retrieve.</param>
+        /// <returns>A parkingcontract object matching the ID.</returns>
+        /// <exception cref="VisitRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public ParkingContract GetParkingContractById(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -358,6 +428,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method retrieves all the parkingcontract objects from the database.
+        /// </summary>
+        /// <returns>A readonly list of all the parkingcontract objects from the database.</returns>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public IReadOnlyList<ParkingContract> GetParkingContracts()
         {
             List<ParkingContract> parkingContracts = new List<ParkingContract>();
@@ -395,6 +473,18 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method checks whether a certain parkingcontract object exists in the database.
+        /// </summary>
+        /// <param name="id">The ID of the parkingcontract object to check.</param>
+        /// <returns>
+        /// A bool indicating whether the parkingcontract
+        /// object exists in the database or not
+        /// </returns>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public bool ParkingContractExistsInDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -422,6 +512,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method removes a certain parkingcontract object from the database.
+        /// </summary>
+        /// <param name="id">The ID of the parkingcontract object to remove.</param>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public void RemoveParkingContractFromDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -446,6 +544,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method updates a parkingcontract object in the MySQL database.
+        /// </summary>
+        /// <param name="parkingContract">The updated parkingcontract object.</param>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public void UpdateParkingContract(ParkingContract parkingContract)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -479,6 +585,15 @@ namespace VisitorsRegistrationSystemDL.Repositories
 
         #region ParkingDetail
 
+        /// <summary>
+        /// This method checks whether a certain parkingdetail object exists in the database.
+        /// </summary>
+        /// <param name="id">The ID of the parkingdetail object to check for.</param>
+        /// <returns>A bool indicating whether the parkingdetail object exists in the database or not.</returns>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public bool ParkingDetailExistsInDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -506,6 +621,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method removes a certain parkingdetail object from the MySQL database.
+        /// </summary>
+        /// <param name="id">The ID of the parkingdetail object to be removed.</param>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public void RemoveParkingDetailFromDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -530,6 +653,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method updates the parkingdetail object in the MySQL database.
+        /// </summary>
+        /// <param name="parkingDetail">The updated parkingdetail object.</param>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public void UpdateParkingDetail(ParkingDetail parkingDetail)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -559,6 +690,15 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method retrieves a parkingdetail object from the database given its ID.
+        /// </summary>
+        /// <param name="iD">The ID of the parkingdetail object to retrieve.</param>
+        /// <returns></returns>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public ParkingDetail GetParkingDetailById(int iD)
         {
 
@@ -600,6 +740,17 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
             }
         }
+        /// <summary>
+        /// This method retrieves all parkingdetail objects from the database.
+        /// </summary>
+        /// <returns>
+        /// A readonly list containing all the parkingdetail objects
+        /// from the database.
+        /// </returns>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public IReadOnlyList<ParkingDetail> GetParkingDetails()
         {
             List<ParkingDetail> parkingDetails = new List<ParkingDetail>();
@@ -637,6 +788,16 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
         
+        /// <summary>
+        /// This method inserts a parkingdetail object in the MySQL database 
+        /// and then sets its ID property from the ID assigned by the database.
+        /// </summary>
+        /// <param name="parkingDetail">The parkingdetail object to insert.</param>
+        /// <returns>The parkingdetail object with its assigned ID.</returns>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public ParkingDetail WriteParkingDetailInDB(ParkingDetail parkingDetail)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -668,6 +829,17 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method retrieves all parking contracts connected to a certain parking.
+        /// </summary>
+        /// <param name="parkingId">
+        /// The ID of the parking for which the parking contracts should be retrieved.
+        /// </param>
+        /// <returns>A readonly list of the parking contracts matching the parking ID.</returns>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public IReadOnlyList<ParkingContract> GetParkingContracts(int parkingId)
         {
             List<ParkingContract> parkingContracts = new List<ParkingContract>();
@@ -707,6 +879,17 @@ namespace VisitorsRegistrationSystemDL.Repositories
         }
 
 
+        /// <summary>
+        /// This method retrieves the parking details of a certain parking.
+        /// </summary>
+        /// <param name="parkingId">
+        /// The ID of the parking for which the parking details should be retrieved.
+        /// </param>
+        /// <returns>A readonly list of the parking details matching the parking.</returns>
+        /// <exception cref="ParkingRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public IReadOnlyList<ParkingDetail> GetParkingDetails(int parkingId)
         {
             List<ParkingDetail> parkingDetails = new List<ParkingDetail>();
