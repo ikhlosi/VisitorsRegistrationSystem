@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VisitorRegistrationSystemVisitGUI.ValidationRules;
 using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.Exceptions;
 using VisitorsRegistrationSystemBL.Managers;
@@ -66,6 +67,22 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.MainWindow.Content = new pageMain(_cm, _vm);
+        }
+
+        
+        private void EnableButton() {
+            EmailValidationRule emailRule = new EmailValidationRule();
+            ValidationResult resEmail = emailRule.Validate(txtbEmail.Text, System.Globalization.CultureInfo.InvariantCulture);
+
+            if (resEmail.IsValid) {
+                btnUitschrijven.IsEnabled = true;
+            } else {
+                btnUitschrijven.IsEnabled = false;
+            }
+        }
+
+        private void txtbEmail_TextChanged(object sender, TextChangedEventArgs e) {
+            EnableButton();
         }
     }
 }
