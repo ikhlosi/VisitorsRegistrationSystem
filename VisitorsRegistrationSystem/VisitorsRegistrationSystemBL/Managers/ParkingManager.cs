@@ -228,7 +228,11 @@ namespace VisitorsRegistrationSystemBL.Managers
                 throw new ParkingManagerException("ParkingManager - GetParkingDetail", ex);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="ParkingManagerException"></exception>
         public IReadOnlyList<ParkingDetail> GetParkingDetails()
         {
             try
@@ -240,7 +244,12 @@ namespace VisitorsRegistrationSystemBL.Managers
                 throw new ParkingManagerException("ParkingManager - GetParkingDetails", ex);
             }
         }
-
+        /// <summary>
+        /// This method returns a list of parkingDetails by parkingId
+        /// </summary>
+        /// <param name="parkingId"></param>
+        /// <returns></returns>
+        /// <exception cref="ParkingManagerException"></exception>
         public IReadOnlyList<ParkingDetail> GetParkingDetails(int parkingId)
         {
             try
