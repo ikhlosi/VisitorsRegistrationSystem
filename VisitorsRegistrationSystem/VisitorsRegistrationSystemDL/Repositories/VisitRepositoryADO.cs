@@ -14,6 +14,11 @@ using VisitorsRegistrationSystemBL.Interfaces;
 using VisitorsRegistrationSystemDL.Exceptions;
 namespace VisitorsRegistrationSystemDL.Repositories
 {
+    /// <summary>
+    /// This is the class responsible for sending queries pertaining
+    /// the management of visits in the database.
+    /// It implements the IVisitRepository interface.
+    /// </summary>
     public class VisitRepositoryADO : IVisitRepository
     {
         private string connectionString;

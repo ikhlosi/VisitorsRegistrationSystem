@@ -14,6 +14,11 @@ using VisitorsRegistrationSystemDL.Exceptions;
 
 namespace VisitorsRegistrationSystemDL.Repositories
 {
+    /// <summary>
+    /// This is the class responsible for sending queries pertaining
+    /// the management of parkings in the database.
+    /// It implements the IParkingRepository interface.
+    /// </summary>
     public class ParkingRepositoryADO : IParkingRepository
     {
 
