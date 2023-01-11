@@ -9,6 +9,13 @@ namespace VisitorsRegistrationSystemBL.Managers {
             _repo = repo;
         }
         private ICompanyRepository _repo;
+        /// <summary>
+        /// This method throws an exception is company is null and checks if the VAT number and email are valid.
+        /// This method also throws an exception if the company already exists in the database.
+        /// If no exception is thrown this method adds a new company to the database.
+        /// </summary>
+        /// <param name="company"></param>
+        /// <exception cref="CompanyException"></exception>
         public void AddCompany(Company company) {
             if (company == null) {
                 throw new CompanyException("CompanyManager - AddCompany - company is null.");
@@ -27,6 +34,13 @@ namespace VisitorsRegistrationSystemBL.Managers {
                 throw new CompanyException("CompanyManager - AddCompany", ex);
             }
         }
+        /// <summary>
+        /// This method throws an exception if company is null and if the company is not found by id in the database
+        /// This method also throws an exception if the company still has employees.
+        /// If no exception is thrown the company is removed from the database.
+        /// </summary>
+        /// <param name="company"></param>
+        /// <exception cref="CompanyException"></exception>
         public void RemoveCompany(Company company) {
             if (company == null) throw new CompanyException("CompanyManager - RemoveCompany - company is null.");
 
@@ -39,6 +53,13 @@ namespace VisitorsRegistrationSystemBL.Managers {
                 throw new CompanyException("CompanyManager - RemoveCompany", ex);
             }
         }
+        /// <summary>
+        /// This method throws an exception if company is null and checks if the VAT number and email are valid.
+        /// This method also throws an exception if company is not found by id in the database or when nothing is changed.
+        /// If no exception is thrown the company is updated in the database.
+        /// </summary>
+        /// <param name="company"></param>
+        /// <exception cref="CompanyException"></exception>
         public void UpdateCompany(Company company) {
             if (company == null) throw new CompanyException("CompanyManager - UpdateCompany - company is null.");
             if (!VATChecker.IsValid(company.VATNumber))
@@ -59,7 +80,12 @@ namespace VisitorsRegistrationSystemBL.Managers {
                 throw new CompanyException("CompanyManager - UpdateCompany", ex);
             }
         }
-
+        /// <summary>
+        /// This method returns a company by id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="CompanyException"></exception>
         public Company GetCompanyById(int id) {
         
             try { 
@@ -69,7 +95,11 @@ namespace VisitorsRegistrationSystemBL.Managers {
                 throw new CompanyException("CompanyManager - GetCompanyById", ex);
             }
         }
-
+        /// <summary>
+        /// This method returns a lis of companies.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="CompanyException"></exception>
         public IReadOnlyList<Company> GetCompanies() {
             try {
                 return _repo.GetCompaniesFromDB();
@@ -78,6 +108,17 @@ namespace VisitorsRegistrationSystemBL.Managers {
                 throw new CompanyException("CompanyManager - GetCompanies", ex);
             }
         }
+        /// <summary>
+        /// This method returns a company if found in the database.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="vatNum"></param>
+        /// <param name="address"></param>
+        /// <param name="telNumber"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        /// <exception cref="CompanyException"></exception>
         public IReadOnlyList<Company> SearchCompany(int? id, string name, string vatNum, Address address, string telNumber, string email) {
             List<Company> companies = new List<Company>();
             try {
@@ -99,7 +140,13 @@ namespace VisitorsRegistrationSystemBL.Managers {
                 throw new CompanyException("CompanyManager - SearchCompany", ex);
             }
         }
-
+        /// <summary>
+        /// This method throws an exception if the employee is null
+        /// If no exception is thrown this method adds a employee with its company to the database.
+        /// </summary>
+        /// <param name="employee"></param>
+        /// <param name="company"></param>
+        /// <exception cref="CompanyException"></exception>
         public void AddEmployee(Employee employee, Company company)
         {
             if (employee == null) throw new CompanyException("CompanyManager - Addemployee - employee is null");
@@ -115,6 +162,12 @@ namespace VisitorsRegistrationSystemBL.Managers {
                 throw new CompanyException("CompanyManager - AddEmployee", ex);
             }
         }
+        /// <summary>
+        /// This method throws an exception if employee is null or if the employee is not found by id.
+        /// If no exception is thrown the employee if removed.
+        /// </summary>
+        /// <param name="employee"></param>
+        /// <exception cref="CompanyException"></exception>
         public void RemoveEmployee(Employee employee)
         {
             if (employee == null) throw new CompanyException("CompanyManager - RemoveEmployee - employee is null");
@@ -128,6 +181,14 @@ namespace VisitorsRegistrationSystemBL.Managers {
                 throw new CompanyException("CompanyManager - RemoveEmployee", ex);
             }
         }
+        /// <summary>
+        /// This method throws an exception employee is null.
+        /// This method also throws an exception if the employee is not found or if the employee is unchanged
+        /// If no exception is thrown the employee is updated in the database.
+        /// </summary>
+        /// <param name="employee"></param>
+        /// <param name="company"></param>
+        /// <exception cref="CompanyException"></exception>
         public void UpdateEmployee(Employee employee, Company company)
         {
             if (employee == null) throw new CompanyException("CompanyManager - UpdateEmployee - employee is null");
@@ -143,6 +204,11 @@ namespace VisitorsRegistrationSystemBL.Managers {
                 throw new CompanyException("CompanyManager - UpdateEmployee", ex);
             }
         }
+        /// <summary>
+        /// This method returns a list of the employees in the database.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="CompanyException"></exception>
         public IReadOnlyList<Employee> GetEmployees()
         {
             try
@@ -154,7 +220,12 @@ namespace VisitorsRegistrationSystemBL.Managers {
                 throw new CompanyException("CompanyManager - GetEmployees", ex);
             }
         }
-
+        /// <summary>
+        /// This method returns a list of the company by companyId
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        /// <exception cref="CompanyException"></exception>
         public IReadOnlyList<Employee> GetEmployeesFromCompanyId(int companyId)
         {
             try

@@ -44,6 +44,9 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
         private int SavedParkingId = 0;
         private string? CheckedRadioButton = "";
 
+        /// <summary>
+        /// Dictionaries used to translate domain object parameters into readable text strings, mainly used for table column headers.
+        /// </summary>
         private Dictionary<string, string> CompanyParameterDictionary = new Dictionary<string, string> { { "ID", "Id" }, { "Name", "Naam" }, { "VATNumber", "Ondernemingsnummer" }, { "Address", "Adres" }, { "TelephoneNumber", "Telefoonnummer" }, { "Email", "Email" } };
         private Dictionary<string, string> EmployeeParameterDictionary = new Dictionary<string, string> { { "ID", "Id" }, { "Name", "Voornaam" }, { "LastName", "Achternaam" }, { "Email", "Email" }, { "Function", "Functie" }, { "CompanyId", "Bedrijf" } };
         private Dictionary<string, string> VisitorParameterDictionary = new Dictionary<string, string> { { "Id", "Id" }, { "Name", "Naam" }, { "Email", "Email" }, { "VisitorCompany", "Bedrijf" } };
@@ -52,6 +55,13 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
         private Dictionary<string, string> ParkingDetailParameterDictionary = new Dictionary<string, string> { { "ID", "Id" }, { "StartTime", "Start Parking" }, { "EndTime", "Einde Parking" }, { "LicensePlate", "Nummerplaat" }, { "VisitedCompany", "Bezocht bedrijf" }, { "ParkingId", "ParkingId" } };
         private Dictionary<string, string> ParkingContractParameterDictionary = new Dictionary<string, string> { { "ID", "Id" }, { "Company", "Bedrijf" }, { "ReservedSpace", "Gereserveerde Plaatsen" }, { "StartDate", "Start Datum" }, { "EndDate", "Eind Datum" }, { "parkingId", "ParkingId" } };
 
+        /// <summary>
+        /// This is the constructor: used to initialize the components, the data and assigns the managers.
+        /// </summary>
+        /// <param name="cm">the CompanyManager that handles the business logic regarding Companies and Employees</param>
+        /// <param name="vm">the VisitManager that handles the business logic regarding Visits and Visitors</param>
+        /// <param name="pm">the ParkingManager that handles the business logic regarding Parking, ParkingDetails and ParkingContracts</param>
+        /// <param name="tabIndex">the initial selected tab is decide based on the tabIndex</param>
         public pageBeheer(CompanyManager cm, VisitManager vm,ParkingManager pm, int tabIndex)
         {
             _cm = cm;
@@ -62,6 +72,10 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             InitializeData(tabIndex);
         }
 
+        /// <summary>
+        /// This methode binds the radiobuttons to the RoutedEvenHandler: radioButtons_CheckedChanged and sets the selected tab.
+        /// </summary>
+        /// <param name="i">the tabindex that was passed-through from the constructor</param>
         public void InitializeData(int i)
         {
             foreach (RadioButton rb in stpFilterRadioButtons.Children)
@@ -72,6 +86,11 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             ((RadioButton)stpFilterRadioButtons.Children[i]).IsChecked = true;
         }
 
+        /// <summary>
+        /// This methode returns a parameter dictionary depending on the type of object that is given.
+        /// </summary>
+        /// <param name="item">the object for which a parameter dictionary has to be returned</param>
+        /// <returns>The parameter dictionary with key being the parameter name and the value being text string representation of that parameter</returns>
         private Dictionary<string,string> GetParamaterDictionary(object item)
         {
             switch (item.GetType().Name)
@@ -95,6 +114,11 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             }
         }
 
+        /// <summary>
+        /// A methode implementing ItemCollection.Filter that checks whether the search query is contained within the datagrid. Universal for all Object types.
+        /// </summary>
+        /// <param name="item">The datagrid row entry is passed in as an object</param>
+        /// <returns>The bool which will decide whether the datagrid row entry will be displayed or not</returns>
         private bool ResultsFilter(object item)
         {
             if (string.IsNullOrEmpty(txtbFilter.Text) && ((string)cmbSearchParameter.SelectedValue != "All"))
@@ -135,6 +159,11 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             }
         }
 
+        /// <summary>
+        /// The main eventhandler which is triggered by the selected tab and will fetch all the data for that selected tab.
+        /// This eventhandler will initialize all the data into the datagrid and check for previously queried ids (Example: Employees for a specific company)
+        /// </summary>
+        /// <param name="sender">The tab that was selected and triggred this eventhandler</param>
         private void radioButtons_CheckedChanged(object sender, RoutedEventArgs e)
         {
             cmbSearchParameter.Items.Clear();
@@ -350,6 +379,11 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             cmbSearchParameter.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// The evenhandler is triggered when clicking on the btnToevoegen button.
+        /// Depending on the datagird tab it will open a new form to add a new object into the database.
+        /// </summary>
+        /// <param name="sender">the btnToevoegen button when clicked</param>
         private void btnToevoegen_Click(object sender, RoutedEventArgs e)
         {
             switch (CheckedRadioButton)
@@ -402,6 +436,11 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
 
         }
 
+        /// <summary>
+        /// The eventhandler is triggered when clicking on the btnEdit button which can be found in some datagrid rows.
+        /// Depending on the selected datagird row it will open a new form to update an existing object into the database.
+        /// </summary>
+        /// <param name="sender">the btnEdit button when clicked</param>
         private void EditButton_OnClick(object sender, RoutedEventArgs e)
         {
             switch (dgDataTable.SelectedValue.GetType().Name)
@@ -453,6 +492,11 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             }
         }
 
+        /// <summary>
+        /// The eventHandler is triggered when clicking on the btnDelete button which can be found in each DataGrid row.
+        /// It will open a comfirmation MessageBox to ask if the user wants to delete the selected datagrid entry.
+        /// </summary>
+        /// <param name="sender">the btnDelete button when clicked</param>
         private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
         {
             string typeName = dgDataTable.SelectedValue.GetType().Name;
@@ -508,41 +552,79 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             } 
         }
 
+        /// <summary>
+        /// The eventHandler is triggered when clicking on the btnEmployee button which can be found in the Company datagrid rows.
+        /// It will open the Employee tab with as datagrid data the employees for that slected company when clicked.
+        /// </summary>
+        /// <param name="sender">the btnEmployee button when clicked</param>
         private void EmployeeButton_OnClick(object sender, RoutedEventArgs e)
         {
             SavedCompanyId = ((Company)dgDataTable.SelectedValue).ID;
             ((RadioButton)stpFilterRadioButtons.Children[1]).IsChecked = true;
         }
 
+        /// <summary>
+        /// The eventHandler is triggered when clicking on the btnVisit button which can be found in the Visitor datagrid rows.
+        /// It will open the Visit tab with as datagrid data the visits for that slected visitor when clicked.
+        /// </summary>
+        /// <param name="sender">the btnVisitor button when clicked</param>
         private void VisitButton_OnClick(object sender, RoutedEventArgs e)
         {
             SavedVisitorId = ((Visitor)dgDataTable.SelectedValue).Id;
             ((RadioButton)stpFilterRadioButtons.Children[3]).IsChecked = true;
         }
 
+        /// <summary>
+        /// The eventHandler is triggered when clicking on the btnParkingDetails button which can be found in the Parking datagrid rows.
+        /// It will open the ParkingDetails tab with as datagrid data the parkingdetails for that slected parking when clicked.
+        /// </summary>
+        /// <param name="sender">the btnParkingDetails button when clicked</param>
         private void ParkingDetailButton_OnClick(object sender, RoutedEventArgs e)
         {
             SavedParkingId = ((ParkingDTO)dgDataTable.SelectedValue).ID;
             ((RadioButton)stpFilterRadioButtons.Children[6]).IsChecked = true;
         }
         
+        /// <summary>
+        /// The eventHandler is triggered when clicking on the btnParkingContract button which can be found in the Parking datagrid rows.
+        /// It will open the ParkingContracts tab with as datagrid data the parkingContracts for the slected parking when clicked.
+        /// </summary>
+        /// <param name="sender">the btnParkingContract button when clicked</param>
         private void ParkingContractButton_OnClick(object sender, RoutedEventArgs e)
         {
             SavedParkingId = ((ParkingDTO)dgDataTable.SelectedValue).ID;
             ((RadioButton)stpFilterRadioButtons.Children[5]).IsChecked = true;
         }
 
+        /// <summary>
+        /// The eventHandler is triggered by changing the cmbsearchParamter combobox parameter to be used when filtering the datagrid rows.
+        /// Depending on the selected parameter it will only filter on that slected parameter or on all parameters if slecting "All".
+        /// </summary>
+        /// <param name="sender">the cmbSearchParameter comboBox when the selection is changed</param>
         private void cmbSearchParameter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             txtbFilter.Text = "";
             dgDataTable.Items.Filter = ResultsFilter;
         }
 
+        /// <summary>
+        /// The eventHandler is triggered when changing the to be queried filter text for each datagrid entry.
+        /// Depneding on the to be queried filter text data rows will be displayed or hiden in the datagrid.
+        /// </summary>
+        /// <param name="sender">the txtbFilter textBox when the to be querried filter text is changed</param>
         private void txtbFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
             dgDataTable.Items.Filter = ResultsFilter;
         }
 
+        /// <summary>
+        /// This methode adds the action buttons depending on the type of datagird row data and overall selected tab.
+        /// </summary>
+        /// <param name="showEmployeeButton">this parameter will decide if an employee button will be added to a datagrid row</param>
+        /// <param name="showVisitButton">this paramater will decide if a visit button will be added to a datagrid row</param>
+        /// <param name="showContractButton">this paramter will decide if a parkinContracts button will be added to a datagrid row</param>
+        /// <param name="showDetailButton">this paramter will decide if a details button will be added to a datagrid row</param>
+        /// <param name="showEditButton">this paramter will decide if an edit button will be added to a datagrid</param>
         private void AddActionButtonsColumn(bool showEmployeeButton, bool showVisitButton, bool showContractButton, bool showDetailButton, bool showEditButton)
         {
             DataGridTemplateColumn col = new DataGridTemplateColumn();
@@ -564,6 +646,12 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
             dgDataTable.Columns.Add(col);
         }
 
+        /// <summary>
+        /// this methode assignes the correct eventHandler to each action button and sets the content and forground color for each action buttton.
+        /// </summary>
+        /// <param name="content">contains the content text(logo) for each action button</param>
+        /// <param name="action">contains the name of the to be assigned eventHandler for each button</param>
+        /// <returns>A wrapped action button to be appended to the wrapPanel of action buttons which in turn will be added to each datagrid row. </returns>
         private FrameworkElementFactory AddButton(string content, string action)
         {
             var btn = new FrameworkElementFactory(typeof(Button));

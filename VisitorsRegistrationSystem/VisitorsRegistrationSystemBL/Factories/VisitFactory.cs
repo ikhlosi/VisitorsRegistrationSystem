@@ -7,7 +7,15 @@ using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.Exceptions;
 
 namespace VisitorsRegistrationSystemBL.Factories {
+    /// <summary>
+    /// This is a static class that is used for instantiating a new Visit object.
+    /// </summary>
     public static class VisitFactory {
+
+        /// <summary>
+        /// This methode creates a new Visit object while also defining the required and non required parameters.
+        /// </summary>
+        /// <returns>A newly created Visit object</returns>
         public static Visit MakeVisit(int? id, Visitor visitor, Company visitedCompany, Employee visitedEmployee) {
 			try {
 				Visit v = new Visit(visitor, visitedCompany, visitedEmployee, DateTime.Now);

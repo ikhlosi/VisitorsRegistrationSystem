@@ -95,7 +95,7 @@ namespace TestManagers
             this._companyRepoMock.Setup(x => x.GetCompanyByIdFromDB(this._validCompany.ID)).Returns(differentValidCompany);
             this._companyRepoMock.Setup(x => x.UpdateCompanyInDB(this._validCompany)).Throws(new CompanyException());
             var ex = Assert.Throws<CompanyException>(() => this._cm.UpdateCompany(this._validCompany));
-            Assert.Equal("CompanyManager - UpdateCompany", ex.Message);
+            Assert.Equal("CompanyManager - UpdateCompany", ex.Message); 
         }
 
         [Fact]       
