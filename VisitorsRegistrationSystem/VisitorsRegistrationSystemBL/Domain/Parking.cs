@@ -7,6 +7,9 @@ using VisitorsRegistrationSystemBL.Exceptions;
 
 namespace VisitorsRegistrationSystemBL.Domain
 {
+    /// <summary>
+    /// This class represents a parking.
+    /// </summary>
     public class Parking
     {
         public Parking(int occupiedSpaces, bool full, int totalSpaces)
@@ -51,6 +54,29 @@ namespace VisitorsRegistrationSystemBL.Domain
             ParkingDetails = parkingDetails;
         }
 
+        /// <summary>
+        /// This method compares 2 parking objects to indicate equality.
+        /// The objects are considered equal if the following properties are equal:
+        /// <list type="bullet">
+        /// <item>
+        /// <description>ID.</description>
+        /// </item>
+        /// <item>
+        /// <description>OccupiedSpaces.</description>
+        /// </item>
+        /// <item>
+        /// <description>Full.</description>
+        /// </item>
+        /// <item>
+        /// <description>ParkingContracts.</description>
+        /// </item>
+        /// <item>
+        /// <description>ParkingDetails.</description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="obj">The parking object to compare with.</param>
+        /// <returns>A bool indicating whether the objects are equal.</returns>
         public override bool Equals(object? obj)
         {
             return obj is Parking parking &&

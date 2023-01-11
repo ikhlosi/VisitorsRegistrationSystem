@@ -7,6 +7,9 @@ using VisitorsRegistrationSystemBL.Exceptions;
 
 namespace VisitorsRegistrationSystemBL.Domain
 {
+    /// <summary>
+    /// This class represents a contract that a company has for the parking.
+    /// </summary>
     public class ParkingContract
     {
         public ParkingContract(Company company, DateTime startDate, DateTime endDate, int reservedSpace,int parkingId)
@@ -65,6 +68,29 @@ namespace VisitorsRegistrationSystemBL.Domain
             this.parkingId = parkingId;
         }
         
+        /// <summary>
+        /// This method compares 2 parkingcontract objects to indicate equality.
+        /// The objects are considered equal if the following properties are equal:
+        /// <list type="bullet">
+        /// <item>
+        /// <description>ID.</description>
+        /// </item>
+        /// <item>
+        /// <description>Company.</description>
+        /// </item>
+        /// <item>
+        /// <description>StartDate.</description>
+        /// </item>
+        /// <item>
+        /// <description>EndDate.</description>
+        /// </item>
+        /// <item>
+        /// <description>ReservedSpace.</description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="obj">The parkingcontract object to compare with.</param>
+        /// <returns>A bool indicating whether the objects are equal.</returns>
         public override bool Equals(object? obj)
         {
             return obj is ParkingContract contract &&

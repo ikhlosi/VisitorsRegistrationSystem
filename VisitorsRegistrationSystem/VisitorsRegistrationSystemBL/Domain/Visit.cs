@@ -8,6 +8,9 @@ using VisitorsRegistrationSystemBL.Exceptions;
 
 namespace VisitorsRegistrationSystemBL.Domain
 {
+    /// <summary>
+    /// This class represents a visit.
+    /// </summary>
     public class Visit
     {
         public Visit(Visitor visitor, Company visitedCompany, Employee visitedEmployee, DateTime startTime) {
@@ -53,6 +56,12 @@ namespace VisitorsRegistrationSystemBL.Domain
 
       
 
+        /// <summary>
+        /// This method checks whether the properties of this visit object
+        /// are the same as the properties of another visit object.
+        /// </summary>
+        /// <param name="otherVisit">The other visit to compare with.</param>
+        /// <returns>A bool indicating whether the properties of both objects are equal.</returns>
         public bool IsSame(Visit otherVisit) {
             return (this.Id == otherVisit.Id) &&
                 (this.Visitor.Equals(otherVisit.Visitor)) &&
@@ -61,6 +70,12 @@ namespace VisitorsRegistrationSystemBL.Domain
                 (this.StartTime == otherVisit.StartTime);
         }
 
+        /// <summary>
+        /// This method compares 2 visit objects to indicate equality.
+        /// The objects are considered equal if their ID property is the same.
+        /// </summary>
+        /// <param name="obj">The visit object to compare with.</param>
+        /// <returns>A bool indicating whether the objects are equal.</returns>
         public override bool Equals(object? obj) {
             return obj is Visit visit &&
                    Id == visit.Id;
@@ -70,6 +85,10 @@ namespace VisitorsRegistrationSystemBL.Domain
             return HashCode.Combine(Id);
         }
 
+        /// <summary>
+        /// This method gives the string representation of a visit object.
+        /// </summary>
+        /// <returns>A string containing the ID, start time and visitor.</returns>
         public override string ToString()
         {
             return $"VisitId: {this.Id} - StartTime: {this.StartTime.ToString()} - Visitor: {this.Visitor.Name}";

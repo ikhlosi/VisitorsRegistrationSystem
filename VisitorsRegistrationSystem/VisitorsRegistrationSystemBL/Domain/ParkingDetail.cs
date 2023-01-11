@@ -7,6 +7,9 @@ using VisitorsRegistrationSystemBL.Exceptions;
 
 namespace VisitorsRegistrationSystemBL.Domain
 {
+    /// <summary>
+    /// This class represents the details of a parking spot.
+    /// </summary>
     public class ParkingDetail
     {
         public int ID { get; set; }
@@ -40,7 +43,6 @@ namespace VisitorsRegistrationSystemBL.Domain
         }
         public void SetStartTime(DateTime startTime)
         {
-           // if (startTime == null) throw new ParkingException("ParkingDetail - SetStartTime - Start time is null");
             StartTime = startTime;
         }
         public void SetEndTime(DateTime endTime)
@@ -52,7 +54,6 @@ namespace VisitorsRegistrationSystemBL.Domain
         
         public void SetLicensePlate(string licensePlate)
         {
-            // todo: check if license plate format is good?
             if (string.IsNullOrEmpty(licensePlate)) throw new ParkingException("ParkingDetail - SetLicensePlate - License plate is null");
             LicensePlate = licensePlate;
         }
@@ -68,6 +69,32 @@ namespace VisitorsRegistrationSystemBL.Domain
             ParkingId = parkingId;
         }
 
+        /// <summary>
+        /// This method compares 2 parkingdetail objects to indicate equality.
+        /// The objects are considered equal if the following properties are equal:
+        /// <list type="bullet">
+        /// <item>
+        /// <description>ID.</description>
+        /// </item>
+        /// <item>
+        /// <description>StartTime.</description>
+        /// </item>
+        /// <item>
+        /// <description>EndTime.</description>
+        /// </item>
+        /// <item>
+        /// <description>LicensePlate.</description>
+        /// </item>
+        /// <item>
+        /// <description>VisitedCompany.</description>
+        /// </item>
+        /// <item>
+        /// <description>ParkingId.</description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="obj">The parkingdetail object to compare with.</param>
+        /// <returns>A bool indicating whether the objects are equal.</returns>
         public override bool Equals(object? obj)
         {
             return obj is ParkingDetail detail &&

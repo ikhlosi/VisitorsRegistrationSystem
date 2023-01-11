@@ -10,6 +10,9 @@ using VisitorsRegistrationSystemBL.Exceptions;
 
 namespace VisitorsRegistrationSystemBL.Domain
 {
+    /// <summary>
+    /// This class represents a visitor.
+    /// </summary>
     public class Visitor
     {
         public Visitor(string name, string email, string company)
@@ -18,7 +21,6 @@ namespace VisitorsRegistrationSystemBL.Domain
             SetEmail(email);
             SetVisitorCompany(company);
         }
-        // needed for moq (visitormanagertest with MOQ)
         public Visitor()
         {
         }
@@ -54,6 +56,26 @@ namespace VisitorsRegistrationSystemBL.Domain
             this.Id = id;
         }
          
+        /// <summary>
+        /// This method compares 2 visitor objects to indicate equality.
+        /// The objects are considered equal if the following properties are equal:
+        /// <list type="bullet">
+        /// <item>
+        /// <description>Id.</description>
+        /// </item>
+        /// <item>
+        /// <description>Name.</description>
+        /// </item>
+        /// <item>
+        /// <description>Email.</description>
+        /// </item>
+        /// <item>
+        /// <description>VisitorCompany.</description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="obj">The visitor object to compare with.</param>
+        /// <returns>A bool indicating whether the objects are equal.</returns>
         public override bool Equals(object? obj)
         {
             return obj is Visitor visitor &&
@@ -62,6 +84,16 @@ namespace VisitorsRegistrationSystemBL.Domain
                    Email == visitor.Email &&
                    VisitorCompany == visitor.VisitorCompany;
         }
+
+        /// <summary>
+        /// This method checks whether the properties of this visitor object
+        /// are the same as the properties of another visitor object.
+        /// </summary>
+        /// <param name="otherVisitor">The other visitor to compare with.</param>
+        /// <returns>A bool indicating whether the properties of both objects are equal.</returns>
+        /// <exception cref="VisitorException">
+        /// Thrown when the argument is null.
+        /// </exception>
         public bool IsSame(Visitor otherVisitor)
         {
             if (otherVisitor == null) throw new VisitorException("Visitor - IsSame - argument is null");
@@ -73,6 +105,10 @@ namespace VisitorsRegistrationSystemBL.Domain
             return HashCode.Combine(Id, Name, Email, VisitorCompany);
         }
 
+        /// <summary>
+        /// This method gives the string representation of a visitor object.
+        /// </summary>
+        /// <returns>A string containing the Id, name and e-mail of the visitor.</returns>
         public override string? ToString()
         {
             return $"[{Id}] {Name}: {Email}";

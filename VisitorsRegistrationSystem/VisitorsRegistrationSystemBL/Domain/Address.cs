@@ -2,9 +2,11 @@
 
 namespace VisitorsRegistrationSystemBL.Domain
 {
+    /// <summary>
+    /// This class models an address.
+    /// </summary>
     public class Address
     {
-        //todo POSTCODE
         public Address(string city,string postalCode, string street, string houseNumber, string? busNumber) {
             SetCity(city);
             SetPostalCode(postalCode);
@@ -55,6 +57,26 @@ namespace VisitorsRegistrationSystemBL.Domain
             if (string.IsNullOrWhiteSpace(postalCode)) throw new AddressException("Address - SetPostalCode - postal code is empty");
             this.PostalCode = postalCode;
         }
+        /// <summary>
+        /// This method compares 2 address objects to indicate equality.
+        /// The objects are considered equal if the following properties are equal:
+        /// <list type="bullet">
+        /// <item>
+        /// <description>City.</description>
+        /// </item>
+        /// <item>
+        /// <description>Street.</description>
+        /// </item>
+        /// <item>
+        /// <description>HouseNumber.</description>
+        /// </item>
+        /// <item>
+        /// <description>BusNumber.</description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="obj">The address object to compare with.</param>
+        /// <returns>A bool indicating whether the objects are equal.</returns>
         public override bool Equals(object? obj) {
             return obj is Address address &&
                    City == address.City &&
@@ -67,6 +89,10 @@ namespace VisitorsRegistrationSystemBL.Domain
             return HashCode.Combine(City, Street, HouseNumber);
         }
 
+        /// <summary>
+        /// This method gives the string representation of an address object.
+        /// </summary>
+        /// <returns>The string representation of the object.</returns>
         public override string ToString()
         {
             if (string.IsNullOrWhiteSpace(BusNumber))

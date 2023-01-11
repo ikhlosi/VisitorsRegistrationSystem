@@ -3,6 +3,9 @@ using VisitorsRegistrationSystemBL.Checkers;
 using VisitorsRegistrationSystemBL.Exceptions;
 
 namespace VisitorsRegistrationSystemBL.Domain {
+    /// <summary>
+    /// This class represents an employee.
+    /// </summary>
     public class Employee 
     {
         internal Employee(string name, string lastName, string function)
@@ -49,12 +52,27 @@ namespace VisitorsRegistrationSystemBL.Domain {
             if (companyId < 1) throw new EmployeeException("Employee - SetCompanyId - invalid ID");
             this.CompanyId = companyId;
         }
+        /// <summary>
+        /// This method checks whether the properties of this employee object
+        /// are the same as the properties of another employee object.
+        /// </summary>
+        /// <param name="otherEmployee">The other employee to compare with.</param>
+        /// <returns>A bool indicating whether the properties of both objects are equal.</returns>
+        /// <exception cref="EmployeeException">
+        /// Thrown when the argument is null.
+        /// </exception>
         public bool IsSame(Employee otherEmployee) 
         {
             if (otherEmployee == null) throw new EmployeeException("Employee - IsSame - argument is null");
             return (this.ID == otherEmployee.ID) && (this.Name == otherEmployee.Name) && (this.LastName == otherEmployee.LastName) && (this.Email == otherEmployee.Email) && (this.Function == otherEmployee.Function) && (this.CompanyId == otherEmployee.CompanyId);
         }
         
+        /// <summary>
+        /// This method compares 2 employee objects to indicate equality.
+        /// The objects are considered equal if their ID property is the same.
+        /// </summary>
+        /// <param name="obj">The employee object to compare with.</param>
+        /// <returns>A bool indicating whether the objects are equal.</returns>
         public override bool Equals(object? obj)
         {
             return obj is Employee employee &&
@@ -66,6 +84,10 @@ namespace VisitorsRegistrationSystemBL.Domain {
             return HashCode.Combine(ID);
         }
 
+        /// <summary>
+        /// This method gives the string representation of an employee object.
+        /// </summary>
+        /// <returns>A string containing the name of the employee.</returns>
         public override string? ToString()
         {
             return this.Name;
