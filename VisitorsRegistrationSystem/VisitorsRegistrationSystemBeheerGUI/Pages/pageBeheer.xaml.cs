@@ -534,15 +534,15 @@ namespace VisitorsRegistrationSystemBeheerGUI.Pages
                         rbParking.IsChecked = false;
                         rbParking.IsChecked = true;
                         break;
-                    case nameof(ParkingDetailDTO):
-                        ParkingDetailDTO pdDTO = ((ParkingDetailDTO)dgDataTable.SelectedValue);
-                        _pm.RemoveParkingDetail(pdDTO.Id);
+                    case nameof(ParkingDetail):
+                        ParkingDetail pd = ((ParkingDetail)dgDataTable.SelectedValue);
+                        _pm.RemoveParkingDetail(pd.ID);
                         rbParkingDetails.IsChecked = false;
                         rbParkingDetails.IsChecked = true;
                         break;
-                    case nameof(ParkingContractDTO):
-                        ParkingContractDTO pcDTO = ((ParkingContractDTO)dgDataTable.SelectedValue);
-                        _pm.RemoveParkingContract(pcDTO.Id);
+                    case nameof(ParkingContract):
+                        ParkingContract pc = ((ParkingContract)dgDataTable.SelectedValue);
+                        _pm.RemoveParkingContract(pc.ID);
                         rbParkingContracten.IsChecked = false;
                         rbParkingContracten.IsChecked = true;
                         break;

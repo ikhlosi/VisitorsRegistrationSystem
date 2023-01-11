@@ -26,10 +26,16 @@ namespace VisitorRegistrationSystemVisitGUI
     {
         public MainWindow(CompanyManager cm, VisitManager vm)
         {
-            InitializeComponent();
-            this.WindowState = WindowState.Maximized;
-            //this.WindowStyle = WindowStyle.None;
-            Content = new pageMain(cm, vm);
+            try
+            {
+                InitializeComponent();
+                this.WindowState = WindowState.Maximized;
+                //this.WindowStyle = WindowStyle.None;
+                Content = new pageMain(cm, vm);
+            } catch(Exception ex)
+            {
+                MessageBox.Show("Er ging iets mis");
+            }
         }
     }
 }
