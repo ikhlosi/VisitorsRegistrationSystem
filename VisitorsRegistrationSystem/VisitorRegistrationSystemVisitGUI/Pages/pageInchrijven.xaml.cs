@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VisitorRegistrationSystemVisitGUI.ValidationRules;
 using VisitorsRegistrationSystemBL.Domain;
 using VisitorsRegistrationSystemBL.Factories;
 using VisitorsRegistrationSystemBL.Managers;
@@ -20,12 +21,18 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
 {
     /// <summary>
     /// Interaction logic for pageInchrijven.xaml
+    /// This class implements a page that is shown when the user wants to start their visit.
     /// </summary>
     public partial class pageInchrijven : Page
     {
         private readonly CompanyManager _cm;
         private VisitManager _vm;
 
+        /// <summary>
+        /// This is the constructor: used to initialize the components, data and assign the managers.
+        /// </summary>
+        /// <param name="cm">the CompanyManager that handles the business logic regarding Companies and Employees</param>
+        /// <param name="vm">the VisitManager that handles the business logic regarding Visits and Visitors</param>
         public pageInchrijven(CompanyManager cm, VisitManager vm)
         {
             _cm = cm;
@@ -34,6 +41,9 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
             InitializeData();
         }
 
+        /// <summary>
+        /// this methode initializes the data by populates the cbBedrijven combobox with companies found in our database.
+        /// </summary>
         private void InitializeData()
         {
             //cbBedrijfAfspraak.ItemsSource = _cm.GetCompanies();
@@ -49,6 +59,10 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
             cbBedrijfAfspraak.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// The eventHandler is triggered when the btnInschrijven button is clicked so that a new visit can be registered into the system.
+        /// </summary>
+        /// <param name="sender">the btnInschrijven button when it is clicked</param>
         private void btnInschrijven_Click(object sender, RoutedEventArgs e)
         {
             string visitorName = $"{txtbVoornaam.Text} {txtbAchternaam.Text}";
@@ -70,6 +84,10 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
             // todo: btnInschrijven enkel klikbaar wanneer alles (correct) ingevuld
         }
 
+        /// <summary>
+        /// the eventHandler is triggered when the back button Button is clicked to go back to the pageMain page.
+        /// </summary>
+        /// <param name="sender">the Button button when it is clicked</param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.MainWindow.Content = new pageMain(_cm, _vm);
@@ -89,8 +107,51 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
                 {
                     cbAfspraakMet.Items.Add(em);
                 }
-            }
+            } 
             cbAfspraakMet.SelectedIndex = 0;
+            EnableButton();
+        }
+
+        private void TextBoxes_TextChanged(object sender, EventArgs e) {
+            EnableButton();
+        }
+
+        /// <summary>
+        /// This methode runs all the validation rules over each textbox before it enables the btnInschrijven button to be able to submit a visit.
+        /// </summary>
+        private void EnableButton() {
+            NameValidationRule rule = new NameValidationRule();
+            ValidationResult resFirstName = rule.Validate(txtbVoornaam.Text, System.Globalization.CultureInfo.InvariantCulture);
+            ValidationResult resLastName = rule.Validate(txtbAchternaam.Text, System.Globalization.CultureInfo.InvariantCulture);
+            ValidationResult resCompanyVisitor = rule.Validate(txtbBedrijfBezoeker.Text, System.Globalization.CultureInfo.InvariantCulture);
+
+            EmailValidationRule emailRule = new EmailValidationRule();
+            ValidationResult resEmail = emailRule.Validate(txtbEmail.Text, System.Globalization.CultureInfo.InvariantCulture);
+
+            if (resFirstName.IsValid && resLastName.IsValid && resCompanyVisitor.IsValid && resEmail.IsValid && (cbBedrijfAfspraak.SelectedIndex != 0) && (cbAfspraakMet.SelectedIndex != 0)) {
+                btnInschrijven.IsEnabled = true;
+            } else {
+                btnInschrijven.IsEnabled = false;
+            }
+            //if (!string.IsNullOrWhiteSpace(txtbVoornaam.Text) && (!string.IsNullOrWhiteSpace)) {
+            //    btnInschrijven.IsEnabled = true;
+            //}
+        }
+
+        /// <summary>
+        /// The eventHandler is triggered when one of the textboxes are changed, then it will trigger the EnableButton methode.
+        /// </summary>
+        /// <param name="sender">A textbox where the text has been changed</param>
+        private void TextBoxes_TextChanged(object sender, TextChangedEventArgs e) {
+            EnableButton();
+        }
+
+        /// <summary>
+        /// The eventHandler is triggered when the selection of cbAfraak met is changed, then it will trigger the EnableButton methode.
+        /// </summary>
+        /// <param name="sender">the cbAfraakMet combobox when the selection is changed</param>
+        private void cbAfspraakMet_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            EnableButton();
         }
     }
 }

@@ -8,8 +8,16 @@ using VisitorsRegistrationSystemBL.Exceptions;
 
 namespace VisitorsRegistrationSystemBL.Factories
 {
+    /// <summary>
+    /// This is a static class that is used for instantiating a new Parking object.
+    /// </summary>
     public class ParkingFactory
     {
+
+        /// <summary>
+        /// This methode creates a new Parking object while also defining the required and non required parameters.
+        /// </summary>
+        /// <returns>A newly created Parking object</returns>
         public static Parking MakeParking(int? id,int occupiedSpaces, bool full, List<ParkingContract>? parkingContracts, List<ParkingDetail>? parkingDetails, int totalSpaces)
         {
             try

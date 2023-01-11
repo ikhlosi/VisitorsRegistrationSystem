@@ -23,6 +23,11 @@ namespace VisitorsRegistrationSystemBeheerGUI
             e.Handled = true;
         }
 
+        /// <summary>
+        /// This methode is one of the root methodes that are triggered when the application starts.
+        /// It will initialize the database and create the repository objects used for communication with the database.
+        /// It will also create the busniness logic managers that communicate between de repositories and the GUI and open the MainWindow.
+        /// </summary>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             DotNetEnv.Env.TraversePath().Load();

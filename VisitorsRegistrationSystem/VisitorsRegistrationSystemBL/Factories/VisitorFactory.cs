@@ -8,8 +8,16 @@ using VisitorsRegistrationSystemBL.Exceptions;
 
 namespace VisitorsRegistrationSystemBL.Factories
 {
+    /// <summary>
+    /// This is a static class that is used for instantiating a new Visitor object.
+    /// </summary>
     public static class VisitorFactory
     {
+
+        /// <summary>
+        /// This methode creates a new Visitor object while also defining the required and non required parameters.
+        /// </summary>
+        /// <returns>A newly created Visitor object</returns>
         public static Visitor MakeVisitor(int? id, string name,  string email, string visitorCompany)
         {
             try
