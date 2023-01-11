@@ -68,7 +68,6 @@ namespace TestDomain
             Assert.Equal(1, parking.OccupiedSpaces);
         }
         [Theory]
-        [InlineData(0)]
         [InlineData(-1)]
         public void SetOccupiedSpaces_ParkingException(int id)
         {

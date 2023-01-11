@@ -38,7 +38,7 @@ namespace VisitorsRegistrationSystemBL.Domain
         }
         public void SetOccupiedSpaces(int occupiedSpaces)
         {
-            if (occupiedSpaces == 0 || occupiedSpaces < 0) throw new ParkingException("Parking - SetOccupiedSpaces - Occupied spaces is too small");
+            if (occupiedSpaces < 0) throw new ParkingException("Parking - SetOccupiedSpaces - Occupied spaces is too small");
             OccupiedSpaces = occupiedSpaces;
         }
         public void SetFull(bool full)
