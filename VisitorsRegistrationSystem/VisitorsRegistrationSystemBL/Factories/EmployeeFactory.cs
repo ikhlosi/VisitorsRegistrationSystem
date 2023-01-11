@@ -8,8 +8,15 @@ using VisitorsRegistrationSystemBL.Exceptions;
 
 namespace VisitorsRegistrationSystemBL.Factories
 {
+    /// <summary>
+    /// This is a static class that is used for generating a new Employee object.
+    /// </summary>
     public static class EmployeeFactory
     {
+        /// <summary>
+        /// This methode creates a new Employee object while also defining the required and non required parameters.
+        /// </summary>
+        /// <returns>A newly created Employee object</returns>
         public static Employee MakeEmployee(int? id, string name, string lastName, string email, string function,int? companyId)
         {
             try {
