@@ -25,17 +25,17 @@ namespace VisitorsRegistrationSystemBL.Domain
 
         public void SetID(int id)
         {
-            if (id == 0) throw new ParkingException("Parking - SetId - ID is null");
+            if (id == 0 || id < 0) throw new ParkingException("Parking - SetId - ID is null");
             this.ID = id;
         }
         public void SetTotalSpaces(int totalSpaces)
         {
-            if (totalSpaces < 0) throw new ParkingException("Parking - SetTotalSpaces - Total spaces is too small");
+            if (totalSpaces == 0 || totalSpaces < 0) throw new ParkingException("Parking - SetTotalSpaces - Total spaces is too small");
             this.TotalSpaces = totalSpaces;
         }
         public void SetOccupiedSpaces(int occupiedSpaces)
         {
-            if (occupiedSpaces < 0) throw new ParkingException("Parking - SetOccupiedSpaces - Occupied spaces is too small");
+            if (occupiedSpaces == 0 || occupiedSpaces < 0) throw new ParkingException("Parking - SetOccupiedSpaces - Occupied spaces is too small");
             OccupiedSpaces = occupiedSpaces;
         }
         public void SetFull(bool full)

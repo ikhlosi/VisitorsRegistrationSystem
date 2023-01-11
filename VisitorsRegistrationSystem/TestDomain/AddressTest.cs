@@ -47,6 +47,22 @@ namespace TestDomain
 
         }
         [Fact]
+        public void SetId_Valid() 
+        {
+            Address address = new Address("Gent", "9000", "sleepstraat", "5", null);
+            address.setId(1);
+            Assert.Equal(1, address.Id);
+        }
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void SetId_Invalid(int id)
+        {
+            Address address = new Address("Gent", "9000", "sleepstraat", "5", null);
+            Assert.Throws<AddressException>(() => address.setId(id));
+        }
+
+        [Fact]
         public void SetHouseNo_valid()
         {
             Address address = new Address("Gent", "9000", "sleepstraat", "5", null);
@@ -58,11 +74,12 @@ namespace TestDomain
         [InlineData("  ")]
         public void SetHouseNo_Invalid(string houseNo)
         {
-            Address address = new Address("Gent", "9000","sleepstraat", "5", null);
+            Address address = new Address("Gent", "9000", "sleepstraat", "5", null);
             Assert.Throws<AddressException>(() => address.SetHouseNo(houseNo));
 
 
         }
+        
         [Fact]
         public void SetBusNo_valid()
         {
@@ -70,8 +87,21 @@ namespace TestDomain
             address.SetBusNo("505");
             Assert.Equal("505", address.BusNumber);
         }
-
-
-
+       
+        [Fact]
+        public void SetPostalCode_valid()
+        {
+            Address address = new Address("Gent", "9000", "sleepstraat", "5", null);
+            address.SetPostalCode("9000");
+            Assert.Equal("9000", address.PostalCode);
+        }
+        [Theory]
+        [InlineData("")]
+        [InlineData("  ")]
+        public void SetPostalCode_Invalid(string postalCode)
+        {
+            Address address = new Address("Gent", "9000", "sleepstraat", "5", null);
+            Assert.Throws<AddressException>(() => address.SetPostalCode(postalCode));
+        }
     }
 }

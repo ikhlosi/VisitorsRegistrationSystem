@@ -31,7 +31,7 @@
         <StackPanel Grid.Row="3">
             <StackPanel Orientation="Horizontal">
                 <Label Content="Voornaam" Style="{StaticResource LabelTheme}"/>
-                <TextBox x:Name="txtbVoornaam" Style="{StaticResource TextboxInputTheme}">
+                <TextBox x:Name="txtbVoornaam" Style="{StaticResource TextboxInputTheme}" TextChanged="TextBoxes_TextChanged">
                     <TextBox.Text>
                         <Binding Path="FirstName" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -43,7 +43,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Achternaam" Style="{StaticResource LabelTheme}" />
-                <TextBox x:Name="txtbAchternaam" Style="{StaticResource TextboxInputTheme}">
+                <TextBox x:Name="txtbAchternaam" Style="{StaticResource TextboxInputTheme}" TextChanged="TextBoxes_TextChanged">
                     <TextBox.Text>
                         <Binding Path="LastName" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -55,7 +55,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Email" Style="{StaticResource LabelTheme}" />
-                <TextBox x:Name="txtbEmail" Style="{StaticResource TextboxInputTheme}">
+                <TextBox x:Name="txtbEmail" Style="{StaticResource TextboxInputTheme}" TextChanged="TextBoxes_TextChanged">
                     <TextBox.Text>
                         <Binding Path="Email" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -67,7 +67,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Bedrijf Bezoeker" Style="{StaticResource LabelTheme}" />
-                <TextBox x:Name="txtbBedrijfBezoeker" Style="{StaticResource TextboxInputTheme}">
+                <TextBox x:Name="txtbBedrijfBezoeker" Style="{StaticResource TextboxInputTheme}" TextChanged="TextBoxes_TextChanged">
                     <TextBox.Text>
                         <Binding Path="VisitorCompany" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -83,7 +83,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Afspraak met" Style="{StaticResource LabelTheme}" />
-                <ComboBox x:Name="cbAfspraakMet" Style="{StaticResource ComboBoxTheme}" />
+                <ComboBox x:Name="cbAfspraakMet" Style="{StaticResource ComboBoxTheme}" SelectionChanged="cbAfspraakMet_SelectionChanged"  />
             </StackPanel>
         </StackPanel>
 
@@ -95,9 +95,9 @@
             </Button.Resources>
         </Button>
 
-        <Button Grid.Row="4" x:Name="btnInschrijven" Width="233" Height="77" FontFamily="Poppins" FontSize="24" Foreground="White" Background="#1762A7" HorizontalAlignment="Right" Margin="258,11,0,11" Click="btnInschrijven_Click">
+        <Button Grid.Row="4" x:Name="btnInschrijven" Width="233" Height="77" FontFamily="Poppins" FontSize="24" Foreground="White" Background="#1762A7" HorizontalAlignment="Right" Margin="258,11,0,11" Click="btnInschrijven_Click" IsEnabled="False">
             Inschrijven
-            <Button.Resources>
+             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10" />
                 </Style>

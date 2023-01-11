@@ -462,7 +462,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void RemoveCompanyFromDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"UPDATE company c JOIN address a ON c.addressId = a.id SET c.visible=0, a.visible=0 WHERE c.id = @id AND c.visible=1";
+            string query = @"UPDATE Company c JOIN Address a ON c.addressId = a.id SET c.visible=0, a.visible=0 WHERE c.id = @id AND c.visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -487,7 +487,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void UpdateCompanyInDB(Company company)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"UPDATE company c JOIN address a ON c.addressId = a.id SET c.name = @name, c.VAT = @VAT, c.email = @email, c.telNr = @telNr, a.street = @street, a.houseNr = @houseNr, a.bus = @bus, a.postalCode = @postCode, a.city = @city WHERE c.id = @id;";
+            string query = @"UPDATE Company c JOIN Address a ON c.addressId = a.id SET c.name = @name, c.VAT = @VAT, c.email = @email, c.telNr = @telNr, a.street = @street, a.houseNr = @houseNr, a.bus = @bus, a.postalCode = @postCode, a.city = @city WHERE c.id = @id;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -691,7 +691,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void RemoveEmployeeFromDB(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update employee set visible=0 where id = @id and visible=1";
+            string query = @"update Employee set visible=0 where id = @id and visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try

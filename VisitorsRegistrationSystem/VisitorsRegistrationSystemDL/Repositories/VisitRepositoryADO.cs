@@ -72,7 +72,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void RemoveVisit(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update visit set visible=0 where visitId = @id and visible=1";
+            string query = @"update Visit set visible=0 where visitId = @id and visible=1";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -354,7 +354,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void RemoveVisitor(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"update visitor t1 join visit t2 on t1.id = t2.visitorId set t1.visible = 0, t2.visible = 0 where t1.id = @id;";
+            string query = @"update Visitor t1 join Visit t2 on t1.id = t2.visitorId set t1.visible = 0, t2.visible = 0 where t1.id = @id;";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
@@ -378,7 +378,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
         public void UpdateVisitor(Visitor visitor)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string query = @"UPDATE visitor SET name = @name, email = @email, visitorCompany = @visitorCompany WHERE id = @id";
+            string query = @"UPDATE Visitor SET name = @name, email = @email, visitorCompany = @visitorCompany WHERE id = @id";
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
