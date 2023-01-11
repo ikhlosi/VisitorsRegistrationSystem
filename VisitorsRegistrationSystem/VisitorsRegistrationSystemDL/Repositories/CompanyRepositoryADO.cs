@@ -13,6 +13,11 @@ using System.ComponentModel.Design;
 
 namespace VisitorsRegistrationSystemDL.Repositories
 {
+    /// <summary>
+    /// This is the class responsible for sending queries pertaining
+    /// the management of companies in the database.
+    /// It implements the ICompanyRepository interface.
+    /// </summary>
     public class CompanyRepositoryADO : ICompanyRepository
     {
         private string connectionString;
@@ -22,6 +27,16 @@ namespace VisitorsRegistrationSystemDL.Repositories
             this.connectionString = connectionString;
         }
 
+        /// <summary>
+        /// This method checks whether the data of a certain company object
+        /// is already present in the database.
+        /// </summary>
+        /// <param name="company">The company object to check for.</param>
+        /// <returns>A bool indicating whether the given company exists in the database.</returns>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public bool CompanyExistsInDB(Company company)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -52,6 +67,18 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
             }
         }
+
+        /// <summary>
+        /// This method checks whether the data of a certain company object
+        /// is already present in the database. It is an overload of the
+        /// CompanyExistsInDB(Company company) method.
+        /// </summary>
+        /// <param name="iD">The ID of the company object to check for.</param>
+        /// <returns>A bool indicating whether the given company exists in the database.</returns>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public bool CompanyExistsInDB(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -82,6 +109,18 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
             }
         }
+
+        /// <summary>
+        /// This method retrieves all the companies from the database.
+        /// </summary>
+        /// <returns>
+        /// A readonly list of type Company which holds
+        /// all the company objects found in the database.
+        /// </returns>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public IReadOnlyList<Company> GetCompaniesFromDB()
         {
             List<Company> companies = new List<Company>();
@@ -130,6 +169,15 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method retrieves a company object from the database, given its ID.
+        /// </summary>
+        /// <param name="id">The ID of the company to retrieve.</param>
+        /// <returns>The company object which has the given ID.</returns>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public Company GetCompanyByIdFromDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -174,7 +222,15 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
-
+        /// <summary>
+        /// This method retrieves companies from the database given their name.
+        /// </summary>
+        /// <param name="name">The name of the company/companies to retreeve.</param>
+        /// <returns>A list of the companies matching the given name.</returns>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public IEnumerable<Company> GetCompaniesByNameFromDB(string name)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -225,6 +281,15 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method retrieves companies from the database given their VAT.
+        /// </summary>
+        /// <param name="vatNum">The VAT of the company/companies to retrieve.</param>
+        /// <returns>A list of companies that match the given VAT.</returns>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public IEnumerable<Company> GetCompaniesByVatnumFromDB(string vatNum)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -275,6 +340,15 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method retrieves companies from the database given their Address.
+        /// </summary>
+        /// <param name="address">The address of the companies to retrieve.</param>
+        /// <returns>A list of companies that have the given address.</returns>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public IEnumerable<Company> GetCompaniesByAddressFromDB(Address address)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -358,6 +432,15 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method retrieves companies from the database given their telephone number.
+        /// </summary>
+        /// <param name="telNr">The telephone number of the companies to retrieve.</param>
+        /// <returns>A list of the companies matching the given telephone number.</returns>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public IEnumerable<Company> GetCompaniesByTelnrFromDB(string telNr)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -408,6 +491,15 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method retrieves companies from the database given their e-mail.
+        /// </summary>
+        /// <param name="email">The e-mail address of the companies to retrieve.</param>
+        /// <returns>A list of companies matching the given e-mail address.</returns>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public IEnumerable<Company> GetCompaniesByEmailFromDB(string email)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -459,6 +551,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
         }
 
 
+        /// <summary>
+        /// This method removes a companies from the database. It sets its visible column to 0.
+        /// </summary>
+        /// <param name="id">The ID of the company to remove.</param>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public void RemoveCompanyFromDB(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -484,6 +584,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
         }
 
 
+        /// <summary>
+        /// This method updates the details of a given company in the database.
+        /// </summary>
+        /// <param name="company">The company object with its updated properties.</param>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public void UpdateCompanyInDB(Company company)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -520,6 +628,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method inserts a company object as a row in the database.
+        /// </summary>
+        /// <param name="company">The company object to store.</param>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public void WriteCompanyInDB(Company company)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -563,6 +679,17 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method checks whether a certain employee exists in the database.
+        /// </summary>
+        /// <param name="employee">The employee object to check.</param>
+        /// <returns>
+        /// A bool indicating whether the given employee object is in the database or not.
+        /// </returns>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public bool EmployeeExistsInDB(Employee employee)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -588,6 +715,17 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 }
             }
         }
+        /// <summary>
+        /// This method checks whether a certain employee exists in the database.
+        /// </summary>
+        /// <param name="iD">The ID of the employee to check.</param>
+        /// <returns>
+        /// A bool indicating whether the employee is in the database or not.
+        /// </returns>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public bool EmployeeExistsInDB(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -614,6 +752,15 @@ namespace VisitorsRegistrationSystemDL.Repositories
         }
 
 
+        /// <summary>
+        /// This method retrieves an employee from the database.
+        /// </summary>
+        /// <param name="iD">The ID of the employee to retrieve.</param>
+        /// <returns>An employee object representing the employee.</returns>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public Employee GetEmployee(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -649,6 +796,14 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method retrieves all employees from the database.
+        /// </summary>
+        /// <returns>A list of all the employees.</returns>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public IReadOnlyList<Employee> GetEmployeesFromDB()
         {
             List<Employee> employees = new List<Employee>();
@@ -688,6 +843,15 @@ namespace VisitorsRegistrationSystemDL.Repositories
         }
 
 
+        /// <summary>
+        /// This method removes an employee from the database
+        /// by setting its visible column to 0.
+        /// </summary>
+        /// <param name="iD">The ID of the employee to remove.</param>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public void RemoveEmployeeFromDB(int iD)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -712,6 +876,15 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method updates the properties of an employee in the database.
+        /// </summary>
+        /// <param name="employee">An employee object with the updated properties.</param>
+        /// <param name="company">The (new) company of the employee.</param>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public void UpdateEmployeeInDB(Employee employee, Company company)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -741,6 +914,15 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method inserts an employee in the database.
+        /// </summary>
+        /// <param name="employee">An Employee object with the properties of the employee.</param>
+        /// <param name="company">A Company object representing the company of the employee.</param>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public void WriteEmployeeInDB(Employee employee, Company company)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -769,6 +951,17 @@ namespace VisitorsRegistrationSystemDL.Repositories
             }
         }
 
+        /// <summary>
+        /// This method retrieves the employees of a given company from the database.
+        /// </summary>
+        /// <param name="companyId">
+        /// The ID of the company for which the employees should be retrieved.
+        /// </param>
+        /// <returns>A readonly list of the employees working for said company.</returns>
+        /// <exception cref="CompanyRepositoryADOException">
+        /// Thrown when any exception gets caught between opening the 
+        /// connection to the database and executing the query.
+        /// </exception>
         public IReadOnlyList<Employee> GetEmployeesFromCompanyIdDB(int companyId)
         {
             List<Employee> employees = new List<Employee>();
