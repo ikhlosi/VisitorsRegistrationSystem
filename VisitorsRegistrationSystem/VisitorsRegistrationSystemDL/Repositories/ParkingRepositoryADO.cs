@@ -66,7 +66,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     DateTime startTime = DateTime.Now;
                     DateTime endTime = DateTime.Now;
                     string licensePlate = "";
-                    // int parkingDetailVisitedCompanyId = 0;
 
                     int companyId = 0;
                     string companyName = "";
@@ -103,7 +102,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                             full = Convert.ToBoolean(reader["pFu"]);
                             firstLoop = false;
                         }
-                        // loop other times
                         if (!reader.IsDBNull(reader.GetOrdinal("pcId")) && !passedContractIds.Contains((int)reader["pcId"]))
                         {
                             parkingContractId = (int)reader["pcId"];
@@ -143,13 +141,11 @@ namespace VisitorsRegistrationSystemDL.Repositories
                             startTime = (DateTime)reader["pdSt"];
                             endTime = (DateTime)reader["pdEt"];
                             licensePlate = (string)reader["pdLi"];
-                            // parkingDetailVisitedCompanyId = (int)reader["pdVi"];
                             parkingDetail = new ParkingDetail(parkingDetailId, startTime, endTime, licensePlate, company, parkingId);
                             parkingDetails.Add(parkingDetail);
                         }
 
                     }
-                    // Value returnen
                     parking = ParkingFactory.MakeParking(parkingId, occupiedSpaces, full, parkingContracts, parkingDetails, totalSpaces);
                     return parking;
                 }

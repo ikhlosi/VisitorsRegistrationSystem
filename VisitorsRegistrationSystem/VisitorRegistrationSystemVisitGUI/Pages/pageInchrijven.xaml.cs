@@ -46,10 +46,6 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
         /// </summary>
         private void InitializeData()
         {
-            //cbBedrijfAfspraak.ItemsSource = _cm.GetCompanies();
-            //cbBedrijfAfspraak.Items.Insert(0, "Kies een bedrijf");
-            //cbBedrijfAfspraak.SelectedIndex = 0;
-
             cbBedrijfAfspraak.Items.Insert(0, "Kies een bedrijf");
             IReadOnlyList<Company> companies = _cm.GetCompanies();
             foreach (Company c in companies)
@@ -78,10 +74,8 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
             } catch (Exception ex) {
                 var cmb = new CustomMessageBox("Error Bericht",ex.Message);
                 cmb.ShowDialog();
-                //MessageBox.Show(ex.Message);
             }
 
-            // todo: btnInschrijven enkel klikbaar wanneer alles (correct) ingevuld
         }
 
         /// <summary>
@@ -95,9 +89,6 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
 
         private void cbBedrijfAfspraak_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //cbAfspraakMet.Items.Add(_cm.GetEmployeesFromCompanyId(((Company)cbBedrijfAfspraak.SelectedValue).ID));
-            //cbAfspraakMet.Items.Insert(0, "Kies een medewerker");
-            //cbAfspraakMet.SelectedIndex = 0;
             cbAfspraakMet.Items.Clear();
             cbAfspraakMet.Items.Insert(0, "Kies een medewerker");
             if (cbBedrijfAfspraak.SelectedIndex != 0)
@@ -109,10 +100,6 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
                 }
             } 
             cbAfspraakMet.SelectedIndex = 0;
-            EnableButton();
-        }
-
-        private void TextBoxes_TextChanged(object sender, EventArgs e) {
             EnableButton();
         }
 
@@ -133,9 +120,6 @@ namespace VisitorRegistrationSystemVisitGUI.Pages
             } else {
                 btnInschrijven.IsEnabled = false;
             }
-            //if (!string.IsNullOrWhiteSpace(txtbVoornaam.Text) && (!string.IsNullOrWhiteSpace)) {
-            //    btnInschrijven.IsEnabled = true;
-            //}
         }
 
         /// <summary>

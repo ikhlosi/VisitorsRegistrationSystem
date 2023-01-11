@@ -50,7 +50,7 @@ namespace VisitorsRegistrationSystemBL.Domain
             this.VisitorCompany = company;
         } 
 
-        public void SetId(int id) // todo: ? nu is enkel dit public - hoe kunnen we oplossen?
+        public void SetId(int id)
         {
             if (id <= 0) throw new VisitorException("Visitor - SetId - invalid Id");
             this.Id = id;

@@ -152,9 +152,6 @@ namespace VisitorsRegistrationSystemBL.Managers {
             if (employee == null) throw new CompanyException("CompanyManager - Addemployee - employee is null");
             try
             {
-                // if (_repo.EmployeeExistsInDB(employee)) throw new EmployeeException("EmployeeManager - AddEmployee - employee already exists in DB.");
-                // this check will be done in UI, through a pop-up windows asking if the user is sure he wants to add 
-                // 2 employees with the same name
                 _repo.WriteEmployeeInDB(employee,company);
             }
             catch (Exception ex)
@@ -239,4 +236,3 @@ namespace VisitorsRegistrationSystemBL.Managers {
         }
     }
 }
-// TODO: finish CompanyManager documentation

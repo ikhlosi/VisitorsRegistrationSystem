@@ -47,15 +47,11 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    // Parameters adden
                     cmd.Parameters.AddWithValue("@VAT", company.VATNumber);
-                    // Query executen
                     Int64 n = (Int64)cmd.ExecuteScalar();
                     if (n > 0)
                         return true;
                     return false;
-                    // Data lezen
-                    // Value returnen
                 }
                 catch (Exception ex)
                 {
@@ -89,15 +85,11 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    // Parameters adden
                     cmd.Parameters.AddWithValue("@id", iD);
-                    // Query executen
                     Int64 n = (Int64)cmd.ExecuteScalar();
                     if (n > 0)
                         return true;
                     return false;
-                    // Data lezen
-                    // Value returnen
                 }
                 catch (Exception ex)
                 {
@@ -241,10 +233,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    // Parameters adden
                     cmd.Parameters.AddWithValue("@name", name);
-                    // Query executen
-                    // Data lezen
                     Company company = null;
                     List<Company> companies = new List<Company>();
                     MySqlDataReader reader = cmd.ExecuteReader();
@@ -267,7 +256,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         company = CompanyFactory.MakeCompany(iD, Name, VAT, new Address(city, postalCode, street, houseNr, busNr), telNr, email);
                         companies.Add(company);
                     }
-                    // Value returnen
                     return companies;
                 }
                 catch (Exception ex)
@@ -300,10 +288,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    // Parameters adden
                     cmd.Parameters.AddWithValue("@VAT", vatNum);
-                    // Query executen
-                    // Data lezen
                     Company company = null;
                     List<Company> companies = new List<Company>();
                     MySqlDataReader reader = cmd.ExecuteReader();
@@ -326,7 +311,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         company = CompanyFactory.MakeCompany(iD, Name, VAT, new Address(city, postalCode, street, houseNr, busNr), telNr, email);
                         companies.Add(company);
                     }
-                    // Value returnen
                     return companies;
                 }
                 catch (Exception ex)
@@ -362,12 +346,9 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     {
                         connection.Open();
                         cmd.CommandText = queryBusNULL;
-                        // Parameters adden
                         cmd.Parameters.AddWithValue("@houseNr", address.HouseNumber);
                         cmd.Parameters.AddWithValue("@street", address.Street);
                         cmd.Parameters.AddWithValue("@city", address.City);
-                        // Query executen
-                        // Data lezen
                         Company company = null;
                         List<Company> companies = new List<Company>();
                         MySqlDataReader reader = cmd.ExecuteReader();
@@ -392,13 +373,10 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     {
                         connection.Open();
                         cmd.CommandText = queryBusNOTNULL;
-                        // Parameters adden
                         cmd.Parameters.AddWithValue("@houseNr", address.HouseNumber);
                         cmd.Parameters.AddWithValue("@street", address.Street);
                         cmd.Parameters.AddWithValue("@city", address.City);
                         cmd.Parameters.AddWithValue("@busNr", address.BusNumber);
-                        // Query executen
-                        // Data lezen
                         Company company = null;
                         List<Company> companies = new List<Company>();
                         MySqlDataReader reader = cmd.ExecuteReader();
@@ -419,7 +397,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         }
                         return companies;
                     }
-                    // Value returnen
                 }
                 catch (Exception ex)
                 {
@@ -451,10 +428,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    // Parameters adden
                     cmd.Parameters.AddWithValue("@telNr", telNr);
-                    // Query executen
-                    // Data lezen
                     Company company = null;
                     List<Company> companies = new List<Company>();
                     MySqlDataReader reader = cmd.ExecuteReader();
@@ -477,7 +451,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         company = CompanyFactory.MakeCompany(iD, Name, VAT, new Address(city, postalCode, street, houseNr, busNr), TelNr, email);
                         companies.Add(company);
                     }
-                    // Value returnen
                     return companies;
                 }
                 catch (Exception ex)
@@ -510,10 +483,7 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    // Parameters adden
                     cmd.Parameters.AddWithValue("@email", email);
-                    // Query executen
-                    // Data lezen
                     Company company = null;
                     List<Company> companies = new List<Company>();
                     MySqlDataReader reader = cmd.ExecuteReader();
@@ -536,7 +506,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                         company = CompanyFactory.MakeCompany(iD, Name, VAT, new Address(city, postalCode, street, houseNr, busNr), telNr, Email);
                         companies.Add(company);
                     }
-                    // Value returnen
                     return companies;
                 }
                 catch (Exception ex)
@@ -602,7 +571,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                 {
                     connection.Open();
                     cmd.CommandText = query;
-                    // Parameters adden
                     cmd.Parameters.AddWithValue("@name", company.Name);
                     cmd.Parameters.AddWithValue("@VAT", company.VATNumber);
                     cmd.Parameters.AddWithValue("@email", company.Email);
@@ -614,7 +582,6 @@ namespace VisitorsRegistrationSystemDL.Repositories
                     cmd.Parameters.AddWithValue("@city", company.Address.City);
                     cmd.Parameters.AddWithValue("@id", company.ID);
 
-                    // Query executen
                     cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)

@@ -40,7 +40,6 @@ namespace TestManagers
             this._companyRepoMock.Setup(x => x.WriteCompanyInDB(this._validCompany)).Throws(new CompanyException());
             var ex = Assert.Throws<CompanyException>(() => this._cm.AddCompany(this._validCompany));
             Assert.Equal("CompanyManager - AddCompany", ex.Message);
-            // todo: ask if need another test when _repo.CompanyExistsInDB() throws exception
         }
 
 

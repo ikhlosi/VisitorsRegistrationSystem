@@ -15,7 +15,6 @@ namespace TestDomain
 {
     public class VisitTest
     {
-        // TODO setten van endtime omdat we dit niet meer doen in constructor
         [Fact]
         public void Visit_SetId_Valid()
         {
@@ -40,7 +39,6 @@ namespace TestDomain
             this._visitedCompany = CompanyFactory.MakeCompany(1, "companyA", "xxxxxx", new Address("Gent", "9000", "Sleepstraat", "2",null), "0471970495", "companyA@hotmail.com");
             this._visitor = VisitorFactory.MakeVisitor(1, "Ace", "Ace@hotmail.com", "CompanyV");
         }
-        // TODO setten van endtime omdat we dit niet meer doen in constructor
         [Fact]
         public void Test_ctor_valid()
         {

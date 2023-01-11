@@ -33,8 +33,6 @@ namespace VisitorsRegistrationSystemBL.Managers
             }
             try
             {
-                // we're not checking if the parking already exists because:
-                // there's no way to identify if a parking is new or not when it doesn't have an id yet
                 return _repo.WriteParkingInDB(parking);
             }
             catch (Exception ex)

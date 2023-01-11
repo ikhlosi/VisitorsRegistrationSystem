@@ -10,7 +10,6 @@ using VisitorsRegistrationSystemBL.Exceptions;
 
 namespace VisitorsRegistrationSystemBL.Checkers {
     public static class VATChecker {
-        // todo make async
         public static bool IsValid(string vat) {
             string url = $"https://controleerbtwnummer.eu/api/validate/{vat}.json";
             var client = new RestClient(url);

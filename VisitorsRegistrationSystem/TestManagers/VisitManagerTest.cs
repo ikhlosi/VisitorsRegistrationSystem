@@ -10,7 +10,6 @@ namespace TestManagers
 {
     public class VisitManagerTest
     {
-        // TODO endtime gaat voor sommige tests nog ingesteld moeten worden aangezien we dat NIET MEER definieren in de constructor
         private Mock<IVisitRepository> _mockRepo;
         private Visitor _validVisitor;
         private VisitManager _vm;
