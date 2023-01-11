@@ -30,7 +30,6 @@ namespace VisitorRegistrationSystemVisitGUI
             {
                 InitializeComponent();
                 this.WindowState = WindowState.Maximized;
-                //this.WindowStyle = WindowStyle.None;
                 Content = new pageMain(cm, vm);
             } catch(Exception ex)
             {
